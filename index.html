@@ -20,16 +20,16 @@
             min-height: 100vh;
         }
 
-        /* ТЁМНАЯ ТЕМА (по умолчанию) */
+        /* ТЁМНАЯ ТЕМА */
         body {
             background: radial-gradient(circle at 10% 20%, #0a0a1a, #02020f);
             color: #f0f0ff;
         }
 
-        /* СВЕТЛАЯ ТЕМА */
+        /* СВЕТЛАЯ ТЕМА — БЕЛЫЙ ФОН */
         body.light {
-            background: radial-gradient(circle at 10% 20%, #f8fafc, #e2e8f0);
-            color: #0f172a;
+            background: #ffffff;
+            color: #1e293b;
         }
 
         .container {
@@ -58,7 +58,7 @@
         }
 
         body.light .logo {
-            background: linear-gradient(130deg, #0f172a, #3b82f6);
+            background: linear-gradient(130deg, #1e293b, #3b82f6);
             -webkit-background-clip: text;
             background-clip: text;
         }
@@ -73,7 +73,7 @@
         }
 
         body.light .logo span {
-            color: #334155;
+            color: #64748b;
         }
 
         .theme-toggle {
@@ -89,9 +89,10 @@
         }
 
         body.light .theme-toggle {
-            background: rgba(255, 255, 255, 0.85);
-            border: 1px solid rgba(0, 0, 0, 0.08);
-            color: #0f172a;
+            background: #f1f5f9;
+            border: 1px solid #e2e8f0;
+            color: #1e293b;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
         }
 
         .hero {
@@ -112,6 +113,11 @@
             border: 1px solid rgba(59, 130, 246, 0.4);
         }
 
+        body.light .badge {
+            background: #eef2ff;
+            border: 1px solid #bfdbfe;
+        }
+
         h1 {
             font-size: clamp(2.5rem, 8vw, 5rem);
             font-weight: 800;
@@ -124,7 +130,7 @@
         }
 
         body.light h1 {
-            background: linear-gradient(135deg, #0f172a, #2563eb);
+            background: linear-gradient(135deg, #1e293b, #2563eb);
             -webkit-background-clip: text;
             background-clip: text;
         }
@@ -137,7 +143,7 @@
         }
 
         body.light .hero p {
-            color: #334155;
+            color: #475569;
         }
 
         .download-grid {
@@ -170,6 +176,7 @@
 
         body.light .download-btn.primary {
             background: linear-gradient(135deg, #3b82f6, #2563eb);
+            box-shadow: 0 8px 20px rgba(59, 130, 246, 0.3);
         }
 
         .download-btn.secondary {
@@ -180,9 +187,10 @@
         }
 
         body.light .download-btn.secondary {
-            background: #eef2ff;
-            color: #0f172a;
-            border: 1px solid rgba(0, 0, 0, 0.08);
+            background: #f8fafc;
+            color: #1e293b;
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
         }
 
         .download-btn.ghost {
@@ -219,8 +227,9 @@
         }
 
         body.light .feature-item {
-            background: rgba(255, 255, 255, 0.85);
-            border: 1px solid rgba(0, 0, 0, 0.08);
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05);
         }
 
         .feature-item i {
@@ -244,7 +253,7 @@
         }
 
         body.light .feature-item p {
-            color: #334155;
+            color: #475569;
         }
 
         .version-note {
@@ -263,9 +272,9 @@
         }
 
         body.light .version-note {
-            color: #334155;
-            background: rgba(255, 255, 255, 0.85);
-            border: 1px solid rgba(0, 0, 0, 0.08);
+            color: #475569;
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
         }
 
         footer {
@@ -278,8 +287,8 @@
         }
 
         body.light footer {
-            border-top: 1px solid rgba(0, 0, 0, 0.08);
-            color: #334155;
+            border-top: 1px solid #e2e8f0;
+            color: #64748b;
         }
 
         @keyframes float {
