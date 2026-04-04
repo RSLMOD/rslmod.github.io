@@ -27,14 +27,15 @@
             --card-bg: #f1f5f9;
             --border: #e2e8f0;
             --glow: rgba(37, 99, 235, 0.1);
-            --badge-text-color: #1e3a8a;
+            --badge-text-color: #1e3a8a; /* Тёмно-синий для контраста */
         }
 
         body.light h1 span, 
         body.light .hero-desc, 
         body.light .feature-item h3, 
         body.light .feature-item p,
-        body.light footer p {
+        body.light footer p,
+        body.light .stat-item {
             color: #000000 !important;
         }
 
@@ -48,7 +49,6 @@
         body {
             font-family: 'Inter', sans-serif;
             transition: background 0.3s ease;
-            line-height: 1.5;
             min-height: 100vh;
             background: var(--bg) !important;
             color: var(--text-main);
@@ -58,8 +58,7 @@
         }
 
         #cursor {
-            width: 10px;
-            height: 10px;
+            width: 10px; height: 10px;
             background: var(--accent);
             border-radius: 50%;
             position: fixed;
@@ -69,58 +68,25 @@
             will-change: transform;
         }
 
-        @media (max-width: 1024px) {
-            #cursor { display: none; }
-            * { cursor: auto; }
-        }
+        @media (max-width: 1024px) { #cursor { display: none; } * { cursor: auto; } }
 
-        .container {
-            max-width: 1280px;
-            margin: 0 auto;
-            padding: 0 1.5rem;
-        }
+        .container { max-width: 1280px; margin: 0 auto; padding: 0 1.5rem; }
 
-        .version-badge {
-            display: block;
-            margin: 0.8rem auto 0;
-            width: fit-content;
-            background: #000000;
-            color: #ffffff;
-            padding: 4px 14px;
-            border-radius: 20px;
-            font-size: 0.65rem;
-            font-weight: 900;
-            text-transform: uppercase;
-        }
-
-        .navbar {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 1.5rem 0;
-        }
-
-        /* ИСПРАВЛЕННЫЙ ЛОГОТИП С АНИМАЦИЕЙ КАЖДОЙ БУКВЫ */
+        /* НАВИГАЦИЯ И ЛОГО */
+        .navbar { display: flex; justify-content: space-between; align-items: center; padding: 1.5rem 0; }
+        
         .logo { 
-            font-size: 1.6rem; 
-            font-weight: 900; 
-            display: flex;
-            gap: 0.1em;
-            user-select: none;
+            font-size: 1.6rem; font-weight: 900; 
+            display: flex; gap: 0.1em; user-select: none; 
         }
-
-        .logo span {
-            display: inline-block;
+        .logo span { 
+            display: inline-block; 
+            animation: wordWaveLogo 2s infinite ease-in-out; 
+            color: var(--text-main); 
             will-change: transform;
-            animation: wordWaveLogo 2s infinite ease-in-out;
-            color: var(--text-main);
         }
-
-        /* Задержки для создания волны в лого */
-        .logo span:nth-child(1) { animation-delay: 0.0s; }
         .logo span:nth-child(2) { animation-delay: 0.1s; }
         .logo span:nth-child(3) { animation-delay: 0.2s; }
-        /* Пробел */
         .logo span:nth-child(5) { animation-delay: 0.4s; }
         .logo span:nth-child(6) { animation-delay: 0.5s; }
         .logo span:nth-child(7) { animation-delay: 0.6s; }
@@ -129,7 +95,7 @@
 
         @keyframes wordWaveLogo {
             0%, 100% { transform: translate3d(0, 0, 0); }
-            50% { transform: translate3d(0, -6px, 0); } /* Меньшая амплитуда, чем у заголовка */
+            50% { transform: translate3d(0, -6px, 0); }
         }
 
         .theme-toggle {
@@ -139,150 +105,89 @@
             border-radius: 2rem;
             color: var(--text-main);
             font-weight: 700;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
+            display: flex; align-items: center; gap: 8px;
+            backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
         }
 
-        .hero { text-align: center; padding: 2rem 0; }
+        .hero { text-align: center; padding: 1rem 0; }
+
+        /* ПЛАШКА ВЕРСИИ И НОВЫЙ РЕЛИЗ */
+        .version-badge {
+            display: block; margin: 0.8rem auto 1.5rem;
+            width: fit-content; background: #000; color: #fff;
+            padding: 4px 14px; border-radius: 20px;
+            font-size: 0.65rem; font-weight: 900; text-transform: uppercase;
+        }
 
         .badge {
-            display: inline-block;
-            padding: 0.6rem 1.4rem;
-            border-radius: 40px;
-            font-size: 0.75rem;
-            font-weight: 900;
-            margin-bottom: 2.5rem;
-            position: relative;
-            z-index: 1;
+            display: inline-block; padding: 0.6rem 1.4rem;
+            border-radius: 40px; font-size: 0.75rem; font-weight: 900;
+            margin-bottom: 2rem; position: relative; z-index: 1;
             background: var(--bg);
             color: var(--badge-text-color) !important;
-            border: 2px solid transparent;
-            background-clip: padding-box;
-            will-change: transform;
+            border: 2px solid transparent; background-clip: padding-box;
             animation: bounceIn 0.8s both, badgeFloat 3s infinite ease-in-out;
+            will-change: transform;
         }
-        
         .badge::after {
-            content: '';
-            position: absolute;
-            top: -2px; bottom: -2px; left: -2px; right: -2px;
+            content: ''; position: absolute; top: -2px; bottom: -2px; left: -2px; right: -2px;
             background: linear-gradient(130deg, #3b82f6, #ec4899, #4f46e5, #ec4899, #3b82f6);
-            background-size: 200% 200%;
-            z-index: -1;
-            border-radius: 40px;
+            background-size: 200% 200%; z-index: -1; border-radius: 40px;
             animation: badgeRainbow 3.5s linear infinite;
         }
 
-        @keyframes badgeRainbow {
-            0% { background-position: 0% 50%; }
-            100% { background-position: 200% 50%; }
-        }
-        
-        @keyframes badgeFloat {
-            0%, 100% { transform: translate3d(0, 0, 0); }
-            50% { transform: translate3d(0, -10px, 0); }
-        }
+        @keyframes badgeRainbow { 0% { background-position: 0% 50%; } 100% { background-position: 200% 50%; } }
+        @keyframes badgeFloat { 0%, 100% { transform: translate3d(0, 0, 0); } 50% { transform: translate3d(0, -10px, 0); } }
 
-        @keyframes bounceIn {
-            0% { opacity: 0; transform: scale(0.3); }
-            50% { opacity: 1; transform: scale(1.05); }
-            100% { transform: scale(1); }
+        /* СТАТИСТИКА */
+        .stats-container { display: flex; justify-content: center; gap: 1.5rem; margin-bottom: 2rem; flex-wrap: wrap; }
+        .stat-item {
+            font-weight: 800; font-size: 0.85rem; display: flex; align-items: center; gap: 8px;
+            background: var(--card-bg); padding: 0.6rem 1.2rem; border-radius: 15px;
+            border: 1px solid var(--border); transition: 0.3s; cursor: pointer;
         }
+        .stat-item:active { transform: scale(0.9); }
+        .stat-item i { color: #2563eb; transition: 0.3s; }
 
+        /* ЗАГОЛОВОК */
         h1 {
-            font-size: clamp(2.5rem, 9vw, 5rem);
-            font-weight: 900;
-            line-height: 1.2;
-            margin-bottom: 1.5rem;
-            display: flex;
-            justify-content: center;
-            gap: 0.3em;
-            flex-wrap: wrap;
+            font-size: clamp(2.5rem, 9vw, 5rem); font-weight: 900;
+            margin-bottom: 1.5rem; display: flex; justify-content: center; gap: 0.3em; flex-wrap: wrap;
         }
-
-        h1 span { 
-            display: inline-block; 
-            will-change: transform;
-            animation: wordWave 2s infinite ease-in-out; 
-        }
+        h1 span { display: inline-block; animation: wordWave 2s infinite ease-in-out; will-change: transform; }
         h1 span.mod-text { color: #2563eb; }
-
-        h1 span:nth-child(1) { animation-delay: 0s; }
         h1 span:nth-child(2) { animation-delay: 0.2s; }
         h1 span:nth-child(3) { animation-delay: 0.4s; }
 
-        @keyframes wordWave {
-            0%, 100% { transform: translate3d(0, 0, 0); }
-            50% { transform: translate3d(0, -15px, 0); }
-        }
+        @keyframes wordWave { 0%, 100% { transform: translate3d(0, 0, 0); } 50% { transform: translate3d(0, -15px, 0); } }
 
-        .hero-desc {
-            font-size: clamp(1rem, 4vw, 1.15rem);
-            max-width: 600px;
-            margin: 0 auto 3rem;
-            font-weight: 700;
-        }
+        .hero-desc { font-size: clamp(1rem, 4vw, 1.15rem); max-width: 600px; margin: 0 auto 3rem; font-weight: 700; }
 
+        /* КНОПКИ */
+        .download-grid { display: flex; flex-wrap: wrap; justify-content: center; gap: 1.2rem; }
         .download-btn {
-            padding: 1.1rem 2rem;
-            border-radius: 60px;
-            font-weight: 900;
-            text-decoration: none;
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            will-change: transform;
+            padding: 1.1rem 2rem; border-radius: 60px; font-weight: 900;
+            text-decoration: none; display: inline-flex; align-items: center; gap: 10px;
+            transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); will-change: transform;
         }
-
         .download-btn.primary { background: #2563eb; color: white; box-shadow: 0 10px 20px rgba(37, 99, 235, 0.3); }
         .download-btn:active { transform: scale(0.95); }
 
-        .features {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 1.5rem;
-            margin: 4rem 0;
-        }
-
+        /* КАРТОЧКИ ПРЕИМУЩЕСТВ */
+        .features { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; margin: 4rem 0; }
         .feature-item {
-            padding: 2.5rem;
-            text-align: center;
-            border-radius: 2rem;
-            background: var(--card-bg);
-            border: 1px solid var(--border);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            transition: transform 0.3s, box-shadow 0.3s, border-color 0.3s;
-            will-change: transform;
-            cursor: pointer;
-            user-select: none;
+            padding: 2.5rem; text-align: center; border-radius: 2rem;
+            background: var(--card-bg); border: 1px solid var(--border);
+            backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+            transition: 0.3s; cursor: pointer; user-select: none;
         }
-
         .feature-item:hover { transform: translate3d(0, -5px, 0); border-color: var(--accent); }
-
-        .feature-item i { 
-            font-size: 2.5rem; 
-            color: #2563eb; 
-            margin-bottom: 1.2rem; 
-            display: inline-block;
-            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            will-change: transform;
-        }
-
-        .feature-item:active { transform: scale(0.98); }
-        .feature-item:active i { 
-            transform: scale(1.4) rotate(15deg) translateY(-10px); 
-            color: var(--accent);
-        }
-
-        .feature-item h3 { margin-bottom: 0.8rem; font-weight: 900; font-size: 1.4rem; }
-        .feature-item p { font-weight: 600; opacity: 0.9; }
+        .feature-item i { font-size: 2.5rem; color: #2563eb; margin-bottom: 1.2rem; display: inline-block; transition: 0.4s; will-change: transform; }
+        .feature-item:active i { transform: scale(1.4) rotate(15deg) translateY(-10px); }
 
         footer { text-align: center; padding: 2rem; font-weight: 800; opacity: 0.7; }
+
+        @keyframes bounceIn { 0% { opacity: 0; transform: scale(0.3); } 100% { opacity: 1; transform: scale(1); } }
     </style>
 </head>
 <body class="dark">
@@ -294,7 +199,8 @@
         <nav class="navbar">
             <div class="logo">
                 <span>R</span><span>S</span><span>L</span>
-                <span> </span> <span>S</span><span>P</span><span>E</span><span>E</span><span>D</span>
+                <span> </span>
+                <span>S</span><span>P</span><span>E</span><span>E</span><span>D</span>
             </div>
             <button class="theme-toggle" id="themeToggle">
                 <i class="fas fa-adjust"></i> <span id="themeText">Тёмная</span>
@@ -304,6 +210,17 @@
         <main class="hero">
             <div class="badge">
                 <i class="fas fa-bolt"></i> <span>НОВЫЙ РЕЛИЗ</span>
+            </div>
+
+            <div class="stats-container" data-aos="fade-up">
+                <div class="stat-item" id="statDownloads">
+                    <i class="fas fa-download"></i>
+                    <span id="dlCount">---</span> скачиваний
+                </div>
+                <div class="stat-item" id="statReactions">
+                    <i class="fas fa-heart"></i>
+                    <span id="reactCount">---</span> реакций
+                </div>
             </div>
             
             <h1>
@@ -316,10 +233,10 @@
                 Технология ускорения игрового процесса. Стабильный FPS и минимальный инпут-лаг на любом устройстве.
             </p>
 
-            <div class="download-grid" data-aos="fade-up" data-aos-delay="100" style="display: flex; flex-wrap: wrap; justify-content: center; gap: 1.2rem;">
-                <a href="#" class="download-btn primary"><i class="fas fa-rocket"></i> Скачать Mod</a>
-                <a href="#" class="download-btn" style="background: #1e293b; color: white;"><i class="fas fa-copy"></i> Скачать Клон</a>
-                <a href="#" class="download-btn" style="border: 2px solid #2563eb; color: #2563eb;">Оригинал</a>
+            <div class="download-grid" data-aos="fade-up">
+                <a href="#" class="download-btn primary dl-trigger"><i class="fas fa-rocket"></i> Скачать Mod</a>
+                <a href="#" class="download-btn dl-trigger" style="background: #1e293b; color: white;"><i class="fas fa-copy"></i> Скачать Клон</a>
+                <a href="#" class="download-btn dl-trigger" style="border: 2px solid #2563eb; color: #2563eb;">Оригинал</a>
             </div>
         </main>
 
@@ -348,6 +265,44 @@
     <script>
         AOS.init({ duration: 800, once: true });
 
+        // --- ЛОГИКА ГЛОБАЛЬНЫХ СЧЕТЧИКОВ ---
+        const namespace = "rsl_speed_mod_final_v1"; // Уникальный ID твоего проекта
+        const dlDisplay = document.getElementById('dlCount');
+        const reactDisplay = document.getElementById('reactCount');
+
+        async function updateStat(key, display, isHit = false) {
+            try {
+                const action = isHit ? 'hit' : 'get';
+                const response = await fetch(`https://api.countapi.xyz/${action}/${namespace}/${key}`);
+                const data = await response.json();
+                display.textContent = data.value.toLocaleString();
+            } catch (e) {
+                // Если API новый, создаем его начальным значением
+                if(!isHit) {
+                    fetch(`https://api.countapi.xyz/create?namespace=${namespace}&key=${key}&value=1200`);
+                    display.textContent = "1,200";
+                }
+            }
+        }
+
+        // Инициализация при загрузке
+        updateStat('downloads', dlDisplay);
+        updateStat('reactions', reactDisplay);
+
+        // Клик по реакциям
+        document.getElementById('statReactions').onclick = () => {
+            updateStat('reactions', reactDisplay, true);
+            const icon = document.querySelector('#statReactions i');
+            icon.style.transform = 'scale(1.6) rotate(20deg)';
+            setTimeout(() => icon.style.transform = 'scale(1) rotate(0deg)', 300);
+        };
+
+        // Клик по скачиванию
+        document.querySelectorAll('.dl-trigger').forEach(btn => {
+            btn.onclick = () => updateStat('downloads', dlDisplay, true);
+        });
+
+        // --- ТЕМА И КУРСОР ---
         const cursor = document.getElementById('cursor');
         if (cursor) {
             document.addEventListener('mousemove', (e) => {
@@ -359,24 +314,15 @@
         const themeSpan = document.getElementById('themeText');
 
         function setTheme(theme) {
-            if (theme === 'light') {
-                document.body.classList.remove('dark');
-                document.body.classList.add('light');
-                themeSpan.textContent = 'Светлая';
-                localStorage.setItem('theme', 'light');
-            } else {
-                document.body.classList.remove('light');
-                document.body.classList.add('dark');
-                themeSpan.textContent = 'Тёмная';
-                localStorage.setItem('theme', 'dark');
-            }
+            document.body.className = theme;
+            themeSpan.textContent = theme === 'light' ? 'Светлая' : 'Тёмная';
+            localStorage.setItem('theme', theme);
         }
 
         themeBtn.onclick = () => {
             const current = document.body.classList.contains('light') ? 'dark' : 'light';
             setTheme(current);
         };
-
         setTheme(localStorage.getItem('theme') || 'dark');
     </script>
 </body>
