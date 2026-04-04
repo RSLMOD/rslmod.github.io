@@ -17,18 +17,21 @@
             --card-bg: rgba(20, 20, 35, 0.7);
             --border: rgba(255, 255, 255, 0.1);
             --live-text-color: rgba(255, 255, 255, 0.08);
+            --sidebar-bg: rgba(10, 10, 26, 0.95);
         }
 
         body.light {
             --bg: #ffffff; --text-main: #000000; --accent: #2563eb;
             --card-bg: #f1f5f9; --border: #e2e8f0;
             --live-text-color: rgba(0, 0, 0, 0.06);
+            --sidebar-bg: rgba(255, 255, 255, 0.98);
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
         body { font-family: 'Inter', sans-serif; transition: 0.3s; min-height: 100vh; background: var(--bg) !important; color: var(--text-main); overflow-x: hidden; }
         .container { max-width: 1280px; margin: 0 auto; padding: 0 1.5rem; }
 
+        /* БЕГУЩАЯ СТРОКА */
         .live-ticker-container {
             width: 100%; overflow: hidden; position: absolute; top: 0; left: 0;
             height: 28px; background: rgba(0,0,0,0.15); display: flex; align-items: center; z-index: 5;
@@ -37,7 +40,18 @@
         .live-ticker span { font-weight: 900; font-size: 0.6rem; color: var(--live-text-color); margin: 0 2rem; text-transform: uppercase; letter-spacing: 2px; }
         @keyframes tickerFlow { 0% { transform: translate3d(0, 0, 0); } 100% { transform: translate3d(-50%, 0, 0); } }
 
-        .navbar { display: flex; justify-content: flex-end; padding: 3rem 0 0.5rem; position: relative; z-index: 10; }
+        /* НАВИГАЦИЯ */
+        .navbar { display: flex; justify-content: space-between; align-items: center; padding: 3rem 0 0.5rem; position: relative; z-index: 10; }
+        
+        /* КНОПКА МЕНЮ */
+        .menu-btn {
+            background: var(--card-bg); border: 1px solid var(--border);
+            width: 40px; height: 40px; border-radius: 10px; color: var(--text-main);
+            display: flex; align-items: center; justify-content: center; cursor: pointer;
+            backdrop-filter: blur(10px); transition: 0.3s;
+        }
+        .menu-btn:hover { border-color: var(--accent); }
+
         .theme-toggle { 
             background: var(--card-bg); border: 1px solid var(--border); 
             padding: 0.4rem 0.9rem; border-radius: 2rem; color: var(--text-main); 
@@ -45,6 +59,39 @@
             backdrop-filter: blur(10px);
         }
 
+        /* БОКОВОЕ МЕНЮ */
+        .sidebar {
+            position: fixed; top: 0; left: -280px; width: 280px; height: 100%;
+            background: var(--sidebar-bg); z-index: 1000; transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            border-right: 1px solid var(--border); padding: 2rem 1.5rem;
+            display: flex; flex-direction: column; gap: 1rem;
+            backdrop-filter: blur(20px);
+        }
+        .sidebar.active { left: 0; box-shadow: 20px 0 50px rgba(0,0,0,0.5); }
+
+        .sidebar-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; }
+        .sidebar-header h2 { font-weight: 900; font-size: 1.2rem; letter-spacing: 1px; }
+        .close-sidebar { cursor: pointer; opacity: 0.5; transition: 0.3s; font-size: 1.2rem; }
+        .close-sidebar:hover { opacity: 1; transform: rotate(90deg); }
+
+        .sidebar-nav { display: flex; flex-direction: column; gap: 0.5rem; }
+        .sidebar-link {
+            padding: 1rem; border-radius: 12px; text-decoration: none; color: var(--text-main);
+            font-weight: 700; font-size: 0.9rem; display: flex; align-items: center; gap: 12px;
+            transition: 0.3s; border: 1px solid transparent;
+        }
+        .sidebar-link i { color: var(--accent); width: 20px; text-align: center; }
+        .sidebar-link:hover { background: var(--card-bg); border-color: var(--border); transform: translateX(5px); }
+
+        /* Задний фон при открытом меню */
+        .overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.4); z-index: 999; display: none;
+            backdrop-filter: blur(4px);
+        }
+        .overlay.active { display: block; }
+
+        /* ГЕРОЙ */
         .hero { text-align: center; }
         .badge {
             display: inline-block; padding: 0.5rem 1.2rem; border-radius: 40px; font-size: 0.7rem; font-weight: 900; margin-bottom: 1.2rem; position: relative; background: var(--bg);
@@ -71,24 +118,17 @@
         h1 .mod-text b:nth-child(2) { animation-delay: 0.9s; }
         h1 .mod-text b:nth-child(3) { animation-delay: 1.0s; }
 
-        @keyframes letterWave {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-15px); }
-        }
+        @keyframes letterWave { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-15px); } }
 
         .hero-desc { font-size: clamp(0.9rem, 4vw, 1rem); max-width: 550px; margin: 0 auto 2.5rem; font-weight: 700; opacity: 0.85; line-height: 1.4; }
 
         .download-grid { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.8rem; margin-bottom: 1.5rem; }
-        
-        /* ЭФФЕКТ НАЖАТИЯ ДЛЯ КНОПОК */
         .download-btn { 
             padding: 0.9rem 1.8rem; border-radius: 50px; font-weight: 900; 
             display: inline-flex; align-items: center; gap: 10px; transition: 0.2s; 
             cursor: pointer; font-size: 0.9rem; text-decoration: none; 
-            transform: scale(1);
         }
-        .download-btn:active { transform: scale(0.92); } /* Кнопка проседает при нажатии */
-
+        .download-btn:active { transform: scale(0.92); }
         .download-btn.primary { background: #2563eb; color: white; }
         .download-btn.secondary { background: #1e293b; color: white; }
         .download-btn.outline { border: 2px solid #2563eb; color: #2563eb; background: transparent; }
@@ -115,6 +155,20 @@
 </head>
 <body class="dark">
 
+    <div class="overlay" id="overlay"></div>
+    <div class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <h2>МЕНЮ</h2>
+            <div class="close-sidebar" id="closeSidebar"><i class="fas fa-times"></i></div>
+        </div>
+        <nav class="sidebar-nav">
+            <a href="#" class="sidebar-link"><i class="fas fa-comments"></i> Наш чат</a>
+            <a href="#" class="sidebar-link"><i class="fas fa-question-circle"></i> FAQ</a>
+            <a href="#" class="sidebar-link"><i class="fas fa-crown"></i> Платная версия</a>
+            <a href="#" class="sidebar-link"><i class="fas fa-users"></i> Реферальная программа</a>
+        </nav>
+    </div>
+
     <div class="live-ticker-container">
         <div class="live-ticker">
             <span>FPS UNLOCKED</span> <span>LOW LATENCY</span> <span>BOOSTING ON</span> <span>STABLE FRAME</span> <span>MAX PERFORMANCE</span>
@@ -124,6 +178,7 @@
 
     <div class="container">
         <nav class="navbar">
+            <div class="menu-btn" id="openSidebar"><i class="fas fa-bars"></i></div>
             <div class="theme-toggle" id="themeToggle"><i class="fas fa-adjust"></i> <span id="themeText">Тёмная</span></div>
         </nav>
 
@@ -177,6 +232,22 @@
     <script>
         AOS.init({ duration: 800, once: true });
 
+        // ЛОГИКА МЕНЮ
+        const sidebar = document.getElementById('sidebar');
+        const overlay = document.getElementById('overlay');
+        const openBtn = document.getElementById('openSidebar');
+        const closeBtn = document.getElementById('closeSidebar');
+
+        function toggleMenu() {
+            sidebar.classList.toggle('active');
+            overlay.classList.toggle('active');
+        }
+
+        openBtn.onclick = toggleMenu;
+        closeBtn.onclick = toggleMenu;
+        overlay.onclick = toggleMenu;
+
+        // ЛОГИКА СЧЕТЧИКОВ
         const UI = {
             dl: document.getElementById('countDl'),
             like: document.getElementById('countLike'),
