@@ -81,6 +81,8 @@
             border: 1px solid var(--border); transition: 0.3s; cursor: pointer;
         }
         .stat-item:active { transform: scale(0.9); }
+        .stat-item.active-like { background: rgba(34, 197, 94, 0.2); border-color: #22c55e; }
+        .stat-item.active-dislike { background: rgba(239, 68, 68, 0.2); border-color: #ef4444; }
         .stat-item.like i { color: #22c55e; }
         .stat-item.dislike i { color: #ef4444; }
 
@@ -156,34 +158,69 @@
     <script>
         AOS.init({ duration: 800, once: true });
 
-        // --- ЛОГИКА ХРАНЕНИЯ (LocalStorage для теста + заглушка для API) ---
-        // Чтобы данные не обнулялись, пока ты не настроил Firebase, используем память браузера
-        const getVal = (key) => parseInt(localStorage.getItem(key)) || 0;
-        const setVal = (key, val) => {
-            localStorage.setItem(key, val);
-            document.getElementById('count' + key.charAt(0).toUpperCase() + key.slice(1)).textContent = val;
+        // --- ЛОГИКА УМНЫХ СЧЕТЧИКОВ ---
+        const UI = {
+            dl: document.getElementById('countDl'),
+            like: document.getElementById('countLike'),
+            dislike: document.getElementById('countDislike'),
+            btnLike: document.getElementById('btnLike'),
+            btnDislike: document.getElementById('btnDislike')
         };
 
-        // Инициализация
-        const stats = { dl: getVal('dl'), like: getVal('like'), dislike: getVal('dislike') };
-        Object.keys(stats).forEach(key => {
-            const el = document.getElementById('count' + key.charAt(0).toUpperCase() + key.slice(1));
-            if(el) el.textContent = stats[key];
-        });
+        // Загружаем данные (пока из локального хранилища, чтобы не пропадали)
+        let stats = {
+            dl: parseInt(localStorage.getItem('global_dl')) || 0,
+            like: parseInt(localStorage.getItem('global_like')) || 0,
+            dislike: parseInt(localStorage.getItem('global_dislike')) || 0
+        };
 
-        // Обработка кликов
-        document.getElementById('btnLike').onclick = () => setVal('like', getVal('like') + 1);
-        document.getElementById('btnDislike').onclick = () => setVal('dislike', getVal('dislike') + 1);
+        // Загружаем статус пользователя (что ОН нажимал)
+        let userAction = localStorage.getItem('user_voted'); // null, 'like' или 'dislike'
+
+        function updateDisplay() {
+            UI.dl.textContent = stats.dl;
+            UI.like.textContent = stats.like;
+            UI.dislike.textContent = stats.dislike;
+
+            // Подсвечиваем кнопки, если пользователь уже голосовал
+            UI.btnLike.classList.toggle('active-like', userAction === 'like');
+            UI.btnDislike.classList.toggle('active-dislike', userAction === 'dislike');
+        }
+
+        function handleVote(type) {
+            if (userAction === type) {
+                alert("Вы уже проголосовали!");
+                return;
+            }
+
+            // Если пользователь меняет решение (был лайк, стал дизлайк)
+            if (userAction && userAction !== type) {
+                stats[userAction]--; // Убираем старый голос
+            }
+
+            stats[type]++; // Добавляем новый
+            userAction = type;
+
+            localStorage.setItem('global_like', stats.like);
+            localStorage.setItem('global_dislike', stats.dislike);
+            localStorage.setItem('user_voted', userAction);
+            updateDisplay();
+        }
+
+        UI.btnLike.onclick = () => handleVote('like');
+        UI.btnDislike.onclick = () => handleVote('dislike');
         
         document.querySelectorAll('.dl-trigger').forEach(btn => {
             btn.onclick = (e) => {
                 e.preventDefault();
-                setVal('dl', getVal('dl') + 1);
-                alert("Действие выполнено!");
+                stats.dl++;
+                localStorage.setItem('global_dl', stats.dl);
+                updateDisplay();
+                alert("Скачивание началось!");
             };
         });
 
-        // Переключение темы
+        // Тема
         const themeBtn = document.getElementById('themeToggle');
         function setTheme(t) {
             document.body.className = t;
@@ -191,6 +228,8 @@
             localStorage.setItem('theme', t);
         }
         themeBtn.onclick = () => setTheme(document.body.classList.contains('light') ? 'dark' : 'light');
+        
+        updateDisplay();
         setTheme(localStorage.getItem('theme') || 'dark');
     </script>
 </body>
