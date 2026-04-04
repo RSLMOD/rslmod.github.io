@@ -28,7 +28,7 @@
             --badge-text-color: #1e3a8a;
         }
 
-        body.light h1, body.light .hero-desc, body.light .stat-item, body.light .feature-item h3, body.light .feature-item p {
+        body.light h1 span, body.light .hero-desc, body.light .stat-item, body.light .feature-item h3, body.light .feature-item p {
             color: #000000 !important;
         }
 
@@ -45,8 +45,19 @@
 
         .container { max-width: 1280px; margin: 0 auto; padding: 0 1.5rem; }
 
+        /* АНИМИРОВАННЫЙ ЛОГОТИП */
         .navbar { display: flex; justify-content: space-between; align-items: center; padding: 1.5rem 0; }
-        .logo { font-size: 1.6rem; font-weight: 900; user-select: none; }
+        .logo { font-size: 1.6rem; font-weight: 900; display: flex; gap: 0.1em; user-select: none; }
+        .logo span { display: inline-block; animation: wordWaveLogo 2s infinite ease-in-out; color: var(--text-main); }
+        .logo span:nth-child(2) { animation-delay: 0.1s; }
+        .logo span:nth-child(3) { animation-delay: 0.2s; }
+        .logo span:nth-child(5) { animation-delay: 0.4s; }
+        .logo span:nth-child(6) { animation-delay: 0.5s; }
+        .logo span:nth-child(7) { animation-delay: 0.6s; }
+        .logo span:nth-child(8) { animation-delay: 0.7s; }
+        .logo span:nth-child(9) { animation-delay: 0.8s; }
+
+        @keyframes wordWaveLogo { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-6px); } }
 
         .theme-toggle {
             background: var(--card-bg); border: 1px solid var(--border);
@@ -57,20 +68,22 @@
         .hero { text-align: center; padding: 1rem 0; }
         .version-badge {
             display: block; margin: 0.8rem auto 1.5rem; width: fit-content; background: #000; color: #fff;
-            padding: 4px 14px; border-radius: 20px; font-size: 0.65rem; font-weight: 900;
+            padding: 4px 14px; border-radius: 20px; font-size: 0.65rem; font-weight: 900; text-transform: uppercase;
         }
 
+        /* РАДУЖНАЯ ПЛАШКА */
         .badge {
             display: inline-block; padding: 0.6rem 1.4rem; border-radius: 40px; font-size: 0.75rem; font-weight: 900;
-            margin-bottom: 2rem; position: relative; background: var(--bg);
+            margin-bottom: 2rem; position: relative; z-index: 1; background: var(--bg);
             color: var(--badge-text-color) !important; border: 2px solid transparent; background-clip: padding-box;
-            animation: badgeFloat 3s infinite ease-in-out;
+            animation: bounceIn 0.8s both, badgeFloat 3s infinite ease-in-out;
         }
         .badge::after {
             content: ''; position: absolute; top: -2px; bottom: -2px; left: -2px; right: -2px;
-            background: linear-gradient(130deg, #3b82f6, #ec4899, #4f46e5);
-            z-index: -1; border-radius: 40px;
+            background: linear-gradient(130deg, #3b82f6, #ec4899, #4f46e5, #ec4899, #3b82f6);
+            background-size: 200% 200%; z-index: -1; border-radius: 40px; animation: badgeRainbow 3.5s linear infinite;
         }
+        @keyframes badgeRainbow { 0% { background-position: 0% 50%; } 100% { background-position: 200% 50%; } }
         @keyframes badgeFloat { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
 
         /* СТАТИСТИКА */
@@ -78,28 +91,36 @@
         .stat-item {
             font-weight: 800; font-size: 0.85rem; display: flex; align-items: center; gap: 8px;
             background: var(--card-bg); padding: 0.6rem 1.2rem; border-radius: 15px;
-            border: 1px solid var(--border); transition: 0.3s; cursor: pointer;
+            border: 1px solid var(--border); transition: 0.3s; cursor: pointer; user-select: none;
         }
-        .stat-item:active { transform: scale(0.9); }
         .stat-item.active-like { background: rgba(34, 197, 94, 0.2); border-color: #22c55e; }
         .stat-item.active-dislike { background: rgba(239, 68, 68, 0.2); border-color: #ef4444; }
         .stat-item.like i { color: #22c55e; }
         .stat-item.dislike i { color: #ef4444; }
 
-        h1 { font-size: clamp(2.5rem, 9vw, 5rem); font-weight: 900; margin-bottom: 1.5rem; }
+        /* ВОЛНОВОЙ ЗАГОЛОВОК */
+        h1 {
+            font-size: clamp(2.5rem, 9vw, 5rem); font-weight: 900; margin-bottom: 1.5rem;
+            display: flex; justify-content: center; gap: 0.3em; flex-wrap: wrap;
+        }
+        h1 span { display: inline-block; animation: wordWave 2s infinite ease-in-out; }
         h1 span.mod-text { color: #2563eb; }
+        h1 span:nth-child(2) { animation-delay: 0.2s; }
+        h1 span:nth-child(3) { animation-delay: 0.4s; }
+        @keyframes wordWave { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-15px); } }
 
         .hero-desc { font-size: clamp(1rem, 4vw, 1.15rem); max-width: 600px; margin: 0 auto 3rem; font-weight: 700; opacity: 0.9; }
 
-        /* КНОПКИ */
-        .download-grid { display: flex; flex-direction: column; align-items: center; gap: 1.2rem; }
+        /* КНОПКИ В РЯД */
+        .download-grid { display: flex; flex-wrap: wrap; justify-content: center; gap: 1.2rem; }
         .download-btn {
-            width: 280px; padding: 1.1rem; border-radius: 60px; font-weight: 900; text-decoration: none;
-            display: inline-flex; justify-content: center; align-items: center; gap: 10px; transition: 0.3s; cursor: pointer;
+            padding: 1.1rem 2rem; border-radius: 60px; font-weight: 900; text-decoration: none;
+            display: inline-flex; align-items: center; gap: 10px; transition: 0.3s; cursor: pointer;
         }
         .download-btn.primary { background: #2563eb; color: white; box-shadow: 0 10px 20px rgba(37, 99, 235, 0.3); }
         .download-btn.secondary { background: #1e293b; color: white; }
         .download-btn.outline { border: 2px solid #2563eb; color: #2563eb; }
+        .download-btn:hover { transform: translateY(-3px); }
 
         .features { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; margin: 4rem 0; }
         .feature-item {
@@ -109,13 +130,16 @@
         .feature-item i { font-size: 2.5rem; color: #2563eb; margin-bottom: 1.2rem; }
 
         footer { text-align: center; padding: 2rem; font-weight: 800; opacity: 0.7; }
+        @keyframes bounceIn { 0% { opacity: 0; transform: scale(0.3); } 100% { opacity: 1; transform: scale(1); } }
     </style>
 </head>
 <body class="dark">
 
     <div class="container">
         <nav class="navbar">
-            <div class="logo">RSL SPEED</div>
+            <div class="logo">
+                <span>R</span><span>S</span><span>L</span><span> </span><span>S</span><span>P</span><span>E</span><span>E</span><span>D</span>
+            </div>
             <div class="theme-toggle" id="themeToggle">
                 <i class="fas fa-adjust"></i> <span id="themeText">Тёмная</span>
             </div>
@@ -137,10 +161,10 @@
                 </div>
             </div>
             
-            <h1>RSL Speed <span class="mod-text">Mod</span></h1>
+            <h1><span>RSL</span><span>Speed</span><span class="mod-text">Mod</span></h1>
             <p class="hero-desc">Технология ускорения игрового процесса. Стабильный FPS и минимальный инпут-лаг на любом устройстве.</p>
 
-            <div class="download-grid">
+            <div class="download-grid" data-aos="fade-up">
                 <a href="#" class="download-btn primary dl-trigger"><i class="fas fa-rocket"></i> Скачать Mod</a>
                 <a href="#" class="download-btn secondary dl-trigger"><i class="fas fa-copy"></i> Скачать Клон</a>
                 <a href="#" class="download-btn outline dl-trigger">Оригинал</a>
@@ -148,7 +172,7 @@
         </main>
 
         <section class="features">
-            <div class="feature-item" data-aos="fade-up"><i class="fas fa-bolt"></i><h3>Скорость</h3><p>Разблокировка лимитов системы.</p></div>
+            <div class="feature-item" data-aos="fade-up"><i class="fas fa-bolt"></i><h3>Скорость</h3><p>Разблокировка лимитов и оптимизация ресурсов.</p></div>
         </section>
 
         <footer><p>© 2026 RSL Speed Mod</p></footer>
@@ -158,7 +182,6 @@
     <script>
         AOS.init({ duration: 800, once: true });
 
-        // --- ЛОГИКА УМНЫХ СЧЕТЧИКОВ ---
         const UI = {
             dl: document.getElementById('countDl'),
             like: document.getElementById('countLike'),
@@ -167,38 +190,27 @@
             btnDislike: document.getElementById('btnDislike')
         };
 
-        // Загружаем данные (пока из локального хранилища, чтобы не пропадали)
         let stats = {
             dl: parseInt(localStorage.getItem('global_dl')) || 0,
             like: parseInt(localStorage.getItem('global_like')) || 0,
             dislike: parseInt(localStorage.getItem('global_dislike')) || 0
         };
 
-        // Загружаем статус пользователя (что ОН нажимал)
-        let userAction = localStorage.getItem('user_voted'); // null, 'like' или 'dislike'
+        let userAction = localStorage.getItem('user_voted');
 
         function updateDisplay() {
-            UI.dl.textContent = stats.dl;
-            UI.like.textContent = stats.like;
-            UI.dislike.textContent = stats.dislike;
-
-            // Подсвечиваем кнопки, если пользователь уже голосовал
+            UI.dl.textContent = stats.dl.toLocaleString();
+            UI.like.textContent = stats.like.toLocaleString();
+            UI.dislike.textContent = stats.dislike.toLocaleString();
             UI.btnLike.classList.toggle('active-like', userAction === 'like');
             UI.btnDislike.classList.toggle('active-dislike', userAction === 'dislike');
         }
 
         function handleVote(type) {
-            if (userAction === type) {
-                alert("Вы уже проголосовали!");
-                return;
-            }
-
-            // Если пользователь меняет решение (был лайк, стал дизлайк)
-            if (userAction && userAction !== type) {
-                stats[userAction]--; // Убираем старый голос
-            }
-
-            stats[type]++; // Добавляем новый
+            if (userAction === type) return;
+            if (userAction && userAction !== type) stats[userAction]--;
+            
+            stats[type]++;
             userAction = type;
 
             localStorage.setItem('global_like', stats.like);
@@ -216,11 +228,9 @@
                 stats.dl++;
                 localStorage.setItem('global_dl', stats.dl);
                 updateDisplay();
-                alert("Скачивание началось!");
             };
         });
 
-        // Тема
         const themeBtn = document.getElementById('themeToggle');
         function setTheme(t) {
             document.body.className = t;
