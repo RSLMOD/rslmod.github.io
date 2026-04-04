@@ -16,157 +16,318 @@
             --accent: #3b82f6;
             --card-bg: rgba(20, 20, 35, 0.7);
             --border: rgba(255, 255, 255, 0.1);
+            --live-text-color: rgba(255, 255, 255, 0.08);
             --sidebar-bg: rgba(10, 10, 26, 0.98);
         }
 
+        body.light {
+            --bg: #ffffff; --text-main: #000000; --accent: #2563eb;
+            --card-bg: #f1f5f9; --border: #e2e8f0;
+            --live-text-color: rgba(0, 0, 0, 0.06);
+            --sidebar-bg: rgba(255, 255, 255, 0.98);
+        }
+
         * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-        body { font-family: 'Inter', sans-serif; background: var(--bg) !important; color: var(--text-main); overflow-x: hidden; }
+        body { font-family: 'Inter', sans-serif; transition: 0.3s; min-height: 100vh; background: var(--bg) !important; color: var(--text-main); overflow-x: hidden; }
         .container { max-width: 1280px; margin: 0 auto; padding: 0 1.5rem; }
 
+        /* БЕГУЩАЯ СТРОКА */
+        .live-ticker-container {
+            width: 100%; overflow: hidden; position: absolute; top: 0; left: 0;
+            height: 28px; background: rgba(0,0,0,0.15); display: flex; align-items: center; z-index: 5;
+        }
+        .live-ticker { display: flex; white-space: nowrap; animation: tickerFlow 35s linear infinite; }
+        .live-ticker span { font-weight: 900; font-size: 0.6rem; color: var(--live-text-color); margin: 0 2rem; text-transform: uppercase; letter-spacing: 2px; }
+        @keyframes tickerFlow { 0% { transform: translate3d(0, 0, 0); } 100% { transform: translate3d(-50%, 0, 0); } }
+
         /* НАВИГАЦИЯ */
-        .navbar { display: flex; justify-content: flex-end; align-items: center; padding: 2rem 0 1rem; position: relative; z-index: 10; }
-        .menu-btn { position: fixed; left: 1.5rem; top: 2rem; background: var(--card-bg); border: 1px solid var(--border); width: 42px; height: 42px; border-radius: 12px; color: var(--text-main); display: flex; align-items: center; justify-content: center; cursor: pointer; backdrop-filter: blur(10px); }
-        .theme-toggle { background: var(--card-bg); border: 1px solid var(--border); padding: 0.5rem 1rem; border-radius: 2rem; color: var(--text-main); cursor: pointer; font-weight: 700; font-size: 0.75rem; display: flex; align-items: center; gap: 8px; }
+        .navbar { display: flex; justify-content: space-between; align-items: center; padding: 3.5rem 0 0.5rem; position: relative; z-index: 10; }
+        
+        .menu-btn {
+            background: var(--card-bg); border: 1px solid var(--border);
+            width: 42px; height: 42px; border-radius: 12px; color: var(--text-main);
+            display: flex; align-items: center; justify-content: center; cursor: pointer;
+            backdrop-filter: blur(10px); transition: 0.2s;
+        }
+        .menu-btn:active { transform: scale(0.9); }
 
-        /* БОКОВОЕ МЕНЮ */
-        .sidebar { position: fixed; top: 0; left: -300px; width: 280px; height: 100%; background: var(--sidebar-bg); z-index: 1000; transition: 0.4s cubic-bezier(0.16, 1, 0.3, 1); border-right: 1px solid var(--border); padding: 2.5rem 1.5rem; }
+        .theme-toggle { 
+            background: var(--card-bg); border: 1px solid var(--border); 
+            padding: 0.5rem 1rem; border-radius: 2rem; color: var(--text-main); 
+            cursor: pointer; font-weight: 700; font-size: 0.75rem; transition: 0.3s;
+            backdrop-filter: blur(10px);
+        }
+
+        /* УЛЬТРА-ПЛАВНОЕ БОКОВОЕ МЕНЮ */
+        .sidebar {
+            position: fixed; top: 0; left: -300px; width: 280px; height: 100%;
+            background: var(--sidebar-bg); z-index: 1000; 
+            transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+            border-right: 1px solid var(--border); padding: 2.5rem 1.5rem;
+            display: flex; flex-direction: column;
+            backdrop-filter: blur(25px);
+            will-change: transform;
+        }
         .sidebar.active { transform: translateX(300px); }
-        .sidebar-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; }
-        .sidebar-link { padding: 1rem; border-radius: 12px; text-decoration: none; color: var(--text-main); font-weight: 700; display: flex; align-items: center; gap: 12px; margin-bottom: 0.5rem; transition: 0.2s; }
-        .sidebar-link:hover { background: var(--card-bg); color: var(--accent); }
 
-        /* ОКНО ЧАТА */
-        .chat-modal { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(0.9); width: 90%; max-width: 400px; background: var(--sidebar-bg); border: 1px solid var(--border); border-radius: 24px; z-index: 1001; visibility: hidden; opacity: 0; transition: 0.3s; padding: 2rem; text-align: center; }
-        .chat-modal.active { visibility: visible; opacity: 1; transform: translate(-50%, -50%) scale(1); }
-        .overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); z-index: 999; opacity: 0; visibility: hidden; transition: 0.3s; backdrop-filter: blur(5px); }
+        .sidebar-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 2.5rem; }
+        .sidebar-header h2 { font-weight: 900; font-size: 1.3rem; letter-spacing: 1px; color: var(--accent); }
+        .close-sidebar { cursor: pointer; opacity: 0.6; transition: 0.3s; font-size: 1.4rem; padding: 5px; }
+        .close-sidebar:hover { opacity: 1; transform: rotate(90deg); }
+
+        .sidebar-nav { display: flex; flex-direction: column; gap: 0.8rem; }
+        .sidebar-link {
+            padding: 1.1rem; border-radius: 16px; text-decoration: none; color: var(--text-main);
+            font-weight: 700; font-size: 0.95rem; display: flex; align-items: center; gap: 14px;
+            transition: 0.3s cubic-bezier(0.16, 1, 0.3, 1); 
+            border: 1px solid transparent;
+            opacity: 0; transform: translateX(-20px); /* Для анимации появления */
+        }
+        .sidebar.active .sidebar-link { opacity: 1; transform: translateX(0); }
+        
+        /* Задержки появления ссылок */
+        .sidebar-link:nth-child(1) { transition-delay: 0.1s; }
+        .sidebar-link:nth-child(2) { transition-delay: 0.15s; }
+        .sidebar-link:nth-child(3) { transition-delay: 0.2s; }
+        .sidebar-link:nth-child(4) { transition-delay: 0.25s; }
+
+        .sidebar-link i { color: var(--accent); font-size: 1.1rem; width: 24px; text-align: center; }
+        .sidebar-link:hover { background: var(--card-bg); border-color: var(--border); padding-left: 1.5rem; color: var(--accent); }
+
+        .overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.5); z-index: 999; opacity: 0; visibility: hidden;
+            transition: 0.4s ease; backdrop-filter: blur(4px);
+        }
         .overlay.active { opacity: 1; visibility: visible; }
 
-        /* ГЕРОЙ - СТРОГО ПО СКРИНШОТУ */
-        .hero { text-align: center; padding-top: 1rem; }
-        .v-tag { opacity: 0.5; font-weight: 900; font-size: 0.6rem; letter-spacing: 1px; margin-bottom: 1rem; display: block; }
-        .badge { display: inline-block; padding: 0.5rem 1.2rem; border-radius: 40px; font-size: 0.7rem; font-weight: 900; margin-bottom: 2rem; background: linear-gradient(90deg, #a855f7, #3b82f6); color: #fff; text-transform: uppercase; }
+        /* ОСТАЛЬНОЙ СТИЛЬ ГЕРОЯ (БЕЗ ИЗМЕНЕНИЙ) */
+        .hero { text-align: center; }
+        .badge {
+            display: inline-block; padding: 0.5rem 1.2rem; border-radius: 40px; font-size: 0.7rem; font-weight: 900; margin-bottom: 1.2rem; position: relative; background: var(--bg);
+            color: #fff !important; animation: badgeFloat 3s infinite ease-in-out;
+        }
+        .badge::after { content: ''; position: absolute; top: -2px; bottom: -2px; left: -2px; right: -2px; background: linear-gradient(130deg, #3b82f6, #ec4899, #4f46e5); z-index: -1; border-radius: 40px; animation: badgeRainbow 3.5s linear infinite; background-size: 200% 200%; }
         
-        .stats { display: flex; justify-content: center; gap: 0.8rem; margin-bottom: 2rem; }
-        .stat-btn { background: #16162a; border: 1px solid var(--border); padding: 0.5rem 1.2rem; border-radius: 50px; font-weight: 800; font-size: 0.85rem; display: flex; align-items: center; gap: 8px; }
+        @keyframes badgeRainbow { 0% { background-position: 0% 50%; } 100% { background-position: 200% 50%; } }
+        @keyframes badgeFloat { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-6px); } }
 
-        h1 { font-size: clamp(2.2rem, 10vw, 3.8rem); font-weight: 900; margin-bottom: 1.5rem; text-transform: uppercase; }
-        h1 b { display: inline-block; animation: wave 2s infinite ease-in-out; }
-        h1 span { color: #3b82f6; }
-        @keyframes wave { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
+        h1 { font-size: clamp(2rem, 8vw, 4rem); font-weight: 900; margin-bottom: 0.8rem; display: flex; justify-content: center; gap: 0.15em; flex-wrap: wrap; text-transform: uppercase; user-select: none; }
+        h1 b { display: inline-block; animation: letterWave 2s infinite ease-in-out; will-change: transform; }
+        h1 .mod-text { color: #2563eb; display: flex; gap: 0.15em; }
 
-        .desc { font-size: 1rem; max-width: 500px; margin: 0 auto 2.5rem; font-weight: 600; opacity: 0.9; line-height: 1.4; }
+        h1 b:nth-child(1) { animation-delay: 0.0s; }
+        h1 b:nth-child(2) { animation-delay: 0.1s; }
+        h1 b:nth-child(3) { animation-delay: 0.2s; }
+        h1 b:nth-child(4) { animation-delay: 0.3s; }
+        h1 b:nth-child(5) { animation-delay: 0.4s; }
+        h1 b:nth-child(6) { animation-delay: 0.5s; }
+        h1 b:nth-child(7) { animation-delay: 0.6s; }
+        h1 b:nth-child(8) { animation-delay: 0.7s; }
+        h1 .mod-text b:nth-child(1) { animation-delay: 0.8s; }
+        h1 .mod-text b:nth-child(2) { animation-delay: 0.9s; }
+        h1 .mod-text b:nth-child(3) { animation-delay: 1.0s; }
 
-        /* КНОПКИ */
-        .btn-group { display: flex; flex-direction: column; align-items: center; gap: 1rem; margin-bottom: 4rem; }
-        .main-btn { width: 100%; max-width: 280px; padding: 1.1rem; border-radius: 50px; font-weight: 900; display: flex; align-items: center; justify-content: center; gap: 10px; text-decoration: none; font-size: 1rem; transition: 0.2s; }
-        .btn-blue { background: #2563eb; color: white; }
-        .btn-dark { background: #1e293b; color: white; }
-        .btn-outline { border: 2px solid #1e3a8a; color: #3b82f6; }
+        @keyframes letterWave { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-15px); } }
 
-        /* БЛОКИ ИЗ СКРИНШОТА */
-        .features { display: flex; flex-direction: column; gap: 1.2rem; padding-bottom: 3rem; }
-        .f-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 28px; padding: 2.5rem 1.5rem; text-align: center; }
-        .f-card i { font-size: 2.5rem; color: #3b82f6; margin-bottom: 1.2rem; display: block; }
-        .f-card h3 { font-size: 1.3rem; font-weight: 800; margin-bottom: 0.5rem; }
-        .f-card p { opacity: 0.7; font-size: 0.95rem; font-weight: 500; line-height: 1.4; }
+        .hero-desc { font-size: clamp(0.9rem, 4vw, 1rem); max-width: 550px; margin: 0 auto 2.5rem; font-weight: 700; opacity: 0.85; line-height: 1.4; }
+
+        .download-grid { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.8rem; margin-bottom: 1.5rem; }
+        .download-btn { 
+            padding: 0.9rem 1.8rem; border-radius: 50px; font-weight: 900; 
+            display: inline-flex; align-items: center; gap: 10px; transition: 0.2s; 
+            cursor: pointer; font-size: 0.9rem; text-decoration: none; 
+        }
+        .download-btn:active { transform: scale(0.92); }
+        .download-btn.primary { background: #2563eb; color: white; }
+        .download-btn.secondary { background: #1e293b; color: white; }
+        .download-btn.outline { border: 2px solid #2563eb; color: #2563eb; background: transparent; }
+        
+        .version-tag { display: block; font-size: 0.65rem; font-weight: 900; opacity: 0.4; letter-spacing: 1px; text-transform: uppercase; margin-top: 0.5rem; }
+
+        .features { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1rem; margin: 3rem 0; }
+        .feature-item { padding: 1.8rem; text-align: center; border-radius: 1.5rem; background: var(--card-bg); border: 1px solid var(--border); transition: 0.3s; cursor: pointer; }
+        .feature-item i { font-size: 2rem; color: #2563eb; margin-bottom: 0.8rem; transition: 0.3s; }
+        .feature-item:hover { transform: translateY(-5px); border-color: var(--accent); }
+        .feature-item:hover i { transform: scale(1.2) rotate(5deg); color: #ec4899; }
+
+        .stats-container { display: flex; justify-content: center; gap: 0.8rem; margin-bottom: 1.2rem; }
+        .stat-item { background: var(--card-bg); border: 1px solid var(--border); padding: 0.5rem 1rem; border-radius: 12px; font-weight: 800; font-size: 0.8rem; display: flex; align-items: center; gap: 6px; cursor: pointer; transition: 0.2s; }
+        .stat-item:active { transform: scale(0.95); }
+        .stat-item.active-like { background: rgba(34, 197, 94, 0.2); border-color: #22c55e; }
+        .stat-item.active-dislike { background: rgba(239, 68, 68, 0.2); border-color: #ef4444; }
+
+        footer { text-align: center; padding: 2rem; opacity: 0.5; font-size: 0.75rem; font-weight: 800; }
+        
+        .icon-jump { animation: jump 0.4s ease; }
+        @keyframes jump { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-8px) scale(1.3); } }
     </style>
 </head>
-<body>
+<body class="dark">
 
     <div class="overlay" id="overlay"></div>
-    <div class="menu-btn" id="openSidebar"><i class="fas fa-bars-staggered"></i></div>
-
     <div class="sidebar" id="sidebar">
         <div class="sidebar-header">
-            <h2 style="font-weight:900; color:#3b82f6">RSL MOD</h2>
-            <i class="fas fa-times" id="closeSidebar" style="cursor:pointer"></i>
+            <h2>RSL NAVIGATION</h2>
+            <div class="close-sidebar" id="closeSidebar"><i class="fas fa-times"></i></div>
         </div>
-        <a href="#" class="sidebar-link" id="chatTrigger"><i class="fas fa-comments"></i> Наш чат</a>
-        <a href="#" class="sidebar-link"><i class="fas fa-question-circle"></i> FAQ</a>
-        <a href="#" class="sidebar-link"><i class="fas fa-crown"></i> Premium</a>
+        <nav class="sidebar-nav">
+            <a href="#" class="sidebar-link"><i class="fas fa-comments"></i> Наш чат</a>
+            <a href="#" class="sidebar-link"><i class="fas fa-question-circle"></i> FAQ</a>
+            <a href="#" class="sidebar-link"><i class="fas fa-crown"></i> Платная версия</a>
+            <a href="#" class="sidebar-link"><i class="fas fa-users"></i> Реферальная программа</a>
+        </nav>
     </div>
 
-    <div class="chat-modal" id="chatModal">
-        <i class="fab fa-telegram" style="font-size: 3rem; color: #0088cc; margin-bottom: 1rem;"></i>
-        <h2 style="margin-bottom: 1rem;">Наш чат</h2>
-        <p style="margin-bottom: 1.5rem; opacity: 0.8;">Присоединяйтесь к сообществу в Telegram, чтобы общаться с игроками онлайн!</p>
-        <a href="https://t.me/your_link" class="main-btn btn-blue">Открыть Telegram</a>
-        <p id="closeChat" style="margin-top: 1rem; cursor: pointer; font-weight: 800; font-size: 0.8rem; opacity: 0.5;">ЗАКРЫТЬ</p>
+    <div class="live-ticker-container">
+        <div class="live-ticker">
+            <span>FPS UNLOCKED</span> <span>LOW LATENCY</span> <span>BOOSTING ON</span> <span>STABLE FRAME</span> <span>MAX PERFORMANCE</span>
+            <span>FPS UNLOCKED</span> <span>LOW LATENCY</span> <span>BOOSTING ON</span> <span>STABLE FRAME</span> <span>MAX PERFORMANCE</span>
+        </div>
     </div>
 
     <div class="container">
         <nav class="navbar">
-            <div class="theme-toggle"><i class="fas fa-adjust"></i> <span>Тёмная</span></div>
+            <div class="menu-btn" id="openSidebar"><i class="fas fa-bars-staggered"></i></div>
+            <div class="theme-toggle" id="themeToggle"><i class="fas fa-adjust"></i> <span id="themeText">Тёмная</span></div>
         </nav>
 
         <main class="hero">
-            <span class="v-tag">VERSION 3.0.2</span>
-            <div class="badge"><i class="fas fa-bolt"></i> Новый релиз</div>
+            <div class="badge"><i class="fas fa-bolt"></i> НОВЫЙ РЕЛИЗ</div>
 
-            <div class="stats">
-                <div class="stat-btn"><i class="fas fa-download" style="color:#3b82f6"></i> 62</div>
-                <div class="stat-btn"><i class="fas fa-thumbs-up" style="color:#22c55e"></i> 1</div>
-                <div class="stat-btn"><i class="fas fa-thumbs-down" style="color:#ef4444"></i> 0</div>
+            <div class="stats-container">
+                <div class="stat-item" id="btnDl"><i class="fas fa-download" style="color:#3b82f6"></i> <span id="countDl">0</span></div>
+                <div class="stat-item" id="btnLike"><i class="fas fa-thumbs-up" style="color:#22c55e"></i> <span id="countLike">0</span></div>
+                <div class="stat-item" id="btnDislike"><i class="fas fa-thumbs-down" style="color:#ef4444"></i> <span id="countDislike">0</span></div>
             </div>
+            
+            <h1>
+                <b>R</b><b>S</b><b>L</b>&nbsp;
+                <b>S</b><b>P</b><b>E</b><b>E</b><b>D</b>&nbsp;
+                <span class="mod-text"><b>M</b><b>O</b><b>D</b></span>
+            </h1>
+            
+            <p class="hero-desc">Технология ускорения игрового процесса для Android. Стабильный FPS и минимальный инпут-лаг.</p>
 
-            <h1><b>R</b><b>S</b><b>L</b> <b>S</b><b>p</b><b>e</b><b>e</b><b>d</b> <span><b>M</b><b>o</b><b>d</b></span></h1>
-
-            <p class="desc">Технология ускорения игрового процесса для Android. Стабильный FPS и минимальный инпут-лаг.</p>
-
-            <div class="btn-group">
-                <a href="#" class="main-btn btn-blue"><i class="fas fa-rocket"></i> Скачать Mod</a>
-                <div style="display:flex; gap:10px; width:100%; max-width:280px">
-                    <a href="#" class="main-btn btn-dark" style="flex:1"><i class="fas fa-copy"></i> Клон</a>
-                    <a href="#" class="main-btn btn-outline" style="flex:1"><i class="fas fa-box"></i> Оригинал</a>
-                </div>
+            <div class="download-grid">
+                <a href="#" class="download-btn primary dl-trigger"><i class="fas fa-rocket"></i> Скачать Mod</a>
+                <a href="#" class="download-btn secondary dl-trigger"><i class="fas fa-copy"></i> Скачать Клон</a>
+                <a href="#" class="download-btn outline dl-trigger"><i class="fas fa-box-open"></i> Оригинал</a>
             </div>
-
-            <div class="features">
-                <div class="f-card" data-aos="fade-up">
-                    <i class="fas fa-bolt"></i>
-                    <h3>Скорость</h3>
-                    <p>Разблокировка лимитов и оптимизация ресурсов.</p>
-                </div>
-
-                <div class="f-card" data-aos="fade-up">
-                    <i class="fas fa-lock"></i>
-                    <h3>Защита</h3>
-                    <p>Анти-чит обход и полная безопасность данных.</p>
-                </div>
-
-                <div class="f-card" data-aos="fade-up">
-                    <i class="fas fa-mobile-alt"></i>
-                    <h3>Android & PC</h3>
-                    <p>Нативная поддержка Android и работа на ПК через эмуляторы.</p>
-                </div>
-            </div>
+            <span class="version-tag">Version 3.0.2</span>
         </main>
+
+        <section class="features">
+            <div class="feature-item" data-aos="fade-up">
+                <i class="fas fa-bolt"></i>
+                <h3>Скорость</h3>
+                <p>Разблокировка лимитов и оптимизация ресурсов.</p>
+            </div>
+            <div class="feature-item" data-aos="fade-up" data-aos-delay="100">
+                <i class="fas fa-lock"></i>
+                <h3>Защита</h3>
+                <p>Анти-чит обход и полная безопасность данных.</p>
+            </div>
+            <div class="feature-item" data-aos="fade-up" data-aos-delay="200">
+                <i class="fas fa-mobile-alt"></i>
+                <h3>Android & PC</h3>
+                <p>Нативная поддержка Android и работа на ПК через эмуляторы.</p>
+            </div>
+        </section>
+
+        <footer>© 2026 RSL Speed Mod</footer>
     </div>
 
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>
-        AOS.init({ duration: 600, once: true });
+        AOS.init({ duration: 800, once: true });
 
         const sidebar = document.getElementById('sidebar');
         const overlay = document.getElementById('overlay');
-        const chatModal = document.getElementById('chatModal');
+        const openBtn = document.getElementById('openSidebar');
+        const closeBtn = document.getElementById('closeSidebar');
 
-        document.getElementById('openSidebar').onclick = () => { sidebar.classList.add('active'); overlay.classList.add('active'); };
-        document.getElementById('closeSidebar').onclick = () => { sidebar.classList.remove('active'); overlay.classList.remove('active'); };
-        
-        document.getElementById('chatTrigger').onclick = (e) => {
-            e.preventDefault();
-            sidebar.classList.remove('active');
-            chatModal.classList.add('active');
-            overlay.classList.add('active');
+        function toggleMenu() {
+            sidebar.classList.toggle('active');
+            overlay.classList.toggle('active');
+            // Блокируем скролл при открытом меню
+            document.body.style.overflow = sidebar.classList.contains('active') ? 'hidden' : '';
+        }
+
+        openBtn.onclick = toggleMenu;
+        closeBtn.onclick = toggleMenu;
+        overlay.onclick = toggleMenu;
+
+        // СЧЕТЧИКИ
+        const UI = {
+            dl: document.getElementById('countDl'),
+            like: document.getElementById('countLike'),
+            dislike: document.getElementById('countDislike'),
+            btnLike: document.getElementById('btnLike'),
+            btnDislike: document.getElementById('btnDislike')
         };
 
-        document.getElementById('closeChat').onclick = () => { chatModal.classList.remove('active'); overlay.classList.remove('active'); };
-        overlay.onclick = () => { 
-            sidebar.classList.remove('active'); 
-            chatModal.classList.remove('active'); 
-            overlay.classList.remove('active'); 
+        let stats = {
+            dl: parseInt(localStorage.getItem('rsl_dl')) || 74,
+            like: parseInt(localStorage.getItem('rsl_like')) || 12,
+            dislike: parseInt(localStorage.getItem('rsl_dislike')) || 0
         };
+
+        let userVoted = localStorage.getItem('rsl_voted');
+
+        function updateUI() {
+            UI.dl.textContent = stats.dl;
+            UI.like.textContent = stats.like;
+            UI.dislike.textContent = stats.dislike;
+            UI.btnLike.classList.toggle('active-like', userVoted === 'like');
+            UI.btnDislike.classList.toggle('active-dislike', userVoted === 'dislike');
+        }
+
+        function handleVote(type) {
+            if (userVoted === type) return;
+            if (userVoted) stats[userVoted]--;
+            stats[type]++;
+            userVoted = type;
+            save();
+            updateUI();
+        }
+
+        function save() {
+            localStorage.setItem('rsl_dl', stats.dl);
+            localStorage.setItem('rsl_like', stats.like);
+            localStorage.setItem('rsl_dislike', stats.dislike);
+            localStorage.setItem('rsl_voted', userVoted || '');
+        }
+
+        UI.btnLike.onclick = () => handleVote('like');
+        UI.btnDislike.onclick = () => handleVote('dislike');
+
+        document.querySelectorAll('.dl-trigger').forEach(btn => {
+            btn.onclick = (e) => {
+                e.preventDefault();
+                stats.dl++;
+                save();
+                updateUI();
+                const icon = btn.querySelector('i');
+                icon.classList.remove('icon-jump');
+                void icon.offsetWidth; 
+                icon.classList.add('icon-jump');
+            };
+        });
+
+        const themeBtn = document.getElementById('themeToggle');
+        themeBtn.onclick = () => {
+            const isLight = document.body.classList.toggle('light');
+            document.getElementById('themeText').textContent = isLight ? 'Светлая' : 'Тёмная';
+            localStorage.setItem('rsl_theme', isLight ? 'light' : 'dark');
+        };
+
+        if(localStorage.getItem('rsl_theme') === 'light') {
+            document.body.classList.add('light');
+            document.getElementById('themeText').textContent = 'Светлая';
+        }
+
+        updateUI();
     </script>
 </body>
 </html>
