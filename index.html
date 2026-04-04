@@ -16,81 +16,138 @@
             --accent: #3b82f6;
             --card-bg: rgba(20, 20, 35, 0.7);
             --border: rgba(255, 255, 255, 0.1);
+            --badge-text-color: #ffffff;
+            --live-text-color: rgba(255, 255, 255, 0.1); /* Цвет бегущей строки */
         }
 
         body.light {
-            --bg: #ffffff; --text-main: #000000; --accent: #2563eb;
-            --card-bg: #f1f5f9; --border: #e2e8f0;
+            --bg: #ffffff;
+            --text-main: #000000; 
+            --accent: #2563eb;
+            --card-bg: #f1f5f9;
+            --border: #e2e8f0;
+            --badge-text-color: #1e3a8a;
+            --live-text-color: rgba(0, 0, 0, 0.05); /* Серый для светлой темы */
+        }
+
+        body.light h1 span, body.light .hero-desc, body.light .stat-item, body.light .feature-item h3, body.light .feature-item p {
+            color: #000000 !important;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-        body { font-family: 'Inter', sans-serif; transition: background 0.3s; min-height: 100vh; background: var(--bg) !important; color: var(--text-main); overflow-x: hidden; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            transition: background 0.3s ease;
+            min-height: 100vh;
+            background: var(--bg) !important;
+            color: var(--text-main);
+            overflow-x: hidden;
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+        }
+
         .container { max-width: 1280px; margin: 0 auto; padding: 0 1.5rem; }
 
-        /* ШАПКА */
-        .navbar { display: flex; justify-content: flex-end; padding: 0.8rem 0; }
+        /* --- ЖИВАЯ БЕГУЩАЯ СТРОКА СВЕРХУ --- */
+        .live-ticker-container {
+            width: 100%;
+            overflow: hidden;
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 25px; /* Очень тонкая полоса */
+            background: rgba(0,0,0,0.1); /* Еле заметный фон */
+            display: flex;
+            align-items: center;
+            z-index: 10;
+        }
+
+        .live-ticker {
+            display: flex;
+            white-space: nowrap;
+            animation: tickerFlow 40s linear infinite;
+            will-change: transform;
+        }
+
+        .live-ticker span {
+            font-weight: 900;
+            font-size: 0.6rem; /* Микро-текст */
+            text-transform: uppercase;
+            color: var(--live-text-color);
+            margin: 0 2rem; /* Отступ между фразами */
+            filter: blur(0.5px); /* Легкое размытие для стиля */
+            letter-spacing: 1px;
+        }
+
+        @keyframes tickerFlow {
+            0% { transform: translate3d(0, 0, 0); }
+            100% { transform: translate3d(-50%, 0, 0); } /* Сдвиг на половину длины текста */
+        }
+
+        /* НАВИГАЦИЯ И ОТСТУПЫ */
+        .navbar { display: flex; justify-content: flex-end; align-items: center; padding: 3rem 0 1rem; } /* Увеличили верхний padding, чтобы уйти от бегущей строки */
+        .logo { font-size: 1.6rem; font-weight: 900; display: flex; gap: 0.1em; user-select: none; }
+        .logo span { display: inline-block; animation: wordWaveLogo 2s infinite ease-in-out; color: var(--text-main); will-change: transform; }
         
-        .theme-toggle { 
-            background: var(--card-bg); border: 1px solid var(--border); 
-            padding: 0.4rem 0.9rem; border-radius: 2rem; color: var(--text-main); 
-            cursor: pointer; font-weight: 700; font-size: 0.75rem; transition: 0.3s;
+        @keyframes wordWaveLogo { 0%, 100% { transform: translate3d(0, 0, 0); } 50% { transform: translate3d(0, -6px, 0); } }
+
+        .theme-toggle {
+            background: var(--card-bg); border: 1px solid var(--border);
+            padding: 0.5rem 1rem; border-radius: 2rem; color: var(--text-main);
+            font-weight: 700; display: flex; align-items: center; gap: 8px;
+            backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
         }
 
-        .hero { text-align: center; padding-top: 0; margin-top: -0.5rem; }
-        .version-badge { 
-            display: inline-block; background: #000; color: #fff; 
-            padding: 4px 12px; border-radius: 20px; font-size: 0.6rem; font-weight: 900;
-            margin-bottom: 0.8rem;
+        .hero { text-align: center; padding: 0 0 1rem; margin-top: -1rem; }
+        .version-badge {
+            display: block; margin: 0.8rem auto 1rem; width: fit-content; background: #000; color: #fff;
+            padding: 4px 14px; border-radius: 20px; font-size: 0.65rem; font-weight: 900; text-transform: uppercase;
         }
 
+        /* РАДУЖНАЯ ПЛАШКА */
         .badge {
-            display: inline-block; padding: 0.5rem 1.2rem; border-radius: 40px; font-size: 0.7rem; font-weight: 900; margin-bottom: 1.2rem; position: relative; background: var(--bg);
-            color: #fff !important; animation: badgeFloat 3s infinite ease-in-out;
+            display: inline-block; padding: 0.5rem 1.2rem; border-radius: 40px; font-size: 0.7rem; font-weight: 900;
+            margin-bottom: 1.5rem; position: relative; z-index: 1; background: var(--bg);
+            color: var(--badge-text-color) !important; border: 2px solid transparent; background-clip: padding-box;
+            animation: bounceIn 0.8s both, badgeFloat 3s infinite ease-in-out;
         }
-        .badge::after { content: ''; position: absolute; top: -2px; bottom: -2px; left: -2px; right: -2px; background: linear-gradient(130deg, #3b82f6, #ec4899, #4f46e5); z-index: -1; border-radius: 40px; animation: badgeRainbow 3.5s linear infinite; background-size: 200% 200%; }
-        
+        .badge::after {
+            content: ''; position: absolute; top: -2px; bottom: -2px; left: -2px; right: -2px;
+            background: linear-gradient(130deg, #3b82f6, #ec4899, #4f46e5);
+            background-size: 200% 200%; z-index: -1; border-radius: 40px; animation: badgeRainbow 3.5s linear infinite;
+        }
         @keyframes badgeRainbow { 0% { background-position: 0% 50%; } 100% { background-position: 200% 50%; } }
-        @keyframes badgeFloat { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-6px); } }
+        @keyframes badgeFloat { 0%, 100% { transform: translate3d(0, 0, 0); } 50% { transform: translate3d(0, -8px, 0); } }
 
         /* СТАТИСТИКА */
-        .stats-container { display: flex; justify-content: center; gap: 0.7rem; margin-bottom: 1.2rem; flex-wrap: wrap; }
-        .stat-item { font-weight: 800; font-size: 0.8rem; display: flex; align-items: center; gap: 6px; background: var(--card-bg); padding: 0.4rem 1rem; border-radius: 12px; border: 1px solid var(--border); transition: 0.3s; cursor: pointer; }
+        .stats-container { display: flex; justify-content: center; gap: 0.8rem; margin-bottom: 1.5rem; flex-wrap: wrap; }
+        .stat-item {
+            font-weight: 800; font-size: 0.8rem; display: flex; align-items: center; gap: 6px;
+            background: var(--card-bg); padding: 0.5rem 1rem; border-radius: 12px;
+            border: 1px solid var(--border); transition: 0.3s; cursor: pointer; user-select: none;
+        }
+        .stat-item:active { transform: scale(0.9); }
         .stat-item.active-like { background: rgba(34, 197, 94, 0.2); border-color: #22c55e; }
         .stat-item.active-dislike { background: rgba(239, 68, 68, 0.2); border-color: #ef4444; }
+        .stat-item.like i { color: #22c55e; }
+        .stat-item.dislike i { color: #ef4444; }
 
-        /* ЗАГОЛОВОК ВОЛНОЙ (ОБНОВЛЕННЫЕ СТИЛИ) */
-        h1 { font-size: clamp(2rem, 8vw, 4rem); font-weight: 900; margin-bottom: 0.8rem; display: flex; justify-content: center; gap: 0.2em; flex-wrap: wrap; text-transform: uppercase; user-select: none; }
-        
-        /* Группа букв одного цвета */
-        h1 span.mod-text { color: #2563eb; }
-
-        /* Каждая буква */
-        h1 b { display: inline-block; animation: textWave 2s infinite ease-in-out; will-change: transform; color: inherit; }
-
-        /* Задержки анимации для создания эффекта волны */
-        h1 b:nth-child(2) { animation-delay: 0.1s; }
-        h1 b:nth-child(3) { animation-delay: 0.2s; }
-        h1 b:nth-child(4) { animation-delay: 0.3s; } /* Пробел */
-        h1 b:nth-child(5) { animation-delay: 0.4s; }
-        h1 b:nth-child(6) { animation-delay: 0.5s; }
-        h1 b:nth-child(7) { animation-delay: 0.6s; }
-        h1 b:nth-child(8) { animation-delay: 0.7s; }
-        h1 b:nth-child(9) { animation-delay: 0.8s; }
-        h1 b:nth-child(10) { animation-delay: 0.9s; } /* Пробел */
-        
-        h1 span.mod-text b { animation-delay: 1s !important; }
-        h1 span.mod-text b:nth-child(2) { animation-delay: 1.1s !important; }
-        h1 span.mod-text b:nth-child(3) { animation-delay: 1.2s !important; }
-
-        @keyframes textWave {
-            0%, 100% { transform: translateY(0) scale(1); filter: blur(0px); }
-            50% { transform: translateY(-12px) scale(1.05); filter: blur(1px); }
+        /* ЗАГОЛОВОК ВОЛНОЙ */
+        h1 {
+            font-size: clamp(2.2rem, 8vw, 4.5rem); font-weight: 900; margin-bottom: 1rem;
+            display: flex; justify-content: center; gap: 0.3em; flex-wrap: wrap;
         }
+        h1 span { display: inline-block; animation: wordWave 2.5s infinite ease-in-out; will-change: transform; }
+        h1 span.mod-text { color: #2563eb; }
+        h1 span:nth-child(2) { animation-delay: 0.2s; }
+        h1 span:nth-child(3) { animation-delay: 0.4s; }
+        @keyframes wordWave { 0%, 100% { transform: translate3d(0, 0, 0); } 50% { transform: translate3d(0, -12px, 0); } }
 
-        .hero-desc { font-size: clamp(0.9rem, 4vw, 1rem); max-width: 550px; margin: 0 auto 2rem; font-weight: 700; opacity: 0.85; line-height: 1.4; }
+        .hero-desc { font-size: clamp(0.95rem, 4vw, 1.1rem); max-width: 550px; margin: 0 auto 2.5rem; font-weight: 700; opacity: 0.85; line-height: 1.4; }
 
         /* КНОПКИ */
-        .download-grid { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.8rem; }
+        .download-grid { display: flex; flex-wrap: wrap; justify-content: center; gap: 1rem; }
         .download-btn {
             padding: 0.9rem 1.8rem; border-radius: 50px; font-weight: 900; text-decoration: none;
             display: inline-flex; align-items: center; gap: 10px; transition: 0.3s; cursor: pointer; font-size: 0.9rem;
@@ -99,13 +156,13 @@
         .download-btn.secondary { background: #1e293b; color: white; }
         .download-btn.outline { border: 2px solid #2563eb; color: #2563eb; background: transparent; }
         
-        /* АНИМАЦИЯ ИКОНОК НА КНОПКАХ */
+        /* ИСПРАВЛЕННАЯ АНИМАЦИЯ ИКОНОК */
         .download-btn i { transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); pointer-events: none; }
         .icon-jump { transform: translateY(-8px) scale(1.4) !important; }
         .outline .icon-jump { color: #2563eb !important; }
 
         /* ПЛАШКИ ОСОБЕННОСТЕЙ */
-        .features { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1rem; margin: 2.5rem 0; }
+        .features { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1rem; margin: 3rem 0; }
         .feature-item {
             padding: 1.8rem; text-align: center; border-radius: 1.2rem; background: var(--card-bg); border: 1px solid var(--border);
             backdrop-filter: blur(8px); transition: 0.3s; cursor: pointer;
@@ -114,13 +171,26 @@
         .feature-item:hover { transform: translateY(-5px); border-color: var(--accent); }
         .feature-item:hover i { transform: scale(1.1) rotate(5deg); color: #ec4899; }
 
-        footer { text-align: center; padding: 1.5rem; font-weight: 800; opacity: 0.5; font-size: 0.75rem; }
+        footer { text-align: center; padding: 2rem; font-weight: 800; opacity: 0.5; font-size: 0.75rem; }
+        @keyframes bounceIn { 0% { opacity: 0; transform: scale(0.3); } 100% { opacity: 1; transform: scale(1); } }
     </style>
 </head>
 <body class="dark">
 
+    <div class="live-ticker-container">
+        <div class="live-ticker">
+            <span>FPS UNLOCKED</span> <span>LATENCY: LOW</span> <span>BOOSTING GAME</span> <span>ANDROID MOD</span>
+            <span>OPTIMIZATION: ON</span> <span>PERFORMANCE MAX</span> <span>STABLE FRAME</span>
+            <span>FPS UNLOCKED</span> <span>LATENCY: LOW</span> <span>BOOSTING GAME</span> <span>ANDROID MOD</span>
+            <span>OPTIMIZATION: ON</span> <span>PERFORMANCE MAX</span> <span>STABLE FRAME</span>
+        </div>
+    </div>
+
     <div class="container">
         <nav class="navbar">
+            <div class="logo">
+                <span>R</span><span>S</span><span>L</span><span> </span><span>S</span><span>P</span><span>E</span><span>E</span><span>D</span>
+            </div>
             <div class="theme-toggle" id="themeToggle"><i class="fas fa-adjust"></i> <span id="themeText">Тёмная</span></div>
         </nav>
 
@@ -135,10 +205,7 @@
                 <div class="stat-item dislike" id="btnDislike"><i class="fas fa-thumbs-down"></i> <span id="countDislike">0</span></div>
             </div>
             
-            <h1>
-                <b>R</b><b>S</b><b>L</b><b>&nbsp;</b><b>S</b><b>P</b><b>E</b><b>E</b><b>D</b><b>&nbsp;</b>
-                <span class="mod-text"><b>M</b><b>O</b><b>D</b></span>
-            </h1>
+            <h1><span>RSL</span> <span>Speed</span> <span class="mod-text">Mod</span></h1>
             
             <p class="hero-desc">Технология ускорения игрового процесса для Android. Стабильный FPS и минимальный инпут-лаг.</p>
 
@@ -174,6 +241,7 @@
     <script>
         AOS.init({ duration: 800, once: true });
 
+        // --- УМНАЯ ЛОГИКА СЧЕТЧИКОВ ---
         const UI = {
             dl: document.getElementById('countDl'),
             like: document.getElementById('countLike'),
@@ -182,13 +250,15 @@
             btnDislike: document.getElementById('btnDislike')
         };
 
+        // Локальное хранилище для теста
+        const storagePrefix = "rsl_speed_v3_"; // Префикс, чтобы не конфликтовать со старыми тестами
         let stats = {
-            dl: parseInt(localStorage.getItem('global_dl')) || 0,
-            like: parseInt(localStorage.getItem('global_like')) || 0,
-            dislike: parseInt(localStorage.getItem('global_dislike')) || 0
+            dl: parseInt(localStorage.getItem(storagePrefix + 'dl')) || 0,
+            like: parseInt(localStorage.getItem(storagePrefix + 'like')) || 0,
+            dislike: parseInt(localStorage.getItem(storagePrefix + 'dislike')) || 0
         };
 
-        let userAction = localStorage.getItem('user_voted');
+        let userAction = localStorage.getItem(storagePrefix + 'user_voted'); // null, 'like' или 'dislike'
 
         function updateDisplay() {
             UI.dl.textContent = stats.dl.toLocaleString();
@@ -199,13 +269,16 @@
         }
 
         function handleVote(type) {
-            if (userAction === type) return;
-            if (userAction && userAction !== type) stats[userAction]--;
-            stats[type]++;
+            if (userAction === type) return; // Нельзя проголосовать дважды подряд
+
+            if (userAction && userAction !== type) stats[userAction]--; // Вычитаем старый голос
+            
+            stats[type]++; // Добавляем новый
             userAction = type;
-            localStorage.setItem('global_like', stats.like);
-            localStorage.setItem('global_dislike', stats.dislike);
-            localStorage.setItem('user_voted', userAction);
+
+            localStorage.setItem(storagePrefix + 'like', stats.like);
+            localStorage.setItem(storagePrefix + 'dislike', stats.dislike);
+            localStorage.setItem(storagePrefix + 'user_voted', userAction);
             updateDisplay();
         }
 
@@ -214,9 +287,9 @@
         
         document.querySelectorAll('.dl-trigger').forEach(btn => {
             btn.onclick = (e) => {
-                e.preventDefault();
+                e.preventDefault(); // Предотвращаем прыжок к '#'
                 stats.dl++;
-                localStorage.setItem('global_dl', stats.dl);
+                localStorage.setItem(storagePrefix + 'dl', stats.dl);
                 updateDisplay();
 
                 const icon = btn.querySelector('i');
@@ -225,16 +298,17 @@
             };
         });
 
+        // Тема
         const themeBtn = document.getElementById('themeToggle');
         function setTheme(t) {
             document.body.className = t;
             document.getElementById('themeText').textContent = t === 'light' ? 'Светлая' : 'Тёмная';
-            localStorage.setItem('theme', t);
+            localStorage.setItem(storagePrefix + 'theme', t);
         }
         themeBtn.onclick = () => setTheme(document.body.classList.contains('light') ? 'dark' : 'light');
         
         updateDisplay();
-        setTheme(localStorage.getItem('theme') || 'dark');
+        setTheme(localStorage.getItem(storagePrefix + 'theme') || 'dark');
     </script>
 </body>
 </html>
