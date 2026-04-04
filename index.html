@@ -18,6 +18,7 @@
             --card-bg: rgba(20, 20, 35, 0.7);
             --border: rgba(255, 255, 255, 0.1);
             --glow: rgba(59, 130, 246, 0.3);
+            --badge-text-color: #ffffff; /* Текст в темной теме — всегда белый */
         }
 
         body.light {
@@ -28,6 +29,7 @@
             --card-bg: #f1f5f9;
             --border: #e2e8f0;
             --glow: rgba(37, 99, 235, 0.1);
+            --badge-text-color: #2563eb; /* Текст в светлой теме — синий */
         }
 
         /* Форсируем черный цвет в светлой теме для четкости */
@@ -129,64 +131,44 @@
 
         .hero { text-align: center; padding: 2rem 0; }
 
-        /* АНИМАЦИЯ И ПЕРЕЛИВ ДЛЯ "НОВЫЙ РЕЛИЗ" */
+        /* ИСПРАВЛЕННАЯ ПЛАШКА: ТЕКСТ ТЕПЕРЬ ВСЕГДА ВИДЕН */
         .badge {
             display: inline-block;
-            background: #dbeafe;
-            padding: 0.5rem 1.2rem;
+            padding: 0.6rem 1.4rem;
             border-radius: 40px;
             font-size: 0.75rem;
             font-weight: 800;
-            /* Перелив разными цветами */
-            background: linear-gradient(130deg, #3b82f6, #60a5fa, #4f46e5, #ec4899, #3b82f6);
-            background-size: 200% 200%;
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent; /* Текст становится прозрачным, видно фон */
-            
-            margin-bottom: 2rem;
-            
-            /* Рамка тоже переливается */
-            border: 2px solid;
-            border-image: linear-gradient(130deg, #3b82f6, #ec4899, #4f46e5, #3b82f6) 1;
-            border-radius: 40px; /* border-image ломает радиус, чиним через background-clip */
-            
-            /* Анимации: перелив + шевеление */
-            animation: badgeRainbow 3s linear infinite, bounceIn 0.8s both, badgeFloat 3s infinite ease-in-out;
-        }
-        
-        /* Чтобы radius работал с градиентной рамкой */
-        .badge {
+            margin-bottom: 2.5rem;
             position: relative;
-            background: var(--bg); /* Фон под текст */
-            color: transparent;
-            border: 2px solid transparent; 
+            z-index: 1;
+            background: var(--bg); /* Фон под плашку, чтобы текст не сливался */
+            color: var(--badge-text-color) !important; /* Текст — всегда контрастный */
+            border: 2px solid transparent; /* Место под рамку */
             background-clip: padding-box; /* Фон не заходит под рамку */
+            
+            /* Анимации шевеления и появления */
+            animation: bounceIn 0.8s both, badgeFloat 3s infinite ease-in-out;
         }
         
-        /* Сама градиентная рамка */
+        /* Иконка и текст внутри плашки наследуют контрастный цвет */
+        .badge i, .badge span {
+            color: inherit !important;
+            transition: color 0.3s ease;
+        }
+        
+        /* Градиентная переливающаяся рамка */
         .badge::after {
             content: '';
             position: absolute;
             top: -2px; bottom: -2px; left: -2px; right: -2px;
-            background: linear-gradient(130deg, #3b82f6, #ec4899, #4f46e5, #3b82f6);
+            background: linear-gradient(130deg, #3b82f6, #ec4899, #4f46e5, #ec4899, #3b82f6);
             background-size: 200% 200%;
             z-index: -1;
             border-radius: 40px;
             animation: badgeRainbow 3s linear infinite;
         }
 
-        /* Текст внутри переливается */
-        .badge-text {
-            background: linear-gradient(130deg, #3b82f6, #ec4899, #4f46e5, #3b82f6);
-            background-size: 200% 200%;
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-            animation: badgeRainbow 3s linear infinite;
-        }
-
-        /* Анимация перелива цветов */
+        /* Анимация перелива цветов для рамки */
         @keyframes badgeRainbow {
             0% { background-position: 0% 50%; }
             100% { background-position: 200% 50%; }
@@ -194,8 +176,8 @@
         
         /* Анимация шевеления для плашки */
         @keyframes badgeFloat {
-            0%, 100% { transform: translateY(0) scale(1); }
-            50% { transform: translateY(-10px) scale(1.03); }
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
         }
 
         @keyframes bounceIn {
@@ -223,7 +205,7 @@
             animation: wordWave 2s infinite ease-in-out;
         }
 
-        /* Убираем подчеркивание и красим Mod в синий */
+        /* Красим Mod в синий */
         h1 span.mod-text {
             color: #2563eb;
             text-decoration: none; 
@@ -319,15 +301,15 @@
         <nav class="navbar">
             <div class="logo">RSL SPEED</div>
             <button class="theme-toggle" id="themeToggle">
-                <i class="fas fa-circle-half-stroke"></i> <span id="themeText">Тёмная</span>
+                <i class="fas fa-adjust"></i> <span id="themeText">Тёмная</span>
             </button>
         </nav>
 
         <main class="hero">
             
             <div class="badge">
-                <i class="fas fa-bolt badge-text"></i> 
-                <span class="badge-text">НОВЫЙ РЕЛИЗ</span>
+                <i class="fas fa-bolt"></i> 
+                <span>НОВЫЙ РЕЛИЗ</span>
             </div>
             
             <h1>
