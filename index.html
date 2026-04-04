@@ -4,12 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>RSL Speed Mod — Ускорение реальности</title>
+    
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-    
+
     <style>
-        /* ПЕРЕМЕННЫЕ ТЕМЫ */
         :root {
             --bg: radial-gradient(circle at 10% 20%, #0a0a1a, #02020f);
             --text: #f0f0ff;
@@ -33,11 +33,12 @@
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            cursor: none; /* Прячем стандартный курсор на ПК */
         }
 
         body {
             font-family: 'Inter', sans-serif;
-            transition: background 0.5s cubic-bezier(0.4, 0, 0.2, 1), color 0.3s ease;
+            transition: background 0.5s ease, color 0.3s ease;
             line-height: 1.5;
             min-height: 100vh;
             background: var(--bg) !important;
@@ -46,19 +47,23 @@
             overflow-x: hidden;
         }
 
-        /* Анимация заднего фона */
-        body::before {
-            content: "";
+        /* Кастомный курсор (только для десктопа) */
+        #cursor {
+            width: 10px;
+            height: 10px;
+            background: var(--accent);
+            border-radius: 50%;
             position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: radial-gradient(circle at 50% 50%, rgba(59, 130, 246, 0.05), transparent 50%);
-            z-index: -1;
-            animation: pulseBg 8s infinite alternate;
+            pointer-events: none;
+            z-index: 9999;
+            transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275), background 0.3s ease;
+            box-shadow: 0 0 15px var(--accent);
         }
 
-        @keyframes pulseBg {
-            0% { transform: scale(1); opacity: 0.5; }
-            100% { transform: scale(1.2); opacity: 0.8; }
+        /* Скрываем курсор на мобилках и планшетах */
+        @media (max-width: 1024px) {
+            #cursor { display: none; }
+            * { cursor: auto; } /* Возвращаем обычный курсор для тача */
         }
 
         .container {
@@ -67,11 +72,11 @@
             padding: 1.5rem 2rem;
         }
 
+        /* Navbar */
         .navbar {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 1rem 0;
             margin-bottom: 3rem;
         }
 
@@ -82,12 +87,6 @@
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
-            letter-spacing: -0.02em;
-            transition: transform 0.3s ease;
-        }
-
-        .logo:hover {
-            transform: skewX(-5deg);
         }
 
         .theme-toggle {
@@ -96,29 +95,24 @@
             border: 1px solid var(--border);
             padding: 0.7rem 1.2rem;
             border-radius: 3rem;
-            cursor: pointer;
-            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             color: var(--text);
+            transition: 0.3s;
         }
 
-        .theme-toggle:hover {
-            transform: scale(1.1);
-            box-shadow: 0 0 20px rgba(59, 130, 246, 0.3);
-        }
-
+        /* Hero Section */
         .hero {
             text-align: center;
-            padding: 3rem 1rem 4rem;
+            padding: 4rem 1rem;
         }
 
         .badge {
             display: inline-block;
             background: rgba(59, 130, 246, 0.15);
-            padding: 0.4rem 1.2rem;
+            padding: 0.4rem 1rem;
             border-radius: 40px;
             font-size: 0.8rem;
             font-weight: 700;
-            color: #3b82f6;
+            color: var(--accent);
             margin-bottom: 1.5rem;
             border: 1px solid rgba(59, 130, 246, 0.3);
             animation: float 3s ease-in-out infinite;
@@ -138,9 +132,9 @@
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
-            filter: drop-shadow(0 10px 20px rgba(0,0,0,0.1));
         }
 
+        /* Buttons */
         .download-grid {
             display: flex;
             flex-wrap: wrap;
@@ -150,43 +144,43 @@
         }
 
         .download-btn {
-            position: relative;
-            overflow: hidden;
-            display: inline-flex;
-            align-items: center;
-            gap: 12px;
             padding: 1.2rem 2.5rem;
             border-radius: 60px;
             font-weight: 700;
             text-decoration: none;
-            transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
-            border: none;
-            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
         }
 
-        /* Эффект свечения для основной кнопки */
         .download-btn.primary {
             background: linear-gradient(135deg, #2563eb, #1e40af);
             color: white;
-            box-shadow: 0 10px 30px rgba(37, 99, 235, 0.4);
+            box-shadow: 0 10px 25px rgba(37, 99, 235, 0.4);
         }
 
-        .download-btn.primary:hover {
-            transform: translateY(-5px) scale(1.05);
-            box-shadow: 0 15px 40px rgba(37, 99, 235, 0.6);
+        .download-btn.secondary {
+            background: var(--card-bg);
+            color: var(--text);
+            border: 1px solid var(--border);
         }
 
-        .download-btn.secondary:hover, .download-btn.ghost:hover {
+        .download-btn.ghost {
+            border: 2px solid var(--accent);
+            color: var(--accent);
+        }
+
+        .download-btn:hover {
             transform: translateY(-5px);
-            background: rgba(59, 130, 246, 0.1);
         }
 
+        /* Features */
         .features {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
             gap: 2rem;
-            margin: 5rem 0;
-            perspective: 1000px;
+            margin: 4rem 0;
         }
 
         .feature-item {
@@ -194,119 +188,106 @@
             text-align: center;
             border-radius: 2rem;
             background: var(--card-bg);
-            backdrop-filter: blur(12px);
+            backdrop-filter: blur(10px);
             border: 1px solid var(--border);
-            transition: all 0.4s ease;
-            transform-style: preserve-3d; /* Для 3D эффекта */
-        }
-
-        .feature-item:hover {
-            border-color: #3b82f6;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+            transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
 
         .feature-item i {
             font-size: 3rem;
-            color: #3b82f6;
+            color: var(--accent);
             margin-bottom: 1.5rem;
-            transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
 
-        .feature-item:hover i {
-            transform: translateZ(30px) scale(1.2);
-        }
-
-        .version-note {
-            margin: 2rem auto;
-            padding: 0.8rem 2rem;
-            border-radius: 2rem;
-            background: var(--card-bg);
-            border: 1px solid var(--border);
-            display: inline-block;
-            font-weight: 500;
-        }
-
+        /* Footer */
         footer {
-            margin-top: 6rem;
+            text-align: center;
             padding: 3rem;
             border-top: 1px solid var(--border);
-            opacity: 0.7;
+            color: var(--sub-text);
+            font-size: 0.9rem;
         }
 
-        /* Кастомный курсор (опционально, для красоты) */
-        .cursor-dot {
-            width: 8px; height: 8px; background: #3b82f6;
-            position: fixed; border-radius: 50%; pointer-events: none;
-            z-index: 9999; transition: transform 0.1s;
+        /* Вспомогательный класс для курсора */
+        .cursor-hover {
+            transform: scale(4);
+            background: rgba(59, 130, 246, 0.3) !important;
+            backdrop-filter: blur(2px);
         }
     </style>
 </head>
 <body>
-    <div class="cursor-dot" id="cursor"></div>
+
+    <div id="cursor"></div>
 
     <div class="container">
         <nav class="navbar" data-aos="fade-down">
             <div class="logo">RSL SPEED MOD <span>// v3.0</span></div>
-            <button class="theme-toggle" id="themeToggle">
+            <button class="theme-toggle hover-target" id="themeToggle">
                 <i class="fas fa-moon"></i> <span id="themeText">Тёмная</span>
             </button>
         </nav>
 
         <main class="hero">
-            <div class="badge" data-aos="zoom-in" data-aos-delay="200">
+            <div class="badge" data-aos="zoom-in">
                 <i class="fas fa-bolt"></i> НОВЫЙ РЕЛИЗ
             </div>
-            
-            <h1 data-aos="fade-up" data-aos-delay="400">RSL Speed Mod<br>Играй на максималках</h1>
-            
-            <p data-aos="fade-up" data-aos-delay="600">
-                Полный контроль скорости и магия геймплея. Забудь про лаги и ограничения.
+            <h1 data-aos="fade-up" data-aos-delay="200">RSL Speed Mod<br>Играй на максималках</h1>
+            <p data-aos="fade-up" data-aos-delay="400" style="color: var(--sub-text); max-width: 600px; margin: 0 auto;">
+                Технология ускорения игрового процесса. Стабильный FPS и минимальный инпут-лаг на любом устройстве.
             </p>
 
-            <div class="download-grid" data-aos="fade-up" data-aos-delay="800">
-                <a href="#" class="download-btn primary"><i class="fas fa-rocket"></i> Скачать Mod</a>
-                <a href="#" class="download-btn secondary"><i class="fas fa-copy"></i> Скачать Клон</a>
-                <a href="#" class="download-btn ghost"><i class="fas fa-gamepad"></i> Оригинал</a>
-            </div>
-            
-            <div class="version-note" data-aos="fade-in" data-aos-delay="1000">
-                <span style="color: #3b82f6">●</span> Speed Core 2.1 | Clone+ | Original v1.0.8
+            <div class="download-grid" data-aos="fade-up" data-aos-delay="600">
+                <a href="#" class="download-btn primary hover-target"><i class="fas fa-rocket"></i> Скачать Mod</a>
+                <a href="#" class="download-btn secondary hover-target"><i class="fas fa-copy"></i> Скачать Клон</a>
+                <a href="#" class="download-btn ghost hover-target"><i class="fas fa-gamepad"></i> Оригинал</a>
             </div>
         </main>
 
         <section class="features">
-            <div class="feature-item" data-aos="fade-right" data-aos-delay="200">
+            <div class="feature-item hover-target" data-aos="fade-up" data-aos-delay="100">
                 <i class="fas fa-tachometer-alt"></i>
                 <h3>Скорость</h3>
-                <p>Разблокировка FPS до 144 и мгновенный отклик управления.</p>
+                <p>Разблокировка лимитов и оптимизация ресурсов системы.</p>
             </div>
-            <div class="feature-item" data-aos="fade-up" data-aos-delay="400">
+            <div class="feature-item hover-target" data-aos="fade-up" data-aos-delay="300">
                 <i class="fas fa-shield-alt"></i>
-                <h3>Безопасность</h3>
-                <p>Улучшенные алгоритмы защиты и стабильная работа клиента.</p>
+                <h3>Защита</h3>
+                <p>Полная безопасность данных и анти-чит обход.</p>
             </div>
-            <div class="feature-item" data-aos="fade-left" data-aos-delay="600">
+            <div class="feature-item hover-target" data-aos="fade-up" data-aos-delay="500">
                 <i class="fas fa-mobile-alt"></i>
-                <h3>Кроссплатформа</h3>
-                <p>Единый аккаунт и оптимизация под все современные устройства.</p>
+                <h3>Мобильность</h3>
+                <p>Играй на ПК или телефоне без потери качества.</p>
             </div>
         </section>
 
-        <footer data-aos="fade-up">
-            <p>© 2024 RSL Speed Mod. Для тех, кто ценит время.</p>
+        <footer data-aos="fade-in">
+            <p>© 2026 RSL Speed Mod. Быстрее звука, мощнее света.</p>
         </footer>
     </div>
 
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>
-        // Инициализация анимаций появления
-        AOS.init({
-            duration: 1000,
-            once: true,
-            offset: 100
+        // 1. Инициализация AOS
+        AOS.init({ duration: 1000, once: true });
+
+        // 2. Логика кастомного курсора
+        const cursor = document.getElementById('cursor');
+        const targets = document.querySelectorAll('.hover-target');
+
+        document.addEventListener('mousemove', (e) => {
+            cursor.style.left = e.clientX + 'px';
+            cursor.style.top = e.clientY + 'px';
         });
 
-        // Переключение темы
+        // Эффект увеличения курсора при наведении на важные элементы
+        targets.forEach(target => {
+            target.addEventListener('mouseenter', () => cursor.classList.add('cursor-hover'));
+            target.addEventListener('mouseleave', () => cursor.classList.remove('cursor-hover'));
+        });
+
+        // 3. Переключение темы
         const themeBtn = document.getElementById('themeToggle');
         const themeSpan = document.getElementById('themeText');
         const themeIcon = themeBtn.querySelector('i');
@@ -316,51 +297,23 @@
                 document.body.classList.add('light');
                 themeSpan.textContent = 'Светлая';
                 themeIcon.className = 'fas fa-sun';
-                localStorage.setItem('rsl-theme', 'light');
+                localStorage.setItem('theme', 'light');
             } else {
                 document.body.classList.remove('light');
                 themeSpan.textContent = 'Тёмная';
                 themeIcon.className = 'fas fa-moon';
-                localStorage.setItem('rsl-theme', 'dark');
+                localStorage.setItem('theme', 'dark');
             }
         }
 
-        const savedTheme = localStorage.getItem('rsl-theme') || (window.matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark');
-        setTheme(savedTheme);
-
         themeBtn.onclick = () => {
-            const isLight = document.body.classList.contains('light');
-            setTheme(isLight ? 'dark' : 'light');
+            const current = document.body.classList.contains('light') ? 'dark' : 'light';
+            setTheme(current);
         };
 
-        // Эффект следования курсора (только для десктопов)
-        const cursor = document.getElementById('cursor');
-        document.addEventListener('mousemove', (e) => {
-            cursor.style.left = e.clientX + 'px';
-            cursor.style.top = e.clientY + 'px';
-        });
-
-        // Эффект 3D наклона для карточек
-        const cards = document.querySelectorAll('.feature-item');
-        cards.forEach(card => {
-            card.addEventListener('mousemove', (e) => {
-                const rect = card.getBoundingClientRect();
-                const x = e.clientX - rect.left;
-                const y = e.clientY - rect.top;
-                
-                const centerX = rect.width / 2;
-                const centerY = rect.height / 2;
-                
-                const rotateX = (y - centerY) / 10;
-                const rotateY = (centerX - x) / 10;
-                
-                card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale3d(1.02, 1.02, 1.02)`;
-            });
-            
-            card.addEventListener('mouseleave', () => {
-                card.style.transform = `perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)`;
-            });
-        });
+        // Проверка сохраненной темы
+        const saved = localStorage.getItem('theme') || 'dark';
+        setTheme(saved);
     </script>
 </body>
 </html>
