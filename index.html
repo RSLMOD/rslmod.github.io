@@ -50,8 +50,6 @@
         .sidebar-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 2.5rem; }
         .sidebar-header h2 { font-weight: 900; font-size: 1.3rem; color: var(--accent); }
         .close-sidebar { cursor: pointer; opacity: 0.6; font-size: 1.4rem; transition: 0.3s; }
-        .close-sidebar:hover { transform: rotate(90deg); opacity: 1; }
-        
         .sidebar-nav { display: flex; flex-direction: column; gap: 0.8rem; }
         .sidebar-link { padding: 1.1rem; border-radius: 16px; text-decoration: none; color: var(--text-main); font-weight: 700; font-size: 0.95rem; display: flex; align-items: center; gap: 14px; transition: 0.3s; border: 1px solid transparent; }
         .sidebar-link i { color: var(--accent); width: 24px; text-align: center; }
@@ -61,8 +59,6 @@
         .overlay.active { opacity: 1; visibility: visible; }
 
         .hero { text-align: center; }
-        
-        /* ИСПРАВЛЕННЫЙ БЕЙДЖ: Белый текст всегда */
         .badge { display: inline-block; padding: 0.5rem 1.2rem; border-radius: 40px; font-size: 0.7rem; font-weight: 900; margin-bottom: 1.2rem; position: relative; background: #0a0a1a; color: #ffffff !important; }
         .badge i { color: #ffffff !important; margin-right: 4px; }
         .badge::after { content: ''; position: absolute; top: -2px; bottom: -2px; left: -2px; right: -2px; background: linear-gradient(130deg, #3b82f6, #ec4899, #4f46e5); z-index: -1; border-radius: 40px; animation: badgeRainbow 3.5s linear infinite; background-size: 200% 200%; }
@@ -71,7 +67,6 @@
         h1 { font-size: clamp(2rem, 8vw, 4rem); font-weight: 900; margin-bottom: 0.8rem; text-transform: uppercase; display: flex; justify-content: center; flex-wrap: wrap; gap: 0.1rem; }
         h1 b { display: inline-block; animation: wave 2s infinite ease-in-out; }
         h1 .mod-text { color: var(--accent); margin-left: 10px; display: flex; gap: 0.1rem; }
-
         @keyframes wave { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-15px); } }
 
         h1 b:nth-child(1) { animation-delay: 0.0s; }
@@ -88,10 +83,11 @@
 
         .hero-desc { font-size: 1rem; max-width: 550px; margin: 0 auto 2.5rem; font-weight: 700; opacity: 0.85; line-height: 1.4; }
         
+        /* АНИМАЦИИ КНОПОК СКВАЧИВАНИЯ */
         .download-grid { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.8rem; margin-bottom: 1.5rem; }
-        .download-btn { padding: 0.9rem 1.8rem; border-radius: 50px; font-weight: 900; text-decoration: none; display: inline-flex; align-items: center; gap: 10px; transition: 0.3s; font-size: 0.9rem; cursor: pointer; }
-        .download-btn:active { transform: scale(0.95); }
-        .download-btn.primary { background: var(--accent); color: white; }
+        .download-btn { padding: 0.9rem 1.8rem; border-radius: 50px; font-weight: 900; text-decoration: none; display: inline-flex; align-items: center; gap: 10px; transition: 0.2s cubic-bezier(0.4, 0, 0.2, 1); font-size: 0.9rem; cursor: pointer; }
+        .download-btn:active { transform: scale(0.92); } /* Эффект нажатия */
+        .download-btn.primary { background: var(--accent); color: white; box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3); }
         .download-btn.secondary { background: #1e293b; color: white; }
         .download-btn.outline { border: 2px solid var(--accent); color: var(--accent); background: transparent; }
 
