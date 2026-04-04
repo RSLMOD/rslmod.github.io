@@ -41,52 +41,33 @@
             background: var(--bg) !important;
             color: var(--text-main);
             overflow-x: hidden;
-            -webkit-backface-visibility: hidden;
-            backface-visibility: hidden;
         }
-
-        #cursor {
-            width: 10px; height: 10px; background: var(--accent); border-radius: 50%;
-            position: fixed; pointer-events: none; z-index: 9999;
-            box-shadow: 0 0 15px var(--accent); will-change: transform;
-        }
-
-        @media (max-width: 1024px) { #cursor { display: none; } }
 
         .container { max-width: 1280px; margin: 0 auto; padding: 0 1.5rem; }
 
         .navbar { display: flex; justify-content: space-between; align-items: center; padding: 1.5rem 0; }
         .logo { font-size: 1.6rem; font-weight: 900; display: flex; gap: 0.1em; user-select: none; }
-        .logo span { display: inline-block; animation: wordWaveLogo 2s infinite ease-in-out; color: var(--text-main); will-change: transform; }
+        .logo span { display: inline-block; animation: wordWaveLogo 2s infinite ease-in-out; color: var(--text-main); }
         
-        .logo span:nth-child(2) { animation-delay: 0.1s; }
-        .logo span:nth-child(3) { animation-delay: 0.2s; }
-        .logo span:nth-child(5) { animation-delay: 0.4s; }
-        .logo span:nth-child(6) { animation-delay: 0.5s; }
-        .logo span:nth-child(7) { animation-delay: 0.6s; }
-        .logo span:nth-child(8) { animation-delay: 0.7s; }
-        .logo span:nth-child(9) { animation-delay: 0.8s; }
-
-        @keyframes wordWaveLogo { 0%, 100% { transform: translate3d(0, 0, 0); } 50% { transform: translate3d(0, -6px, 0); } }
+        @keyframes wordWaveLogo { 0%, 100% { transform: translate(0, 0, 0); } 50% { transform: translate(0, -6px, 0); } }
 
         .theme-toggle {
             background: var(--card-bg); border: 1px solid var(--border);
             padding: 0.5rem 1rem; border-radius: 2rem; color: var(--text-main);
-            font-weight: 700; display: flex; align-items: center; gap: 8px;
-            backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+            font-weight: 700; display: flex; align-items: center; gap: 8px; cursor: pointer;
         }
 
         .hero { text-align: center; padding: 1rem 0; }
         .version-badge {
             display: block; margin: 0.8rem auto 1.5rem; width: fit-content; background: #000; color: #fff;
-            padding: 4px 14px; border-radius: 20px; font-size: 0.65rem; font-weight: 900; text-transform: uppercase;
+            padding: 4px 14px; border-radius: 20px; font-size: 0.65rem; font-weight: 900;
         }
 
         .badge {
             display: inline-block; padding: 0.6rem 1.4rem; border-radius: 40px; font-size: 0.75rem; font-weight: 900;
-            margin-bottom: 2rem; position: relative; z-index: 1; background: var(--bg);
+            margin-bottom: 2rem; position: relative; background: var(--bg);
             color: var(--badge-text-color) !important; border: 2px solid transparent; background-clip: padding-box;
-            animation: bounceIn 0.8s both, badgeFloat 3s infinite ease-in-out;
+            animation: badgeFloat 3s infinite ease-in-out;
         }
         .badge::after {
             content: ''; position: absolute; top: -2px; bottom: -2px; left: -2px; right: -2px;
@@ -94,8 +75,9 @@
             background-size: 200% 200%; z-index: -1; border-radius: 40px; animation: badgeRainbow 3.5s linear infinite;
         }
         @keyframes badgeRainbow { 0% { background-position: 0% 50%; } 100% { background-position: 200% 50%; } }
-        @keyframes badgeFloat { 0%, 100% { transform: translate3d(0, 0, 0); } 50% { transform: translate3d(0, -10px, 0); } }
+        @keyframes badgeFloat { 0%, 100% { transform: translate(0, 0, 0); } 50% { transform: translate(0, -10px, 0); } }
 
+        /* СТАТИСТИКА */
         .stats-container { display: flex; justify-content: center; gap: 1rem; margin-bottom: 2rem; flex-wrap: wrap; }
         .stat-item {
             font-weight: 800; font-size: 0.85rem; display: flex; align-items: center; gap: 8px;
@@ -107,50 +89,42 @@
         .stat-item.dislike i { color: #ef4444; }
         .stat-item.dl i { color: #3b82f6; }
 
-        h1 {
-            font-size: clamp(2.5rem, 9vw, 5rem); font-weight: 900; margin-bottom: 1.5rem;
-            display: flex; justify-content: center; gap: 0.3em; flex-wrap: wrap;
-        }
-        h1 span { display: inline-block; animation: wordWave 2s infinite ease-in-out; will-change: transform; }
+        h1 { font-size: clamp(2.5rem, 9vw, 5rem); font-weight: 900; margin-bottom: 1.5rem; }
         h1 span.mod-text { color: #2563eb; }
-        h1 span:nth-child(2) { animation-delay: 0.2s; }
-        h1 span:nth-child(3) { animation-delay: 0.4s; }
-        @keyframes wordWave { 0%, 100% { transform: translate3d(0, 0, 0); } 50% { transform: translate3d(0, -15px, 0); } }
 
-        .hero-desc { font-size: clamp(1rem, 4vw, 1.15rem); max-width: 600px; margin: 0 auto 3rem; font-weight: 700; }
+        .hero-desc { font-size: clamp(1rem, 4vw, 1.15rem); max-width: 600px; margin: 0 auto 3rem; font-weight: 700; opacity: 0.9; }
 
+        /* КНОПКИ */
         .download-grid { display: flex; flex-wrap: wrap; justify-content: center; gap: 1.2rem; }
         .download-btn {
             padding: 1.1rem 2rem; border-radius: 60px; font-weight: 900; text-decoration: none;
-            display: inline-flex; align-items: center; gap: 10px; transition: 0.3s; will-change: transform;
+            display: inline-flex; align-items: center; gap: 10px; transition: 0.3s; cursor: pointer;
         }
         .download-btn.primary { background: #2563eb; color: white; box-shadow: 0 10px 20px rgba(37, 99, 235, 0.3); }
+        .download-btn.secondary { background: #1e293b; color: white; }
+        .download-btn.outline { border: 2px solid #2563eb; color: #2563eb; }
+        .download-btn:hover { transform: translateY(-3px); opacity: 0.9; }
 
         .features { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; margin: 4rem 0; }
         .feature-item {
             padding: 2.5rem; text-align: center; border-radius: 2rem; background: var(--card-bg); border: 1px solid var(--border);
-            backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); transition: 0.3s; cursor: pointer;
+            backdrop-filter: blur(10px); transition: 0.3s;
         }
-        .feature-item i { font-size: 2.5rem; color: #2563eb; margin-bottom: 1.2rem; display: inline-block; transition: 0.4s; }
-        .feature-item:active i { transform: scale(1.4) rotate(15deg) translateY(-10px); }
+        .feature-item i { font-size: 2.5rem; color: #2563eb; margin-bottom: 1.2rem; }
 
         footer { text-align: center; padding: 2rem; font-weight: 800; opacity: 0.7; }
-        @keyframes bounceIn { 0% { opacity: 0; transform: scale(0.3); } 100% { opacity: 1; transform: scale(1); } }
     </style>
 </head>
 <body class="dark">
 
-    <div id="cursor"></div>
     <div class="version-badge">VERSION 3.0.2</div>
 
     <div class="container">
         <nav class="navbar">
-            <div class="logo">
-                <span>R</span><span>S</span><span>L</span><span> </span><span>S</span><span>P</span><span>E</span><span>E</span><span>D</span>
-            </div>
-            <button class="theme-toggle" id="themeToggle">
+            <div class="logo"><span>RSL SPEED</span></div>
+            <div class="theme-toggle" id="themeToggle">
                 <i class="fas fa-adjust"></i> <span id="themeText">Тёмная</span>
-            </button>
+            </div>
         </nav>
 
         <main class="hero">
@@ -168,20 +142,21 @@
                 </div>
             </div>
             
-            <h1><span>RSL</span><span>Speed</span><span class="mod-text">Mod</span></h1>
+            <h1>RSL Speed <span class="mod-text">Mod</span></h1>
 
-            <p class="hero-desc" data-aos="fade-up">Технология ускорения игрового процесса. Стабильный FPS и минимальный инпут-лаг на любом устройстве.</p>
+            <p class="hero-desc" data-aos="fade-up">Технология ускорения игрового процесса. Стабильный FPS и минимальный инпут-лаг.</p>
 
             <div class="download-grid" data-aos="fade-up">
                 <a href="#" class="download-btn primary dl-trigger"><i class="fas fa-rocket"></i> Скачать Mod</a>
-                <a href="#" class="download-btn dl-trigger" style="background: #1e293b; color: white;"><i class="fas fa-copy"></i> Скачать Клон</a>
+                <a href="#" class="download-btn secondary dl-trigger"><i class="fas fa-copy"></i> Скачать Клон</a>
+                <a href="#" class="download-btn outline dl-trigger">Оригинал</a>
             </div>
         </main>
 
         <section class="features">
-            <div class="feature-item" data-aos="fade-up"><i class="fas fa-bolt"></i><h3>Скорость</h3><p>Разблокировка лимитов и оптимизация ресурсов.</p></div>
-            <div class="feature-item" data-aos="fade-up" data-aos-delay="100"><i class="fas fa-lock"></i><h3>Защита</h3><p>Полная безопасность и анти-чит обход.</p></div>
-            <div class="feature-item" data-aos="fade-up" data-aos-delay="200"><i class="fas fa-mobile-alt"></i><h3>Мобильность</h3><p>Любые устройства без потери качества.</p></div>
+            <div class="feature-item" data-aos="fade-up"><i class="fas fa-bolt"></i><h3>Скорость</h3><p>Оптимизация ресурсов системы.</p></div>
+            <div class="feature-item" data-aos="fade-up" data-aos-delay="100"><i class="fas fa-lock"></i><h3>Защита</h3><p>Анти-чит обход и безопасность.</p></div>
+            <div class="feature-item" data-aos="fade-up" data-aos-delay="200"><i class="fas fa-mobile-alt"></i><h3>Мобильность</h3><p>Любые устройства.</p></div>
         </section>
 
         <footer><p>© 2026 RSL Speed Mod</p></footer>
@@ -191,52 +166,78 @@
     <script>
         AOS.init({ duration: 800, once: true });
 
-        // API НАСТРОЙКИ (ОБНУЛЕННЫЕ)
-        const ns = "rsl_speed_global_zero_v1"; // Новый ID для чистой статистики
-        const elements = {
-            dl: { el: document.getElementById('countDl'), key: 'downloads', start: 0 },
-            like: { el: document.getElementById('countLike'), key: 'likes', start: 0 },
-            dislike: { el: document.getElementById('countDislike'), key: 'dislikes', start: 0 }
+        // --- ЛОГИКА СЧЕТЧИКОВ ---
+        const ns = "rsl_speed_final_fixed_v1"; // Новый уникальный ID
+        
+        const counters = {
+            downloads: { el: document.getElementById('countDl'), val: 0 },
+            likes: { el: document.getElementById('countLike'), val: 0 },
+            dislikes: { el: document.getElementById('countDislike'), val: 0 }
         };
 
-        async function api(action, key, display) {
-            try {
-                const res = await fetch(`https://api.countapi.xyz/${action}/${ns}/${key}`);
-                const data = await res.json();
-                display.textContent = data.value.toLocaleString();
-            } catch (e) {
-                if(action === 'get') {
-                    // Создаем счетчик с нуля
+        // Функция обновления отображения
+        function render(key) {
+            counters[key].el.textContent = counters[key].val.toLocaleString();
+        }
+
+        // Загрузка данных с сервера
+        async function loadStats() {
+            for (let key in counters) {
+                try {
+                    const res = await fetch(`https://api.countapi.xyz/get/${ns}/${key}`);
+                    const data = await res.json();
+                    if (data.value) {
+                        counters[key].val = data.value;
+                        render(key);
+                    }
+                } catch (e) {
+                    // Если ключа нет, создаем его
                     fetch(`https://api.countapi.xyz/create?namespace=${ns}&key=${key}&value=0`);
-                    display.textContent = "0";
                 }
             }
         }
 
-        // Загрузка данных
-        Object.values(elements).forEach(obj => api('get', obj.key, obj.el));
+        // Нажатие (Hit)
+        async function hit(key) {
+            // Сначала меняем цифру визуально (мгновенный отклик)
+            counters[key].val++;
+            render(key);
 
-        // Клики
+            // Затем отправляем запрос на сервер
+            try {
+                await fetch(`https://api.countapi.xyz/hit/${ns}/${key}`);
+            } catch (e) {
+                console.error("Ошибка сохранения на сервере");
+            }
+        }
+
+        // Привязка событий
         document.getElementById('btnLike').onclick = () => {
-            api('hit', 'likes', elements.like.el);
+            hit('likes');
             animateIcon('#btnLike i');
         };
         document.getElementById('btnDislike').onclick = () => {
-            api('hit', 'dislikes', elements.dislike.el);
+            hit('dislikes');
             animateIcon('#btnDislike i');
         };
-        document.querySelectorAll('.dl-trigger').forEach(b => b.onclick = () => api('hit', 'downloads', elements.dl.el));
+        document.querySelectorAll('.dl-trigger').forEach(btn => {
+            btn.onclick = (e) => {
+                e.preventDefault(); // Чтобы страница не прыгала вверх при нажатии на #
+                hit('downloads');
+                alert("Начинается скачивание..."); // Тестовое уведомление
+            };
+        });
 
-        function animateIcon(selector) {
-            const i = document.querySelector(selector);
-            i.style.transform = 'scale(1.6) rotate(-15deg)';
+        function animateIcon(sel) {
+            const i = document.querySelector(sel);
+            i.style.transition = '0.3s';
+            i.style.transform = 'scale(1.5) rotate(-15deg)';
             setTimeout(() => i.style.transform = 'scale(1) rotate(0deg)', 300);
         }
 
-        // ТЕМА И КУРСОР
-        const cursor = document.getElementById('cursor');
-        if (cursor) document.addEventListener('mousemove', (e) => cursor.style.transform = `translate3d(${e.clientX}px, ${e.clientY}px, 0)`);
+        loadStats();
 
+        // --- ТЕМА ---
         const themeBtn = document.getElementById('themeToggle');
         function setTheme(t) {
             document.body.className = t;
