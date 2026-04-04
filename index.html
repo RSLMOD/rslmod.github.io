@@ -60,18 +60,42 @@
             box-shadow: 0 0 15px var(--accent);
         }
 
+        /* Адаптивность для мобилок */
         @media (max-width: 1024px) {
             #cursor { display: none; }
             * { cursor: auto; }
+            
+            .navbar {
+                flex-direction: row !important; /* Лого и кнопка в один ряд */
+                justify-content: space-between !important;
+                align-items: center !important;
+                margin-top: 1.5rem; /* Отступ под плашку версии */
+            }
+
+            .version-badge {
+                top: 0.5rem !important; /* Поднимаем выше, чтобы не мешала лого */
+                font-size: 0.6rem !important;
+                width: fit-content;
+            }
+
+            .logo {
+                font-size: 1.4rem !important;
+            }
+
+            .theme-toggle {
+                padding: 0.5rem 0.8rem !important;
+                font-size: 0.8rem !important;
+            }
         }
 
         .container {
             max-width: 1280px;
             margin: 0 auto;
-            padding: 1.5rem 2rem;
+            padding: 1rem 1.5rem;
+            position: relative;
         }
 
-        /* Новое место для версии — технологичная плашка */
+        /* Плашка версии */
         .version-badge {
             position: absolute;
             top: 1.5rem;
@@ -86,6 +110,8 @@
             letter-spacing: 1px;
             color: var(--sub-text);
             backdrop-filter: blur(10px);
+            z-index: 10;
+            white-space: nowrap;
         }
 
         /* Navbar */
@@ -94,7 +120,7 @@
             justify-content: space-between;
             align-items: center;
             margin-bottom: 3rem;
-            position: relative;
+            width: 100%;
         }
 
         .logo {
@@ -104,6 +130,7 @@
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
+            z-index: 5;
         }
 
         .theme-toggle {
@@ -114,12 +141,14 @@
             border-radius: 3rem;
             color: var(--text);
             transition: 0.3s;
+            white-space: nowrap;
+            z-index: 5;
         }
 
         /* Hero Section */
         .hero {
             text-align: center;
-            padding: 4rem 1rem;
+            padding: 3rem 0;
         }
 
         .badge {
@@ -140,9 +169,8 @@
             50% { transform: translateY(-10px); }
         }
 
-        /* Улучшенный заголовок */
         h1 {
-            font-size: clamp(2.8rem, 9vw, 5.5rem);
+            font-size: clamp(2.5rem, 9vw, 5.5rem);
             font-weight: 800;
             line-height: 1.1;
             margin-bottom: 1.5rem;
@@ -157,13 +185,19 @@
             color: transparent;
         }
 
-        /* Buttons */
         .download-grid {
             display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 1.5rem;
+            flex-direction: column; /* На мобилках в колонку */
+            align-items: center;
+            gap: 1rem;
             margin: 3rem 0;
+        }
+
+        @media (min-width: 768px) {
+            .download-grid {
+                flex-direction: row;
+                justify-content: center;
+            }
         }
 
         .download-btn {
@@ -175,6 +209,9 @@
             display: inline-flex;
             align-items: center;
             gap: 10px;
+            width: 100%;
+            max-width: 300px;
+            justify-content: center;
         }
 
         .download-btn.primary {
@@ -198,7 +235,6 @@
             transform: translateY(-5px);
         }
 
-        /* Features */
         .features {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -209,7 +245,7 @@
         .feature-item {
             padding: 2.5rem;
             text-align: center;
-            border-radius: 2.5rem; /* Вернули мягкое закругление */
+            border-radius: 2.5rem;
             background: var(--card-bg);
             backdrop-filter: blur(10px);
             border: 1px solid var(--border);
@@ -222,7 +258,6 @@
             margin-bottom: 1.5rem;
         }
 
-        /* Footer */
         footer {
             text-align: center;
             padding: 3rem;
@@ -243,7 +278,7 @@
     <div id="cursor"></div>
 
     <div class="container">
-        <div class="version-badge hover-target">VERSION 3.0.2 RELEASE</div>
+        <div class="version-badge">VERSION 3.0.2 RELEASE</div>
         
         <nav class="navbar" data-aos="fade-down">
             <div class="logo">RSL SPEED</div>
