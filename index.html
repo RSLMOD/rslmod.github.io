@@ -18,15 +18,18 @@
             --sub-text: #a0a5c0;
             --logo-grad: linear-gradient(130deg, #ffffff, #3b82f6);
             --accent: #3b82f6;
+            --h1-color: #ffffff;
         }
 
+        /* Исправленная светлая тема с высоким контрастом */
         body.light {
-            --bg: #ffffff; /* Чистый белый фон */
-            --text: #0f172a; /* Глубокий темный для основного текста */
-            --card-bg: #f1f5f9; /* Светло-серые карточки для контраста */
+            --bg: #ffffff;
+            --text: #0f172a; 
+            --card-bg: #f8fafc; 
             --border: #e2e8f0;
-            --sub-text: #475569; /* Сделали серый текст значительно темнее */
-            --logo-grad: linear-gradient(130deg, #1e293b, #2563eb);
+            --sub-text: #334155; /* Очень темный серый */
+            --logo-grad: linear-gradient(130deg, #0f172a, #2563eb);
+            --h1-color: #0f172a; /* Принудительно темный заголовок */
         }
 
         * {
@@ -38,7 +41,7 @@
 
         body {
             font-family: 'Inter', sans-serif;
-            transition: background 0.5s ease, color 0.3s ease;
+            transition: background 0.4s ease, color 0.4s ease;
             line-height: 1.5;
             min-height: 100vh;
             background: var(--bg) !important;
@@ -47,7 +50,6 @@
             overflow-x: hidden;
         }
 
-        /* Кастомный курсор */
         #cursor {
             width: 10px;
             height: 10px;
@@ -56,28 +58,15 @@
             position: fixed;
             pointer-events: none;
             z-index: 9999;
-            transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275), background 0.3s ease;
+            transition: transform 0.2s ease;
             box-shadow: 0 0 15px var(--accent);
         }
 
         @media (max-width: 1024px) {
             #cursor { display: none; }
             * { cursor: auto; }
-            
-            .navbar {
-                flex-direction: row !important;
-                justify-content: space-between !important;
-                align-items: center !important;
-                margin-top: 1.8rem !important;
-            }
-
-            .version-badge {
-                top: 0.6rem !important;
-                font-size: 0.65rem !important;
-            }
-
-            .logo { font-size: 1.4rem !important; }
-            .theme-toggle { padding: 0.5rem 0.8rem !important; font-size: 0.85rem !important; }
+            .navbar { margin-top: 2rem !important; }
+            .version-badge { top: 0.8rem !important; }
         }
 
         .container {
@@ -97,12 +86,10 @@
             padding: 4px 14px;
             border-radius: 20px;
             font-size: 0.7rem;
-            font-weight: 700;
-            letter-spacing: 1px;
-            color: var(--accent); /* Сделали акцентным цветом */
+            font-weight: 800;
+            color: var(--accent);
             backdrop-filter: blur(10px);
             z-index: 10;
-            white-space: nowrap;
         }
 
         .navbar {
@@ -110,7 +97,6 @@
             justify-content: space-between;
             align-items: center;
             margin-bottom: 3rem;
-            width: 100%;
         }
 
         .logo {
@@ -120,51 +106,39 @@
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
-            z-index: 5;
         }
 
         .theme-toggle {
             background: var(--card-bg);
-            backdrop-filter: blur(14px);
             border: 1px solid var(--border);
-            padding: 0.7rem 1.2rem;
+            padding: 0.6rem 1rem;
             border-radius: 3rem;
             color: var(--text);
-            transition: 0.3s;
-            white-space: nowrap;
-            z-index: 5;
             font-weight: 600;
+            transition: 0.3s;
         }
 
-        .hero {
-            text-align: center;
-            padding: 3rem 0;
-        }
+        .hero { text-align: center; padding: 2rem 0; }
 
         .badge {
             display: inline-block;
-            background: rgba(59, 130, 246, 0.15);
+            background: rgba(59, 130, 246, 0.1);
             padding: 0.4rem 1rem;
             border-radius: 40px;
             font-size: 0.8rem;
             font-weight: 700;
-            color: #2563eb; /* Более темный синий для читаемости */
+            color: #3b82f6;
             margin-bottom: 1.5rem;
-            border: 1px solid rgba(59, 130, 246, 0.3);
-            animation: float 3s ease-in-out infinite;
+            border: 1px solid rgba(59, 130, 246, 0.2);
         }
 
-        @keyframes float {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-10px); }
-        }
-
+        /* Улучшенный контраст заголовка */
         h1 {
             font-size: clamp(2.5rem, 9vw, 5.5rem);
             font-weight: 800;
             line-height: 1.1;
             margin-bottom: 1.5rem;
-            color: var(--text);
+            color: var(--h1-color); /* Используем переменную для четкого цвета */
             letter-spacing: -0.04em;
         }
 
@@ -175,60 +149,48 @@
             color: transparent;
         }
 
+        /* Текст описания — теперь всегда читаемый */
+        .hero-desc {
+            color: var(--sub-text) !important;
+            max-width: 600px;
+            margin: 0 auto;
+            font-weight: 500;
+        }
+
         .download-grid {
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 1.2rem;
+            gap: 1rem;
             margin: 3rem 0;
         }
 
         @media (min-width: 768px) {
-            .download-grid {
-                flex-direction: row;
-                justify-content: center;
-            }
+            .download-grid { flex-direction: row; justify-content: center; }
         }
 
         .download-btn {
-            padding: 1.2rem 2.5rem;
+            padding: 1.1rem 2rem;
             border-radius: 60px;
             font-weight: 700;
             text-decoration: none;
-            transition: all 0.3s ease;
             display: inline-flex;
             align-items: center;
             gap: 10px;
             width: 100%;
-            max-width: 300px;
+            max-width: 280px;
             justify-content: center;
+            transition: 0.3s;
         }
 
-        .download-btn.primary {
-            background: linear-gradient(135deg, #2563eb, #1e40af);
-            color: white;
-            box-shadow: 0 10px 25px rgba(37, 99, 235, 0.4);
-        }
-
-        .download-btn.secondary {
-            background: var(--card-bg);
-            color: var(--text);
-            border: 1px solid var(--border);
-        }
-
-        .download-btn.ghost {
-            border: 2px solid var(--accent);
-            color: var(--accent);
-        }
-
-        .download-btn:hover {
-            transform: translateY(-5px);
-        }
+        .download-btn.primary { background: #2563eb; color: white; }
+        .download-btn.secondary { background: var(--card-bg); color: var(--text); border: 1px solid var(--border); }
+        .download-btn.ghost { border: 2px solid var(--accent); color: var(--accent); }
 
         .features {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 2rem;
+            gap: 1.5rem;
             margin: 4rem 0;
         }
 
@@ -237,38 +199,17 @@
             text-align: center;
             border-radius: 2.5rem;
             background: var(--card-bg);
-            backdrop-filter: blur(10px);
             border: 1px solid var(--border);
-            transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
 
-        .feature-item h3 {
-            margin-bottom: 10px;
-            color: var(--text);
-        }
-
-        .feature-item p {
-            color: var(--sub-text); /* Тот самый исправленный серый */
-        }
-
-        .feature-item i {
-            font-size: 3rem;
-            color: var(--accent);
-            margin-bottom: 1.5rem;
-        }
+        .feature-item p { color: var(--sub-text); }
+        .feature-item i { font-size: 2.5rem; color: var(--accent); margin-bottom: 1.2rem; }
 
         footer {
             text-align: center;
-            padding: 3rem;
-            border-top: 1px solid var(--border);
+            padding: 2rem;
             color: var(--sub-text);
-            font-size: 0.9rem;
-        }
-
-        .cursor-hover {
-            transform: scale(4);
-            background: rgba(59, 130, 246, 0.3) !important;
-            backdrop-filter: blur(2px);
+            font-size: 0.8rem;
         }
     </style>
 </head>
@@ -282,20 +223,20 @@
         <nav class="navbar" data-aos="fade-down">
             <div class="logo">RSL SPEED</div>
             <button class="theme-toggle hover-target" id="themeToggle">
-                <i class="fas fa-moon"></i> <span id="themeText">Тёмная</span>
+                <i class="fas fa-adjust"></i> <span id="themeText">Тёмная</span>
             </button>
         </nav>
 
         <main class="hero">
-            <div class="badge" data-aos="zoom-in">
+            <div class="badge">
                 <i class="fas fa-bolt"></i> НОВЫЙ РЕЛИЗ
             </div>
-            <h1 data-aos="fade-up" data-aos-delay="200">RSL Speed <span>Mod_</span></h1>
-            <p data-aos="fade-up" data-aos-delay="400" style="color: var(--sub-text); max-width: 600px; margin: 0 auto;">
+            <h1 data-aos="fade-up">RSL Speed <span>Mod_</span></h1>
+            <p class="hero-desc" data-aos="fade-up" data-aos-delay="200">
                 Технология ускорения игрового процесса. Стабильный FPS и минимальный инпут-лаг на любом устройстве.
             </p>
 
-            <div class="download-grid" data-aos="fade-up" data-aos-delay="600">
+            <div class="download-grid" data-aos="fade-up" data-aos-delay="400">
                 <a href="#" class="download-btn primary hover-target"><i class="fas fa-rocket"></i> Скачать Mod</a>
                 <a href="#" class="download-btn secondary hover-target"><i class="fas fa-copy"></i> Скачать Клон</a>
                 <a href="#" class="download-btn ghost hover-target"><i class="fas fa-gamepad"></i> Оригинал</a>
@@ -303,59 +244,49 @@
         </main>
 
         <section class="features">
-            <div class="feature-item hover-target" data-aos="fade-up" data-aos-delay="100">
+            <div class="feature-item hover-target" data-aos="fade-up">
                 <i class="fas fa-tachometer-alt"></i>
                 <h3>Скорость</h3>
                 <p>Разблокировка лимитов и оптимизация ресурсов системы.</p>
             </div>
-            <div class="feature-item hover-target" data-aos="fade-up" data-aos-delay="300">
+            <div class="feature-item hover-target" data-aos="fade-up" data-aos-delay="100">
                 <i class="fas fa-shield-alt"></i>
                 <h3>Защита</h3>
                 <p>Полная безопасность данных и анти-чит обход.</p>
             </div>
-            <div class="feature-item hover-target" data-aos="fade-up" data-aos-delay="500">
+            <div class="feature-item hover-target" data-aos="fade-up" data-aos-delay="200">
                 <i class="fas fa-mobile-alt"></i>
                 <h3>Мобильность</h3>
                 <p>Играй на ПК или телефоне без потери качества.</p>
             </div>
         </section>
 
-        <footer data-aos="fade-in">
-            <p>© 2026 RSL Speed Mod. Быстрее звука, мощнее света.</p>
+        <footer>
+            <p>© 2026 RSL Speed Mod. Все права защищены.</p>
         </footer>
     </div>
 
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>
-        AOS.init({ duration: 1000, once: true });
+        AOS.init({ duration: 800, once: true });
 
         const cursor = document.getElementById('cursor');
-        const targets = document.querySelectorAll('.hover-target');
-
         document.addEventListener('mousemove', (e) => {
             cursor.style.left = e.clientX + 'px';
             cursor.style.top = e.clientY + 'px';
         });
 
-        targets.forEach(target => {
-            target.addEventListener('mouseenter', () => cursor.classList.add('cursor-hover'));
-            target.addEventListener('mouseleave', () => cursor.classList.remove('cursor-hover'));
-        });
-
         const themeBtn = document.getElementById('themeToggle');
         const themeSpan = document.getElementById('themeText');
-        const themeIcon = themeBtn.querySelector('i');
 
         function setTheme(theme) {
             if (theme === 'light') {
                 document.body.classList.add('light');
                 themeSpan.textContent = 'Светлая';
-                themeIcon.className = 'fas fa-sun';
                 localStorage.setItem('theme', 'light');
             } else {
                 document.body.classList.remove('light');
                 themeSpan.textContent = 'Тёмная';
-                themeIcon.className = 'fas fa-moon';
                 localStorage.setItem('theme', 'dark');
             }
         }
