@@ -34,7 +34,6 @@
         body.light .hero-desc, 
         body.light .feature-item h3, 
         body.light .feature-item p,
-        body.light .logo,
         body.light footer p {
             color: #000000 !important;
         }
@@ -101,7 +100,37 @@
             padding: 1.5rem 0;
         }
 
-        .logo { font-size: 1.6rem; font-weight: 900; }
+        /* ИСПРАВЛЕННЫЙ ЛОГОТИП С АНИМАЦИЕЙ КАЖДОЙ БУКВЫ */
+        .logo { 
+            font-size: 1.6rem; 
+            font-weight: 900; 
+            display: flex;
+            gap: 0.1em;
+            user-select: none;
+        }
+
+        .logo span {
+            display: inline-block;
+            will-change: transform;
+            animation: wordWaveLogo 2s infinite ease-in-out;
+            color: var(--text-main);
+        }
+
+        /* Задержки для создания волны в лого */
+        .logo span:nth-child(1) { animation-delay: 0.0s; }
+        .logo span:nth-child(2) { animation-delay: 0.1s; }
+        .logo span:nth-child(3) { animation-delay: 0.2s; }
+        /* Пробел */
+        .logo span:nth-child(5) { animation-delay: 0.4s; }
+        .logo span:nth-child(6) { animation-delay: 0.5s; }
+        .logo span:nth-child(7) { animation-delay: 0.6s; }
+        .logo span:nth-child(8) { animation-delay: 0.7s; }
+        .logo span:nth-child(9) { animation-delay: 0.8s; }
+
+        @keyframes wordWaveLogo {
+            0%, 100% { transform: translate3d(0, 0, 0); }
+            50% { transform: translate3d(0, -6px, 0); } /* Меньшая амплитуда, чем у заголовка */
+        }
 
         .theme-toggle {
             background: var(--card-bg);
@@ -219,7 +248,6 @@
             margin: 4rem 0;
         }
 
-        /* КАРТОЧКИ ПРЕИМУЩЕСТВ */
         .feature-item {
             padding: 2.5rem;
             text-align: center;
@@ -230,7 +258,7 @@
             -webkit-backdrop-filter: blur(10px);
             transition: transform 0.3s, box-shadow 0.3s, border-color 0.3s;
             will-change: transform;
-            cursor: pointer; /* Показываем, что можно нажать */
+            cursor: pointer;
             user-select: none;
         }
 
@@ -245,7 +273,6 @@
             will-change: transform;
         }
 
-        /* АНИМАЦИЯ ЗНАЧКА ПРИ НАЖАТИИ */
         .feature-item:active { transform: scale(0.98); }
         .feature-item:active i { 
             transform: scale(1.4) rotate(15deg) translateY(-10px); 
@@ -265,7 +292,10 @@
 
     <div class="container">
         <nav class="navbar">
-            <div class="logo">RSL SPEED</div>
+            <div class="logo">
+                <span>R</span><span>S</span><span>L</span>
+                <span> </span> <span>S</span><span>P</span><span>E</span><span>E</span><span>D</span>
+            </div>
             <button class="theme-toggle" id="themeToggle">
                 <i class="fas fa-adjust"></i> <span id="themeText">Тёмная</span>
             </button>
