@@ -16,82 +16,82 @@
             --accent: #3b82f6;
             --card-bg: rgba(20, 20, 35, 0.7);
             --border: rgba(255, 255, 255, 0.1);
-            --badge-text-color: #ffffff;
         }
 
         body.light {
             --bg: #ffffff; --text-main: #000000; --accent: #2563eb;
-            --card-bg: #f1f5f9; --border: #e2e8f0; --badge-text-color: #1e3a8a;
+            --card-bg: #f1f5f9; --border: #e2e8f0;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
         body { font-family: 'Inter', sans-serif; transition: background 0.3s; min-height: 100vh; background: var(--bg) !important; color: var(--text-main); overflow-x: hidden; }
         .container { max-width: 1280px; margin: 0 auto; padding: 0 1.5rem; }
 
-        /* ШАПКА (БЕЗ ЛОГОТИПА) */
-        .navbar { display: flex; justify-content: flex-end; align-items: center; padding: 1.5rem 0; }
+        /* МИНИМАЛИСТИЧНАЯ ШАПКА (УБРАЛИ ПУСТОТУ) */
+        .navbar { display: flex; justify-content: flex-end; padding: 1rem 0; margin-bottom: -1rem; }
         
         .theme-toggle { 
             background: var(--card-bg); border: 1px solid var(--border); 
-            padding: 0.6rem 1.2rem; border-radius: 2rem; color: var(--text-main); 
-            cursor: pointer; font-weight: 700; font-size: 0.85rem;
-            transition: 0.3s;
+            padding: 0.5rem 1rem; border-radius: 2rem; color: var(--text-main); 
+            cursor: pointer; font-weight: 700; font-size: 0.8rem; transition: 0.3s;
         }
-        .theme-toggle:hover { transform: scale(1.05); border-color: var(--accent); }
 
-        .hero { text-align: center; padding: 1rem 0; }
-        .version-badge { display: block; margin: 0.8rem auto 1.5rem; width: fit-content; background: #000; color: #fff; padding: 4px 14px; border-radius: 20px; font-size: 0.65rem; font-weight: 900; }
+        .hero { text-align: center; padding-top: 0.5rem; }
+        .version-badge { 
+            display: inline-block; background: #000; color: #fff; 
+            padding: 4px 12px; border-radius: 20px; font-size: 0.65rem; font-weight: 900;
+            margin-bottom: 1rem;
+        }
 
+        /* РАДУЖНАЯ ПЛАШКА */
         .badge {
-            display: inline-block; padding: 0.6rem 1.4rem; border-radius: 40px; font-size: 0.75rem; font-weight: 900; margin-bottom: 2rem; position: relative; background: var(--bg);
-            color: var(--badge-text-color) !important; animation: badgeFloat 3s infinite ease-in-out;
+            display: inline-block; padding: 0.6rem 1.4rem; border-radius: 40px; font-size: 0.75rem; font-weight: 900; margin-bottom: 1.5rem; position: relative; background: var(--bg);
+            color: #fff !important; animation: badgeFloat 3s infinite ease-in-out;
         }
         .badge::after { content: ''; position: absolute; top: -2px; bottom: -2px; left: -2px; right: -2px; background: linear-gradient(130deg, #3b82f6, #ec4899, #4f46e5); z-index: -1; border-radius: 40px; animation: badgeRainbow 3.5s linear infinite; background-size: 200% 200%; }
         
         @keyframes badgeRainbow { 0% { background-position: 0% 50%; } 100% { background-position: 200% 50%; } }
-        @keyframes badgeFloat { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+        @keyframes badgeFloat { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
 
         /* СТАТИСТИКА */
-        .stats-container { display: flex; justify-content: center; gap: 1rem; margin-bottom: 2rem; flex-wrap: wrap; }
-        .stat-item { font-weight: 800; font-size: 0.85rem; display: flex; align-items: center; gap: 8px; background: var(--card-bg); padding: 0.6rem 1.2rem; border-radius: 15px; border: 1px solid var(--border); transition: 0.3s; cursor: pointer; }
+        .stats-container { display: flex; justify-content: center; gap: 0.8rem; margin-bottom: 1.5rem; flex-wrap: wrap; }
+        .stat-item { font-weight: 800; font-size: 0.85rem; display: flex; align-items: center; gap: 8px; background: var(--card-bg); padding: 0.5rem 1.1rem; border-radius: 12px; border: 1px solid var(--border); transition: 0.3s; cursor: pointer; }
         .stat-item.active-like { background: rgba(34, 197, 94, 0.2); border-color: #22c55e; }
         .stat-item.active-dislike { background: rgba(239, 68, 68, 0.2); border-color: #ef4444; }
 
-        /* ЗАГОЛОВОК (ШЕВЕЛИТСЯ) */
-        h1 { font-size: clamp(2.5rem, 9vw, 5rem); font-weight: 900; margin-bottom: 1.5rem; display: flex; justify-content: center; gap: 0.3em; flex-wrap: wrap; }
+        /* ЗАГОЛОВОК */
+        h1 { font-size: clamp(2.2rem, 8vw, 4.5rem); font-weight: 900; margin-bottom: 1rem; display: flex; justify-content: center; gap: 0.3em; flex-wrap: wrap; }
         h1 span { display: inline-block; animation: wordWave 2.5s infinite ease-in-out; }
         h1 span.mod-text { color: #2563eb; }
-        h1 span:nth-child(2) { animation-delay: 0.2s; }
-        h1 span:nth-child(3) { animation-delay: 0.4s; }
-        @keyframes wordWave { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-12px); } }
+        @keyframes wordWave { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
 
-        .hero-desc { font-size: clamp(1rem, 4vw, 1.15rem); max-width: 600px; margin: 0 auto 3rem; font-weight: 700; opacity: 0.9; }
+        .hero-desc { font-size: clamp(0.95rem, 4vw, 1.1rem); max-width: 600px; margin: 0 auto 2.5rem; font-weight: 700; opacity: 0.9; line-height: 1.4; }
 
         /* КНОПКИ */
-        .download-grid { display: flex; flex-wrap: wrap; justify-content: center; gap: 1.2rem; }
+        .download-grid { display: flex; flex-wrap: wrap; justify-content: center; gap: 1rem; }
         .download-btn {
-            padding: 1.1rem 2.2rem; border-radius: 60px; font-weight: 900; text-decoration: none;
-            display: inline-flex; align-items: center; gap: 12px; transition: 0.3s; cursor: pointer;
+            padding: 1rem 2rem; border-radius: 50px; font-weight: 900; text-decoration: none;
+            display: inline-flex; align-items: center; gap: 10px; transition: 0.3s; cursor: pointer; font-size: 0.95rem;
         }
-        .download-btn.primary { background: #2563eb; color: white; box-shadow: 0 10px 20px rgba(37, 99, 235, 0.3); }
+        .download-btn.primary { background: #2563eb; color: white; box-shadow: 0 8px 15px rgba(37, 99, 235, 0.3); }
         .download-btn.secondary { background: #1e293b; color: white; }
         .download-btn.outline { border: 2px solid #2563eb; color: #2563eb; background: transparent; }
         
         /* АНИМАЦИЯ ИКОНОК */
-        .download-btn i { transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
-        .icon-jump { transform: scale(1.5) translateY(-5px) rotate(10deg); color: #fff !important; }
+        .download-btn i { transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+        .icon-jump { transform: translateY(-6px) scale(1.4); color: #fff !important; }
 
-        /* ПЛАШКИ */
-        .features { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; margin: 4rem 0; }
+        /* ПЛАШКИ ОСОБЕННОСТЕЙ */
+        .features { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.2rem; margin: 3rem 0; }
         .feature-item {
-            padding: 2.5rem; text-align: center; border-radius: 2rem; background: var(--card-bg); border: 1px solid var(--border);
-            backdrop-filter: blur(10px); transition: 0.4s; cursor: pointer;
+            padding: 2rem; text-align: center; border-radius: 1.5rem; background: var(--card-bg); border: 1px solid var(--border);
+            backdrop-filter: blur(8px); transition: 0.3s;
         }
-        .feature-item:hover { transform: translateY(-10px); border-color: var(--accent); }
-        .feature-item i { font-size: 2.5rem; color: #2563eb; margin-bottom: 1.2rem; transition: 0.4s; }
-        .feature-item:hover i { transform: scale(1.2) rotate(10deg); color: #ec4899; }
+        .feature-item i { font-size: 2.2rem; color: #2563eb; margin-bottom: 1rem; transition: 0.3s; }
+        .feature-item:hover { transform: translateY(-5px); border-color: var(--accent); }
+        .feature-item:hover i { transform: scale(1.1) rotate(5deg); color: #ec4899; }
 
-        footer { text-align: center; padding: 2rem; font-weight: 800; opacity: 0.7; }
+        footer { text-align: center; padding: 2rem; font-weight: 800; opacity: 0.6; font-size: 0.8rem; }
     </style>
 </head>
 <body class="dark">
@@ -103,6 +103,7 @@
 
         <main class="hero">
             <div class="version-badge">VERSION 3.0.2</div>
+            <br>
             <div class="badge"><i class="fas fa-bolt"></i> <span>НОВЫЙ РЕЛИЗ</span></div>
 
             <div class="stats-container" data-aos="fade-up">
@@ -192,7 +193,6 @@
                 localStorage.setItem('global_dl', stats.dl);
                 updateDisplay();
 
-                // Анимация иконки
                 const icon = btn.querySelector('i');
                 icon.classList.add('icon-jump');
                 setTimeout(() => icon.classList.remove('icon-jump'), 400);
