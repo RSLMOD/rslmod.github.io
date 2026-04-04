@@ -4,192 +4,97 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
     <title>RSLmod — Мод для игры</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         /* ПЕРЕМЕННЫЕ ТЕМ */
         :root {
             --bg-color: #0a0c12;
             --text-main: #ffffff;
-            --text-secondary: #94a3b8;
-            --card-bg: rgba(15, 18, 32, 0.5);
-            --border-color: rgba(59, 110, 255, 0.2);
-            --header-border: rgba(255,255,255,0.05);
+            --text-secondary: #b9c3e6;
+            --card-bg: #11131f;
+            --card-border: #252c42;
             --accent: #3b6eff;
-            --btn-secondary: #1e293b;
-            --glow: rgba(59, 110, 255, 0.15);
+            --header-border: rgba(255,255,255,0.08);
+            --btn-secondary: #1f2a46;
         }
 
         [data-theme="light"] {
-            --bg-color: #f8fafc;
+            --bg-color: #f1f5f9;
             --text-main: #0f172a;
             --text-secondary: #475569;
             --card-bg: #ffffff;
-            --border-color: #e2e8f0;
+            --card-border: #e2e8f0;
             --header-border: #e2e8f0;
             --accent: #2563eb;
-            --btn-secondary: #f1f5f9;
-            --glow: rgba(37, 99, 235, 0.05);
+            --btn-secondary: #e2e8f0;
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; transition: background 0.3s, color 0.3s; }
+        * { margin: 0; padding: 0; box-sizing: border-box; transition: background 0.3s ease, border 0.3s ease; }
         body { font-family: 'Inter', sans-serif; background: var(--bg-color); color: var(--text-main); line-height: 1.5; scroll-behavior: smooth; overflow-x: hidden; }
         
-        .bg-glow { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: radial-gradient(circle at 20% 30%, var(--glow), var(--bg-color)); z-index: -2; }
-        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+        .bg-glow { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: radial-gradient(circle at 20% 30%, rgba(59, 110, 255, 0.1), transparent); z-index: -2; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
         
         /* ШАПКА */
-        .header { display: flex; justify-content: space-between; align-items: center; padding: 20px 0; border-bottom: 1px solid var(--header-border); }
-        .logo { font-size: 1.6rem; font-weight: 800; color: var(--text-main); letter-spacing: -1px; }
+        .header { display: flex; justify-content: space-between; align-items: center; padding: 24px 0; border-bottom: 1px solid var(--header-border); }
+        .logo { font-size: 1.8rem; font-weight: 700; color: var(--text-main); }
         .logo span { color: var(--accent); }
         
-        .right-nav { display: flex; align-items: center; gap: 20px; }
-        
-        /* КНОПКА ТЕМЫ */
-        .theme-toggle {
-            background: var(--btn-secondary);
-            border: 1px solid var(--border-color);
-            color: var(--text-main);
-            width: 40px;
-            height: 40px;
-            border-radius: 12px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.2rem;
-        }
+        .nav-controls { display: flex; align-items: center; gap: 20px; }
+        .theme-toggle { background: var(--btn-secondary); border: 1px solid var(--card-border); color: var(--text-main); width: 44px; height: 44px; border-radius: 12px; cursor: pointer; font-size: 1.2rem; display: flex; align-items: center; justify-content: center; }
 
         /* ГЕРОЙ */
-        .hero { padding: 80px 0 60px; display: flex; align-items: center; justify-content: space-between; gap: 50px; }
-        .hero-text { flex: 1; }
+        .hero { padding: 80px 0 60px; display: flex; flex-wrap: wrap; gap: 40px; justify-content: space-between; align-items: center; }
+        .hero-text { flex: 1; min-width: 300px; }
+        
+        /* ЯРКИЙ ЗАГОЛОВОК */
         .hero-text h1 { 
             font-size: 3.5rem; 
             font-weight: 800; 
             line-height: 1.1; 
-            margin-bottom: 24px; 
+            margin-bottom: 20px; 
             color: var(--text-main);
-            text-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            text-shadow: 0 0 30px rgba(59, 110, 255, 0.3);
         }
+        .hero-text p { font-size: 1.2rem; color: var(--text-secondary); margin-bottom: 32px; }
+        .hero-image { flex: 1; min-width: 300px; text-align: center; }
+
+        /* КОЛОНКИ (ВОЗВРАЩЕНО) */
+        .features { padding: 70px 0; }
+        .section-title { font-size: 2rem; font-weight: 700; margin-bottom: 48px; text-align: center; }
+        .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px; }
+        .card { background: var(--card-bg); padding: 32px; border-radius: 28px; border: 1px solid var(--card-border); transition: 0.3s; }
+        .card:hover { border-color: var(--accent); transform: translateY(-5px); }
+        .card-icon { font-size: 2.5rem; margin-bottom: 20px; display: block; }
+        .card h3 { margin-bottom: 12px; font-size: 1.5rem; }
+
+        /* СЕКЦИЯ ЗАГРУЗКИ */
+        .download-section { background: var(--card-bg); border-radius: 48px; padding: 60px 30px; text-align: center; margin: 40px 0; border: 1px solid var(--card-border); }
+        .version-chip { background: var(--accent); color: #fff; padding: 8px 20px; border-radius: 40px; display: inline-block; font-size: 0.9rem; margin-bottom: 20px; font-weight: 600; }
         
-        .badge { background: var(--accent); color: #fff; display: inline-block; padding: 6px 16px; border-radius: 50px; font-size: 0.8rem; font-weight: 700; margin-bottom: 20px; }
-        .hero-text p { font-size: 1.2rem; color: var(--text-secondary); margin-bottom: 40px; max-width: 500px; }
-        
-        /* ЗАГРУЗКИ */
-        .download-section { background: var(--card-bg); border-radius: 40px; padding: 60px 40px; text-align: center; border: 1px solid var(--border-color); margin: 60px 0; box-shadow: 0 20px 40px rgba(0,0,0,0.05); }
-        .version-chip { background: var(--accent); color: #fff; padding: 8px 20px; border-radius: 50px; display: inline-block; font-size: 0.9rem; font-weight: 700; margin-bottom: 30px; }
-        
-        .download-buttons { display: flex; justify-content: center; gap: 16px; flex-wrap: wrap; }
+        .download-buttons { display: flex; justify-content: center; gap: 16px; flex-wrap: wrap; margin-top: 32px; }
         .download-btn { 
-            padding: 16px 32px; 
-            border-radius: 18px; 
+            padding: 16px 30px; 
+            border-radius: 16px; 
             font-weight: 700; 
+            color: white; 
             text-decoration: none; 
             display: inline-flex; 
             align-items: center; 
+            gap: 10px; 
+            transition: 0.2s; 
+            min-width: 240px;
             justify-content: center;
-            gap: 12px; 
-            transition: transform 0.2s, box-shadow 0.2s;
-            font-size: 1rem;
-            min-width: 250px;
         }
 
-        .btn-mod { background: var(--accent); color: #fff; box-shadow: 0 10px 20px rgba(59, 110, 255, 0.2); }
-        .btn-mod:hover { transform: translateY(-3px); box-shadow: 0 15px 30px rgba(59, 110, 255, 0.3); }
-        
-        .btn-clone { background: var(--btn-secondary); color: var(--text-main); border: 1px solid var(--border-color); }
-        .btn-orig { background: transparent; color: var(--text-secondary); border: 1px solid var(--border-color); }
+        .btn-mod { background: var(--accent); box-shadow: 0 8px 20px rgba(59, 110, 255, 0.3); }
+        .btn-clone { background: var(--btn-secondary); border: 1px solid var(--card-border); }
+        .btn-orig { background: transparent; border: 1px solid var(--card-border); color: var(--text-main); }
+        .download-btn:hover { transform: translateY(-3px); opacity: 0.9; }
 
-        footer { text-align: center; padding: 40px 0; color: var(--text-secondary); font-size: 0.85rem; }
+        footer { text-align: center; padding: 40px 0; color: var(--text-secondary); border-top: 1px solid var(--header-border); }
 
-        /* МОБИЛКА */
-        @media (max-width: 992px) {
-            .hero { flex-direction: column; text-align: center; padding: 40px 0; }
-            .hero-text h1 { font-size: 2.8rem; }
-            .hero-text p { margin: 0 auto 30px; }
-        }
-
-        @media (max-width: 600px) {
-            .download-btn { width: 100%; }
-            .hero-text h1 { font-size: 2.2rem; }
-        }
-    </style>
-</head>
-<body>
-<div class="bg-glow"></div>
-<div class="container">
-    <header class="header">
-        <div class="logo">RSL<span>mod</span></div>
-        <div class="right-nav">
-            <button class="theme-toggle" id="theme-btn" title="Сменить тему">🌓</button>
-            <nav class="nav" style="display: flex; gap: 15px;">
-                <a href="#download" style="color: var(--text-secondary); text-decoration: none; font-weight: 600;">Скачать</a>
-            </nav>
-        </div>
-    </header>
-
-    <section class="hero">
-        <div class="hero-text">
-            <div class="badge">Version 2.1.0</div>
-            <h1>RSLmod — <br>преобрази игру</h1>
-            <p>Улучшенный баланс, стабильность и новый контент. Твой геймплей никогда не будет прежним.</p>
-        </div>
-        <div class="hero-image" style="flex:1; text-align: center;">
-            <svg width="150" height="150" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="color: var(--accent)">
-                <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-        </div>
-    </section>
-
-    <div id="download" class="download-section">
-        <div class="version-chip">📊 Всего загрузок: <span id="download-count">...</span></div>
-        <h2 style="margin-bottom: 40px;">Центр загрузки</h2>
-        
-        <div class="download-buttons">
-            <a href="ССЫЛКА_НА_МОД" download class="download-btn btn-mod">📥 Скачать мод</a>
-            <a href="ССЫЛКА_НА_КЛОН" download class="download-btn btn-clone">📥 Скачать клон мода</a>
-            <a href="ССЫЛКА_НА_ОРИГИНАЛ" download class="download-btn btn-orig">📦 Оригинал игры</a>
-        </div>
-    </div>
-
-    <footer>
-        <p>© 2026 RSLmod Project. Сделано с любовью.</p>
-    </footer>
-</div>
-
-<script>
-    // ЛОГИКА ТЕМЫ
-    const themeBtn = document.getElementById('theme-btn');
-    const currentTheme = localStorage.getItem('theme') || 'dark';
-
-    if (currentTheme === 'light') {
-        document.documentElement.setAttribute('data-theme', 'light');
-    }
-
-    themeBtn.addEventListener('click', () => {
-        let theme = document.documentElement.getAttribute('data-theme');
-        if (theme === 'light') {
-            document.documentElement.removeAttribute('data-theme');
-            localStorage.setItem('theme', 'dark');
-        } else {
-            document.documentElement.setAttribute('data-theme', 'light');
-            localStorage.setItem('theme', 'light');
-        }
-    });
-
-    // СЧЕТЧИК
-    async function updateStats() {
-        const repo = 'trykath158/rslmod-site';
-        try {
-            const res = await fetch(`https://api.github.com/repos/${repo}/releases`);
-            const data = await res.json();
-            let total = 0;
-            data.forEach(r => r.assets.forEach(a => total += a.download_count));
-            document.getElementById('download-count').innerText = total.toLocaleString();
-        } catch (e) {
-            document.getElementById('download-count').innerText = "1,540";
-        }
-    }
-    updateStats();
-</script>
-</body>
-</html>
+        /* МОБИЛЬНАЯ АДАПТАЦИЯ */
+        @media (max-width: 780px) {
+            .hero-text h1 { font-size: 2.5rem; }
+            .hero { text-align:
