@@ -20,13 +20,13 @@
             min-height: 100vh;
         }
 
-        /* ТЁМНАЯ ТЕМА */
+        /* ТЁМНАЯ ТЕМА (по умолчанию) */
         body {
             background: radial-gradient(circle at 10% 20%, #0a0a1a, #02020f);
             color: #f0f0ff;
         }
 
-        /* СВЕТЛАЯ ТЕМА — БЕЛЫЙ ФОН */
+        /* СВЕТЛАЯ ТЕМА — ЧИСТЫЙ БЕЛЫЙ ФОН */
         body.light {
             background: #ffffff;
             color: #1e293b;
@@ -399,11 +399,13 @@
                 themeSpan.textContent = 'Светлая';
                 themeIcon.className = 'fas fa-sun';
                 localStorage.setItem('rsl-theme', 'light');
+                console.log('🌞 Светлая тема включена — фон белый');
             } else {
                 document.body.classList.remove('light');
                 themeSpan.textContent = 'Тёмная';
                 themeIcon.className = 'fas fa-moon';
                 localStorage.setItem('rsl-theme', 'dark');
+                console.log('🌙 Тёмная тема включена');
             }
         }
 
