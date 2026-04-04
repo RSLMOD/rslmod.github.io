@@ -49,7 +49,7 @@
 
         /* ГЕРОЙ */
         .hero { text-align: center; }
-        .version-badge { display: inline-block; background: #000; color: #fff; padding: 4px 12px; border-radius: 20px; font-size: 0.6rem; font-weight: 900; margin-bottom: 0.8rem; }
+        
         .badge {
             display: inline-block; padding: 0.5rem 1.2rem; border-radius: 40px; font-size: 0.7rem; font-weight: 900; margin-bottom: 1.2rem; position: relative; background: var(--bg);
             color: #fff !important; animation: badgeFloat 3s infinite ease-in-out;
@@ -59,41 +59,58 @@
         @keyframes badgeRainbow { 0% { background-position: 0% 50%; } 100% { background-position: 200% 50%; } }
         @keyframes badgeFloat { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-6px); } }
 
-        /* СТАТИСТИКА */
-        .stats-container { display: flex; justify-content: center; gap: 0.8rem; margin-bottom: 1.2rem; }
-        .stat-item { background: var(--card-bg); border: 1px solid var(--border); padding: 0.5rem 1rem; border-radius: 12px; font-weight: 800; font-size: 0.8rem; display: flex; align-items: center; gap: 6px; }
+        /* ЗАГОЛОВОК С ПОБУКВЕННОЙ ВОЛНОЙ */
+        h1 { font-size: clamp(2rem, 8vw, 4rem); font-weight: 900; margin-bottom: 0.8rem; display: flex; justify-content: center; gap: 0.15em; flex-wrap: wrap; text-transform: uppercase; user-select: none; }
+        h1 b { display: inline-block; animation: letterWave 2s infinite ease-in-out; will-change: transform; }
+        h1 .mod-text { color: #2563eb; display: flex; gap: 0.15em; }
 
-        /* ЗАГОЛОВОК ВОЛНОЙ (РАЗДЕЛЬНО) */
-        h1 { font-size: clamp(2.2rem, 8vw, 4rem); font-weight: 900; margin-bottom: 0.8rem; display: flex; justify-content: center; gap: 0.3em; flex-wrap: wrap; text-transform: uppercase; }
-        h1 span { display: inline-block; animation: wordWave 2.5s infinite ease-in-out; will-change: transform; }
-        h1 span.mod-text { color: #2563eb; }
-        h1 span:nth-child(2) { animation-delay: 0.2s; }
-        h1 span:nth-child(3) { animation-delay: 0.4s; }
+        /* Тайминги для каждой буквы (эффект волны) */
+        h1 b:nth-child(1) { animation-delay: 0.0s; }
+        h1 b:nth-child(2) { animation-delay: 0.1s; }
+        h1 b:nth-child(3) { animation-delay: 0.2s; }
+        /* Пробел между RSL и SPEED учитывается структурой */
+        h1 b:nth-child(4) { animation-delay: 0.3s; }
+        h1 b:nth-child(5) { animation-delay: 0.4s; }
+        h1 b:nth-child(6) { animation-delay: 0.5s; }
+        h1 b:nth-child(7) { animation-delay: 0.6s; }
+        h1 b:nth-child(8) { animation-delay: 0.7s; }
+        
+        h1 .mod-text b:nth-child(1) { animation-delay: 0.8s; }
+        h1 .mod-text b:nth-child(2) { animation-delay: 0.9s; }
+        h1 .mod-text b:nth-child(3) { animation-delay: 1.0s; }
 
-        @keyframes wordWave { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-12px); } }
+        @keyframes letterWave {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-15px); }
+        }
 
         .hero-desc { font-size: clamp(0.9rem, 4vw, 1rem); max-width: 550px; margin: 0 auto 2.5rem; font-weight: 700; opacity: 0.85; line-height: 1.4; }
 
         /* КНОПКИ */
-        .download-grid { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.8rem; }
+        .download-grid { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.8rem; margin-bottom: 1.5rem; }
         .download-btn { padding: 0.9rem 1.8rem; border-radius: 50px; font-weight: 900; display: inline-flex; align-items: center; gap: 10px; transition: 0.3s; cursor: pointer; font-size: 0.9rem; text-decoration: none; }
         .download-btn.primary { background: #2563eb; color: white; }
         .download-btn.secondary { background: #1e293b; color: white; }
         .download-btn.outline { border: 2px solid #2563eb; color: #2563eb; background: transparent; }
         
-        .icon-jump { animation: jump 0.4s ease; }
-        /* Фикс цвета иконки для светлой темы в кнопке Оригинал */
-        .outline .icon-jump { color: #2563eb !important; }
-        @keyframes jump { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-8px) scale(1.3); } }
+        /* ВЕРСИЯ ПОД КНОПКАМИ */
+        .version-tag { display: block; font-size: 0.65rem; font-weight: 900; opacity: 0.4; letter-spacing: 1px; text-transform: uppercase; margin-top: 0.5rem; }
 
-        /* ПЛАШКИ (ВОЗВРАЩЕНО ВСЕ) */
+        /* ПЛАШКИ */
         .features { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1rem; margin: 3rem 0; }
         .feature-item { padding: 1.8rem; text-align: center; border-radius: 1.5rem; background: var(--card-bg); border: 1px solid var(--border); transition: 0.3s; cursor: pointer; }
         .feature-item i { font-size: 2rem; color: #2563eb; margin-bottom: 0.8rem; transition: 0.3s; }
         .feature-item:hover { transform: translateY(-5px); border-color: var(--accent); }
         .feature-item:hover i { transform: scale(1.2) rotate(5deg); color: #ec4899; }
 
+        /* СТАТИСТИКА */
+        .stats-container { display: flex; justify-content: center; gap: 0.8rem; margin-bottom: 1.2rem; }
+        .stat-item { background: var(--card-bg); border: 1px solid var(--border); padding: 0.5rem 1rem; border-radius: 12px; font-weight: 800; font-size: 0.8rem; display: flex; align-items: center; gap: 6px; }
+
         footer { text-align: center; padding: 2rem; opacity: 0.5; font-size: 0.75rem; font-weight: 800; }
+        
+        .icon-jump { animation: jump 0.4s ease; }
+        @keyframes jump { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-8px) scale(1.3); } }
     </style>
 </head>
 <body class="dark">
@@ -111,17 +128,18 @@
         </nav>
 
         <main class="hero">
-            <div class="version-badge">VERSION 3.0.2</div><br>
             <div class="badge"><i class="fas fa-bolt"></i> НОВЫЙ РЕЛИЗ</div>
 
             <div class="stats-container">
-                <div class="stat-item"><i class="fas fa-download" style="color:#3b82f6"></i> <span id="countDl">44</span></div>
+                <div class="stat-item"><i class="fas fa-download" style="color:#3b82f6"></i> <span id="countDl">62</span></div>
                 <div class="stat-item"><i class="fas fa-thumbs-up" style="color:#22c55e"></i> <span id="countLike">1</span></div>
                 <div class="stat-item"><i class="fas fa-thumbs-down" style="color:#ef4444"></i> <span id="countDislike">0</span></div>
             </div>
             
             <h1>
-                <span>RSL</span> <span>SPEED</span> <span class="mod-text">MOD</span>
+                <b>R</b><b>S</b><b>L</b>&nbsp;
+                <b>S</b><b>P</b><b>E</b><b>E</b><b>D</b>&nbsp;
+                <span class="mod-text"><b>M</b><b>O</b><b>D</b></span>
             </h1>
             
             <p class="hero-desc">Технология ускорения игрового процесса для Android. Стабильный FPS и минимальный инпут-лаг.</p>
@@ -131,6 +149,7 @@
                 <a href="#" class="download-btn secondary dl-trigger"><i class="fas fa-copy"></i> Скачать Клон</a>
                 <a href="#" class="download-btn outline dl-trigger"><i class="fas fa-box-open"></i> Оригинал</a>
             </div>
+            <span class="version-tag">Version 3.0.2</span>
         </main>
 
         <section class="features">
