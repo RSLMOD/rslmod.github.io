@@ -2,208 +2,447 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RSLmod — Официальный сайт</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>RSL Speed Mod — Ускорение реальности</title>
+    <!-- Google Fonts & Font Awesome -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
-        /* Стандартные цвета (Темная тема) */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg-gradient);
+            color: var(--text-primary);
+            transition: background 0.3s ease, color 0.2s ease;
+            line-height: 1.5;
+            min-height: 100vh;
+        }
+
+        /* ========== ТЕМЫ ========== */
         :root {
-            --bg: #0a0c12;
-            --text: #ffffff;
-            --text-dim: #b9c3e6;
-            --card: #11131f;
-            --border: #252c42;
-            --accent: #3b6eff;
+            --bg-gradient: radial-gradient(circle at 10% 20%, rgba(0, 0, 0, 0.98), #0a0a1a);
+            --card-bg: rgba(20, 20, 35, 0.7);
+            --glass-border: rgba(255, 255, 255, 0.08);
+            --text-primary: #f0f0ff;
+            --text-secondary: #a0a5c0;
+            --accent: #3b82f6;
+            --accent-glow: rgba(59, 130, 246, 0.4);
+            --button-primary: linear-gradient(135deg, #2563eb, #1e40af);
+            --button-secondary: rgba(30, 41, 59, 0.8);
+            --shadow: 0 20px 35px -12px rgba(0, 0, 0, 0.5);
+            --border-light: 1px solid rgba(255,255,255,0.1);
         }
 
-        /* Светлая тема */
-        [data-theme="light"] {
-            --bg: #f1f5f9;
-            --text: #0f172a;
-            --text-dim: #475569;
-            --card: #ffffff;
-            --border: #e2e8f0;
-            --accent: #2563eb;
+        body.light {
+            --bg-gradient: radial-gradient(circle at 10% 20%, #f8fafc, #e2e8f0);
+            --card-bg: rgba(255, 255, 255, 0.85);
+            --glass-border: rgba(0, 0, 0, 0.05);
+            --text-primary: #0f172a;
+            --text-secondary: #334155;
+            --accent: #3b82f6;
+            --accent-glow: rgba(59,130,246,0.2);
+            --button-primary: linear-gradient(135deg, #3b82f6, #2563eb);
+            --button-secondary: #eef2ff;
+            --shadow: 0 20px 35px -12px rgba(0, 0, 0, 0.15);
+            --border-light: 1px solid rgba(0,0,0,0.08);
         }
 
-        body { 
-            margin: 0; 
-            padding: 0; 
-            font-family: 'Inter', sans-serif; 
-            background-color: var(--bg); 
-            color: var(--text); 
-            transition: 0.3s;
+        /* GLASS BACKDROP */
+        .glass-card {
+            background: var(--card-bg);
+            backdrop-filter: blur(14px);
+            border-radius: 2.5rem;
+            border: var(--border-light);
+            box-shadow: var(--shadow);
+            transition: all 0.3s ease;
         }
 
-        .container { max-width: 1100px; margin: 0 auto; padding: 0 20px; }
-
-        /* Шапка */
-        header { 
-            display: flex; 
-            justify-content: space-between; 
-            align-items: center; 
-            padding: 20px 0; 
-            border-bottom: 1px solid var(--border); 
-        }
-        
-        .logo { font-size: 1.5rem; font-weight: 800; }
-        .logo span { color: var(--accent); }
-
-        .theme-btn { 
-            background: var(--card); 
-            color: var(--text); 
-            border: 1px solid var(--border); 
-            padding: 8px 15px; 
-            border-radius: 10px; 
-            cursor: pointer; 
-            font-weight: 600;
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 1.5rem 2rem;
         }
 
-        /* Главный блок */
-        .hero { padding: 80px 0; display: flex; flex-wrap: wrap; align-items: center; gap: 40px; }
-        .hero-content { flex: 1; min-width: 300px; }
-        
-        .hero h1 { 
-            font-size: 3.5rem; 
-            margin-bottom: 20px; 
-            color: var(--text); 
-            line-height: 1.1;
+        /* HEADER */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-bottom: 3rem;
         }
 
-        /* Колонки */
-        .features { 
-            display: grid; 
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); 
-            gap: 20px; 
-            margin-bottom: 80px;
-        }
-        .card { 
-            background: var(--card); 
-            padding: 30px; 
-            border-radius: 20px; 
-            border: 1px solid var(--border); 
-        }
-        .card h3 { margin-top: 0; color: var(--accent); }
-
-        /* Загрузка */
-        .download-box { 
-            background: var(--card); 
-            padding: 50px; 
-            border-radius: 30px; 
-            text-align: center; 
-            border: 1px solid var(--border);
-            margin-bottom: 50px;
-        }
-        .count-badge { 
-            display: inline-block; 
-            background: var(--accent); 
-            color: white; 
-            padding: 5px 15px; 
-            border-radius: 20px; 
-            font-size: 0.9rem; 
-            margin-bottom: 20px; 
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 800;
+            background: linear-gradient(130deg, #ffffff, var(--accent));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            letter-spacing: -0.02em;
         }
 
-        .btn-list { display: flex; flex-wrap: wrap; justify-content: center; gap: 15px; margin-top: 30px; }
-        .btn { 
-            padding: 15px 30px; 
-            border-radius: 12px; 
-            text-decoration: none; 
-            font-weight: 700; 
-            min-width: 220px;
+        .logo span {
+            font-size: 1rem;
+            background: none;
+            -webkit-background-clip: unset;
+            background-clip: unset;
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+
+        .theme-toggle {
+            background: var(--card-bg);
+            border: var(--border-light);
+            padding: 0.7rem 1.2rem;
+            border-radius: 3rem;
+            cursor: pointer;
+            font-size: 1.2rem;
+            backdrop-filter: blur(8px);
+            transition: 0.2s;
+            color: var(--text-primary);
+        }
+
+        /* HERO */
+        .hero {
             text-align: center;
+            padding: 3rem 1rem 4rem;
         }
-        .btn-main { background: var(--accent); color: white; }
-        .btn-side { background: var(--bg); color: var(--text); border: 1px solid var(--border); }
 
-        @media (max-width: 600px) {
-            .hero h1 { font-size: 2.2rem; }
-            .btn { width: 100%; }
+        .badge {
+            display: inline-block;
+            background: rgba(59,130,246,0.2);
+            backdrop-filter: blur(4px);
+            padding: 0.4rem 1rem;
+            border-radius: 40px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--accent);
+            margin-bottom: 1.5rem;
+            border: 1px solid var(--accent-glow);
+        }
+
+        h1 {
+            font-size: clamp(2.5rem, 8vw, 5rem);
+            font-weight: 800;
+            line-height: 1.2;
+            margin-bottom: 1.2rem;
+            background: linear-gradient(135deg, #fff, #a5b4fc);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .light h1 {
+            background: linear-gradient(135deg, #0f172a, #2563eb);
+            -webkit-background-clip: text;
+            background-clip: text;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            max-width: 650px;
+            margin: 0 auto 2rem;
+        }
+
+        /* КНОПКИ СКАЧИВАНИЯ */
+        .download-grid {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 1.5rem;
+            margin: 3rem 0 2rem;
+        }
+
+        .download-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            padding: 1rem 2rem;
+            border-radius: 60px;
+            font-weight: 700;
+            font-size: 1.1rem;
+            text-decoration: none;
+            transition: all 0.25s ease;
+            background: var(--button-primary);
+            color: white;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 8px 20px rgba(37, 99, 235, 0.3);
+            backdrop-filter: blur(4px);
+        }
+
+        .download-btn i {
+            font-size: 1.3rem;
+        }
+
+        .download-btn.secondary {
+            background: var(--button-secondary);
+            color: var(--text-primary);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            border: var(--border-light);
+        }
+
+        .download-btn.ghost {
+            background: transparent;
+            border: 2px solid var(--accent);
+            color: var(--accent);
+            box-shadow: none;
+        }
+
+        .download-btn:hover {
+            transform: translateY(-5px);
+            filter: brightness(1.05);
+        }
+
+        /* INFO карточки */
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 1.8rem;
+            margin: 4rem 0;
+        }
+
+        .feature-item {
+            padding: 1.8rem;
+            text-align: center;
+            border-radius: 1.8rem;
+            background: var(--card-bg);
+            backdrop-filter: blur(10px);
+            border: var(--border-light);
+            transition: 0.2s;
+        }
+
+        .feature-item i {
+            font-size: 2.5rem;
+            color: var(--accent);
+            margin-bottom: 1rem;
+        }
+
+        .feature-item h3 {
+            font-size: 1.4rem;
+            margin-bottom: 0.5rem;
+        }
+
+        /* версии / анонс */
+        .version-note {
+            margin-top: 3rem;
+            text-align: center;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            background: var(--card-bg);
+            padding: 1rem;
+            border-radius: 2rem;
+            backdrop-filter: blur(4px);
+            width: fit-content;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        footer {
+            margin-top: 5rem;
+            text-align: center;
+            padding: 2rem;
+            border-top: var(--border-light);
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+
+        /* анимация */
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            100% { transform: translateY(-6px); }
+        }
+
+        .download-btn {
+            animation: float 3s infinite ease-in-out;
+        }
+
+        .download-btn:nth-child(2) { animation-delay: 0.2s; }
+        .download-btn:nth-child(3) { animation-delay: 0.4s; }
+
+        @media (max-width: 700px) {
+            .container {
+                padding: 1rem 1.2rem;
+            }
+            .download-grid {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            .download-btn {
+                justify-content: center;
+            }
+            .navbar {
+                flex-direction: column;
+                text-align: center;
+            }
         }
     </style>
 </head>
 <body>
-
-<div class="container">
-    <header>
-        <div class="logo">RSL<span>mod</span></div>
-        <button class="theme-btn" onclick="toggleTheme()">🌓 Сменить тему</button>
-    </header>
-
-    <div class="hero">
-        <div class="hero-content">
-            <h1>RSLmod — <br>преобрази игру</h1>
-            <p style="color: var(--text-dim); font-size: 1.2rem;">Лучший мод для тех, кто ценит баланс и стабильность.</p>
+    <div class="container">
+        <div class="navbar">
+            <div class="logo">
+                RSL SPEED MOD <span>// v3.0</span>
+            </div>
+            <button class="theme-toggle" id="themeToggle" aria-label="Сменить тему">
+                <i class="fas fa-moon"></i> <span id="themeText">Тёмная</span>
+            </button>
         </div>
-        <div class="hero-img">
-             <svg width="120" height="120" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color: var(--accent)">
-                <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path>
-             </svg>
+
+        <div class="hero">
+            <div class="badge">
+                <i class="fas fa-bolt"></i> НОВЫЙ РЕЛИЗ — АДРЕНАЛИН ПЕРЕЗАГРУЗКИ
+            </div>
+            <h1>RSL Speed Mod<br>Играй на максималках</h1>
+            <p>Полный контроль скорости, нереальный отклик и чистая магия геймплея. Мод, который превращает оригинал в ракету. Выбери свою версию:</p>
+
+            <div class="download-grid">
+                <!-- Кнопка Скачать мод (основной) -->
+                <a href="#" class="download-btn" id="downloadModBtn">
+                    <i class="fas fa-rocket"></i> Скачать RSL Speed Mod
+                </a>
+                <!-- Кнопка Скачать клон мода -->
+                <a href="#" class="download-btn secondary" id="downloadCloneBtn">
+                    <i class="fas fa-copy"></i> Скачать клон мода
+                </a>
+                <!-- Кнопка Скачать оригинал игры -->
+                <a href="#" class="download-btn ghost" id="downloadOriginalBtn">
+                    <i class="fas fa-gamepad"></i> Скачать оригинал игры
+                </a>
+            </div>
+            <div class="version-note">
+                <i class="fas fa-shield-alt"></i> Версии: Speed Core 2.1 | Clone+ | Original v1.0.8
+            </div>
         </div>
+
+        <div class="features">
+            <div class="feature-item">
+                <i class="fas fa-tachometer-alt"></i>
+                <h3>Невероятная скорость</h3>
+                <p>Увеличение FPS-лимита, динамическая настройка отклика управления.</p>
+            </div>
+            <div class="feature-item">
+                <i class="fas fa-cloud-upload-alt"></i>
+                <h3>Лёгкая установка</h3>
+                <p>Drag-and-drop, автоматический бэкап оригинальных файлов.</p>
+            </div>
+            <div class="feature-item">
+                <i class="fas fa-mobile-alt"></i>
+                <h3>Кроссплатформа</h3>
+                <p>Идеально работает на PC и мобильных устройствах (Android/iOS).</p>
+            </div>
+        </div>
+
+        <footer>
+            <p>RSL Speed Mod — неофициальное улучшение. <i class="fas fa-heart" style="color: var(--accent);"></i> Для настоящих гонщиков.</p>
+            <p style="margin-top: 0.5rem;">Все версии доступны для безопасного скачивания.</p>
+        </footer>
     </div>
 
-    <div class="features">
-        <div class="card">
-            <h3>🎮 Баланс</h3>
-            <p>Полностью обновленные механики и характеристики.</p>
-        </div>
-        <div class="card">
-            <h3>⚙️ Стабильность</h3>
-            <p>Никаких вылетов и лагов на любых системах.</p>
-        </div>
-        <div class="card">
-            <h3>📦 Контент</h3>
-            <p>Сотни новых предметов и уникальных визуальных эффектов.</p>
-        </div>
-    </div>
+    <script>
+        // ====================== ТЕМНАЯ / СВЕТЛАЯ ТЕМА ======================
+        const themeToggleBtn = document.getElementById('themeToggle');
+        const themeTextSpan = document.getElementById('themeText');
+        const iconTheme = themeToggleBtn.querySelector('i');
 
-    <div class="download-box">
-        <div class="count-badge">📊 Загрузок: <span id="counter">считаем...</span></div>
-        <h2>Центр загрузки</h2>
-        <div class="btn-list">
-            <a href="#" class="btn btn-main">📥 Скачать мод</a>
-            <a href="#" class="btn btn-side">📥 Скачать клон</a>
-            <a href="#" class="btn btn-side" style="opacity: 0.7;">📦 Оригинал игры</a>
-        </div>
-    </div>
-
-    <footer style="text-align: center; padding: 40px; color: var(--text-dim); font-size: 0.8rem;">
-        © 2026 RSLmod Project
-    </footer>
-</div>
-
-<script>
-    // Тема
-    function toggleTheme() {
-        const body = document.documentElement;
-        if (body.getAttribute('data-theme') === 'light') {
-            body.removeAttribute('data-theme');
-            localStorage.setItem('theme', 'dark');
+        // Проверяем сохранённую тему
+        const savedTheme = localStorage.getItem('rsl-theme');
+        if (savedTheme === 'light') {
+            document.body.classList.add('light');
+            updateThemeUI('light');
+        } else if (savedTheme === 'dark') {
+            document.body.classList.remove('light');
+            updateThemeUI('dark');
         } else {
-            body.setAttribute('data-theme', 'light');
-            localStorage.setItem('theme', 'light');
+            // Системная тема (если нужно) – по умолчанию тёмная
+            const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            if (!prefersDark) {
+                document.body.classList.add('light');
+                updateThemeUI('light');
+            } else {
+                updateThemeUI('dark');
+            }
         }
-    }
 
-    // Применяем сохраненную тему сразу
-    if (localStorage.getItem('theme') === 'light') {
-        document.documentElement.setAttribute('data-theme', 'light');
-    }
-
-    // Счетчик
-    async function getStats() {
-        try {
-            const r = await fetch('https://api.github.com/repos/trykath158/rslmod-site/releases');
-            const d = await r.json();
-            let c = 0;
-            d.forEach(rel => rel.assets.forEach(a => c += a.download_count));
-            document.getElementById('counter').innerText = c > 0 ? c.toLocaleString() : "1,540";
-        } catch(e) {
-            document.getElementById('counter').innerText = "1,540";
+        function updateThemeUI(theme) {
+            if (theme === 'light') {
+                themeTextSpan.innerText = 'Светлая';
+                iconTheme.className = 'fas fa-sun';
+            } else {
+                themeTextSpan.innerText = 'Тёмная';
+                iconTheme.className = 'fas fa-moon';
+            }
         }
-    }
-    getStats();
-</script>
 
+        themeToggleBtn.addEventListener('click', () => {
+            const isLight = document.body.classList.toggle('light');
+            const newTheme = isLight ? 'light' : 'dark';
+            localStorage.setItem('rsl-theme', newTheme);
+            updateThemeUI(newTheme);
+        });
+
+        // ====================== КНОПКИ СКАЧИВАНИЯ (эмуляция) ======================
+        // В реальном проекте ссылки замените на прямые URL файлов .zip/.apk/.exe и т.д.
+        // Сделаем красивый тост / alert с подтверждением, но без назойливости.
+        function simulateDownload(versionName, fileName) {
+            // Для реального использования – раскомментировать и подставить ссылку:
+            // window.location.href = `https://yourcdn.com/rsl/${fileName}`;
+            
+            // Эмуляция сообщения с прогрессом (демо-режим)
+            const msg = `⚡ СКАЧИВАНИЕ: ${versionName}\nФайл: ${fileName}\n(в боевой версии ссылка ведёт на реальный архив)`;
+            alert(msg);
+            console.log(`[DOWNLOAD] ${versionName} -> ${fileName}`);
+            
+            // Продвинутый вариант: создать динамическую ссылку и имитировать клик
+            // Но для демо просто показываем уведомление.
+            // При желании можно добавить динамический iframe или прямые ссылки ниже.
+        }
+
+        // ==== МОД (основная версия) ====
+        const modBtn = document.getElementById('downloadModBtn');
+        modBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            simulateDownload('RSL Speed Mod (основной)', 'RSL_Speed_Mod_v3.0.zip');
+        });
+
+        // ==== КЛОН МОДА ====
+        const cloneBtn = document.getElementById('downloadCloneBtn');
+        cloneBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            simulateDownload('RSL Clone Mod (клон с доп. фичами)', 'RSL_Clone_Mod_v2.1.apk');
+        });
+
+        // ==== ОРИГИНАЛ ИГРЫ ====
+        const originalBtn = document.getElementById('downloadOriginalBtn');
+        originalBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            simulateDownload('Оригинал игры (чистая версия)', 'Original_Game_Setup_v1.0.8.exe');
+        });
+
+        // Дополнительно: приятный эффект наведения на кнопки (уже есть в CSS)
+        // Добавим интерактив: меняем курсор на мобилах
+        if (window.innerWidth <= 700) {
+            const allBtns = document.querySelectorAll('.download-btn');
+            allBtns.forEach(btn => {
+                btn.addEventListener('touchstart', () => {
+                    btn.style.transform = 'scale(0.98)';
+                });
+                btn.addEventListener('touchend', () => {
+                    btn.style.transform = '';
+                });
+            });
+        }
+
+        // Адаптив: красивое сообщение в консоль, что сайт полностью готов к продакшену.
+        console.log('RSL Speed Mod Landing — мобильная/ПК версия, темы работают, ссылки на скачивание готовы к интеграции.');
+    </script>
 </body>
 </html>
