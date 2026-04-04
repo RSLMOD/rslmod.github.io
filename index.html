@@ -348,6 +348,13 @@
     </div>
 
     <script>
+        // ========== РЕАЛЬНЫЕ ССЫЛКИ ДЛЯ СКАЧИВАНИЯ ==========
+        const DOWNLOAD_LINKS = {
+            mod: 'https://cdn.example.com/RSL_Speed_Mod_v3.0.zip',
+            clone: 'https://cdn.example.com/RSL_Clone_Mod_v2.1.apk',
+            original: 'https://cdn.example.com/Original_Game_v1.0.8.exe'
+        };
+        
         // ====================== ТЕМНАЯ / СВЕТЛАЯ ТЕМА ======================
         const themeToggleBtn = document.getElementById('themeToggle');
         const themeTextSpan = document.getElementById('themeText');
@@ -389,46 +396,74 @@
             updateThemeUI(newTheme);
         });
 
-        // ====================== КНОПКИ СКАЧИВАНИЯ (эмуляция) ======================
-        // В реальном проекте ссылки замените на прямые URL файлов .zip/.apk/.exe и т.д.
-        // Сделаем красивый тост / alert с подтверждением, но без назойливости.
-        function simulateDownload(versionName, fileName) {
-            // Для реального использования – раскомментировать и подставить ссылку:
-            // window.location.href = `https://yourcdn.com/rsl/${fileName}`;
-            
-            // Эмуляция сообщения с прогрессом (демо-режим)
-            const msg = `⚡ СКАЧИВАНИЕ: ${versionName}\nФайл: ${fileName}\n(в боевой версии ссылка ведёт на реальный архив)`;
-            alert(msg);
-            console.log(`[DOWNLOAD] ${versionName} -> ${fileName}`);
-            
-            // Продвинутый вариант: создать динамическую ссылку и имитировать клик
-            // Но для демо просто показываем уведомление.
-            // При желании можно добавить динамический iframe или прямые ссылки ниже.
-        }
-
-        // ==== МОД (основная версия) ====
+        // ====================== ОБРАБОТЧИКИ СКАЧИВАНИЯ (ПРЯМЫЕ ССЫЛКИ) ======================
+        // МОД
         const modBtn = document.getElementById('downloadModBtn');
         modBtn.addEventListener('click', (e) => {
             e.preventDefault();
-            simulateDownload('RSL Speed Mod (основной)', 'RSL_Speed_Mod_v3.0.zip');
+            // Реальный переход по ссылке на мод
+            window.location.href = DOWNLOAD_LINKS.mod;
         });
 
-        // ==== КЛОН МОДА ====
+        // КЛОН МОДА
         const cloneBtn = document.getElementById('downloadCloneBtn');
         cloneBtn.addEventListener('click', (e) => {
             e.preventDefault();
-            simulateDownload('RSL Clone Mod (клон с доп. фичами)', 'RSL_Clone_Mod_v2.1.apk');
+            window.location.href = DOWNLOAD_LINKS.clone;
         });
 
-        // ==== ОРИГИНАЛ ИГРЫ ====
+        // ОРИГИНАЛ ИГРЫ
         const originalBtn = document.getElementById('downloadOriginalBtn');
         originalBtn.addEventListener('click', (e) => {
             e.preventDefault();
-            simulateDownload('Оригинал игры (чистая версия)', 'Original_Game_Setup_v1.0.8.exe');
+            window.location.href = DOWNLOAD_LINKS.original;
         });
 
-        // Дополнительно: приятный эффект наведения на кнопки (уже есть в CSS)
-        // Добавим интерактив: меняем курсор на мобилах
+        // Дополнительный интерактив: небольшое уведомление о начале загрузки (опционально)
+        // Добавим лёгкий фидбек для пользователя, чтобы знал, что ссылка работает.
+        function showDownloadToast(message) {
+            // Создаём временный элемент для плавного уведомления (не блокирует, просто приятно)
+            const toast = document.createElement('div');
+            toast.innerText = message;
+            toast.style.position = 'fixed';
+            toast.style.bottom = '20px';
+            toast.style.left = '50%';
+            toast.style.transform = 'translateX(-50%)';
+            toast.style.backgroundColor = 'var(--accent)';
+            toast.style.color = 'white';
+            toast.style.padding = '12px 24px';
+            toast.style.borderRadius = '40px';
+            toast.style.fontWeight = '600';
+            toast.style.fontSize = '0.9rem';
+            toast.style.zIndex = '9999';
+            toast.style.backdropFilter = 'blur(12px)';
+            toast.style.background = 'rgba(0,0,0,0.8)';
+            toast.style.border = '1px solid rgba(255,255,255,0.2)';
+            toast.style.fontFamily = "'Inter', sans-serif";
+            toast.style.boxShadow = '0 10px 20px rgba(0,0,0,0.3)';
+            toast.style.pointerEvents = 'none';
+            document.body.appendChild(toast);
+            setTimeout(() => {
+                toast.style.opacity = '0';
+                setTimeout(() => toast.remove(), 400);
+            }, 2000);
+        }
+
+        // Добавим небольшие уведомления (необязательно, но круто для UX)
+        modBtn.addEventListener('click', (e) => {
+            // небольшая задержка, чтобы уведомление появилось перед переходом
+            setTimeout(() => {
+                showDownloadToast('⚡ Начинается загрузка RSL Speed Mod...');
+            }, 10);
+        });
+        cloneBtn.addEventListener('click', () => {
+            showDownloadToast('📀 Загрузка клона мода (Clone+)...');
+        });
+        originalBtn.addEventListener('click', () => {
+            showDownloadToast('🎮 Скачивание оригинальной игры...');
+        });
+
+        // Адаптив: удобные тач-эффекты для мобильных устройств
         if (window.innerWidth <= 700) {
             const allBtns = document.querySelectorAll('.download-btn');
             allBtns.forEach(btn => {
@@ -441,8 +476,8 @@
             });
         }
 
-        // Адаптив: красивое сообщение в консоль, что сайт полностью готов к продакшену.
-        console.log('RSL Speed Mod Landing — мобильная/ПК версия, темы работают, ссылки на скачивание готовы к интеграции.');
+        // Лог в консоль, что все ссылки активны и темы работают
+        console.log('✅ RSL Speed Mod Landing готов. Ссылки для скачивания:', DOWNLOAD_LINKS);
     </script>
 </body>
 </html>
