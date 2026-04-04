@@ -114,31 +114,20 @@
 </div>
 
 <script>
-    async function updateDownloadCount() {
-        const user = 'trykath158';
-        const repo = 'rslmod-site';
-        const countElement = document.getElementById('download-count');
-
+    async function updateCount() {
         try {
-            const response = await fetch(`https://api.github.com/repos/${user}/${repo}/releases`);
-            if (!response.ok) throw new Error('API Error');
+            const response = await fetch('https://api.github.com/repos/trykath158/rslmod-site/releases');
             const data = await response.json();
-            
-            let totalDownloads = 0;
-            data.forEach(release => {
-                release.assets.forEach(asset => {
-                    totalDownloads += asset.download_count;
-                });
+            let total = 0;
+            data.forEach(rel => {
+                rel.assets.forEach(asset => total += asset.download_count);
             });
-
-            countElement.innerText = totalDownloads > 0 ? totalDownloads.toLocaleString() : "0";
-        } catch (error) {
-            console.error('Fetch error:', error);
-            countElement.innerText = "1,240+"; 
+            document.getElementById('download-count').innerText = total.toLocaleString();
+        } catch (e) {
+            document.getElementById('download-count').innerText = "1,240+";
         }
     }
-    updateDownloadCount();
+    updateCount();
 </script>
 </body>
-<
-    /html>
+</html>
