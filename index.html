@@ -29,7 +29,6 @@
         body { font-family: 'Inter', sans-serif; transition: 0.3s; min-height: 100vh; background: var(--bg) !important; color: var(--text-main); overflow-x: hidden; }
         .container { max-width: 1280px; margin: 0 auto; padding: 0 1.5rem; }
 
-        /* БЕГУЩАЯ СТРОКА */
         .live-ticker-container {
             width: 100%; overflow: hidden; position: absolute; top: 0; left: 0;
             height: 28px; background: rgba(0,0,0,0.15); display: flex; align-items: center; z-index: 5;
@@ -38,7 +37,6 @@
         .live-ticker span { font-weight: 900; font-size: 0.6rem; color: var(--live-text-color); margin: 0 2rem; text-transform: uppercase; letter-spacing: 2px; }
         @keyframes tickerFlow { 0% { transform: translate3d(0, 0, 0); } 100% { transform: translate3d(-50%, 0, 0); } }
 
-        /* НАВИГАЦИЯ */
         .navbar { display: flex; justify-content: flex-end; padding: 3rem 0 0.5rem; position: relative; z-index: 10; }
         .theme-toggle { 
             background: var(--card-bg); border: 1px solid var(--border); 
@@ -47,9 +45,7 @@
             backdrop-filter: blur(10px);
         }
 
-        /* ГЕРОЙ */
         .hero { text-align: center; }
-        
         .badge {
             display: inline-block; padding: 0.5rem 1.2rem; border-radius: 40px; font-size: 0.7rem; font-weight: 900; margin-bottom: 1.2rem; position: relative; background: var(--bg);
             color: #fff !important; animation: badgeFloat 3s infinite ease-in-out;
@@ -59,22 +55,18 @@
         @keyframes badgeRainbow { 0% { background-position: 0% 50%; } 100% { background-position: 200% 50%; } }
         @keyframes badgeFloat { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-6px); } }
 
-        /* ЗАГОЛОВОК С ПОБУКВЕННОЙ ВОЛНОЙ */
         h1 { font-size: clamp(2rem, 8vw, 4rem); font-weight: 900; margin-bottom: 0.8rem; display: flex; justify-content: center; gap: 0.15em; flex-wrap: wrap; text-transform: uppercase; user-select: none; }
         h1 b { display: inline-block; animation: letterWave 2s infinite ease-in-out; will-change: transform; }
         h1 .mod-text { color: #2563eb; display: flex; gap: 0.15em; }
 
-        /* Тайминги для каждой буквы (эффект волны) */
         h1 b:nth-child(1) { animation-delay: 0.0s; }
         h1 b:nth-child(2) { animation-delay: 0.1s; }
         h1 b:nth-child(3) { animation-delay: 0.2s; }
-        /* Пробел между RSL и SPEED учитывается структурой */
         h1 b:nth-child(4) { animation-delay: 0.3s; }
         h1 b:nth-child(5) { animation-delay: 0.4s; }
         h1 b:nth-child(6) { animation-delay: 0.5s; }
         h1 b:nth-child(7) { animation-delay: 0.6s; }
         h1 b:nth-child(8) { animation-delay: 0.7s; }
-        
         h1 .mod-text b:nth-child(1) { animation-delay: 0.8s; }
         h1 .mod-text b:nth-child(2) { animation-delay: 0.9s; }
         h1 .mod-text b:nth-child(3) { animation-delay: 1.0s; }
@@ -86,26 +78,25 @@
 
         .hero-desc { font-size: clamp(0.9rem, 4vw, 1rem); max-width: 550px; margin: 0 auto 2.5rem; font-weight: 700; opacity: 0.85; line-height: 1.4; }
 
-        /* КНОПКИ */
         .download-grid { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.8rem; margin-bottom: 1.5rem; }
         .download-btn { padding: 0.9rem 1.8rem; border-radius: 50px; font-weight: 900; display: inline-flex; align-items: center; gap: 10px; transition: 0.3s; cursor: pointer; font-size: 0.9rem; text-decoration: none; }
         .download-btn.primary { background: #2563eb; color: white; }
         .download-btn.secondary { background: #1e293b; color: white; }
         .download-btn.outline { border: 2px solid #2563eb; color: #2563eb; background: transparent; }
         
-        /* ВЕРСИЯ ПОД КНОПКАМИ */
         .version-tag { display: block; font-size: 0.65rem; font-weight: 900; opacity: 0.4; letter-spacing: 1px; text-transform: uppercase; margin-top: 0.5rem; }
 
-        /* ПЛАШКИ */
         .features { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1rem; margin: 3rem 0; }
         .feature-item { padding: 1.8rem; text-align: center; border-radius: 1.5rem; background: var(--card-bg); border: 1px solid var(--border); transition: 0.3s; cursor: pointer; }
         .feature-item i { font-size: 2rem; color: #2563eb; margin-bottom: 0.8rem; transition: 0.3s; }
         .feature-item:hover { transform: translateY(-5px); border-color: var(--accent); }
         .feature-item:hover i { transform: scale(1.2) rotate(5deg); color: #ec4899; }
 
-        /* СТАТИСТИКА */
         .stats-container { display: flex; justify-content: center; gap: 0.8rem; margin-bottom: 1.2rem; }
-        .stat-item { background: var(--card-bg); border: 1px solid var(--border); padding: 0.5rem 1rem; border-radius: 12px; font-weight: 800; font-size: 0.8rem; display: flex; align-items: center; gap: 6px; }
+        .stat-item { background: var(--card-bg); border: 1px solid var(--border); padding: 0.5rem 1rem; border-radius: 12px; font-weight: 800; font-size: 0.8rem; display: flex; align-items: center; gap: 6px; cursor: pointer; transition: 0.2s; }
+        .stat-item:active { transform: scale(0.95); }
+        .stat-item.active-like { background: rgba(34, 197, 94, 0.2); border-color: #22c55e; }
+        .stat-item.active-dislike { background: rgba(239, 68, 68, 0.2); border-color: #ef4444; }
 
         footer { text-align: center; padding: 2rem; opacity: 0.5; font-size: 0.75rem; font-weight: 800; }
         
@@ -131,9 +122,9 @@
             <div class="badge"><i class="fas fa-bolt"></i> НОВЫЙ РЕЛИЗ</div>
 
             <div class="stats-container">
-                <div class="stat-item"><i class="fas fa-download" style="color:#3b82f6"></i> <span id="countDl">62</span></div>
-                <div class="stat-item"><i class="fas fa-thumbs-up" style="color:#22c55e"></i> <span id="countLike">1</span></div>
-                <div class="stat-item"><i class="fas fa-thumbs-down" style="color:#ef4444"></i> <span id="countDislike">0</span></div>
+                <div class="stat-item" id="btnDl"><i class="fas fa-download" style="color:#3b82f6"></i> <span id="countDl">0</span></div>
+                <div class="stat-item" id="btnLike"><i class="fas fa-thumbs-up" style="color:#22c55e"></i> <span id="countLike">0</span></div>
+                <div class="stat-item" id="btnDislike"><i class="fas fa-thumbs-down" style="color:#ef4444"></i> <span id="countDislike">0</span></div>
             </div>
             
             <h1>
@@ -177,9 +168,56 @@
     <script>
         AOS.init({ duration: 800, once: true });
 
+        // ЛОГИКА СЧЕТЧИКОВ
+        const UI = {
+            dl: document.getElementById('countDl'),
+            like: document.getElementById('countLike'),
+            dislike: document.getElementById('countDislike'),
+            btnLike: document.getElementById('btnLike'),
+            btnDislike: document.getElementById('btnDislike')
+        };
+
+        let stats = {
+            dl: parseInt(localStorage.getItem('rsl_dl')) || 74,
+            like: parseInt(localStorage.getItem('rsl_like')) || 12,
+            dislike: parseInt(localStorage.getItem('rsl_dislike')) || 0
+        };
+
+        let userVoted = localStorage.getItem('rsl_voted'); // 'like' или 'dislike'
+
+        function updateUI() {
+            UI.dl.textContent = stats.dl;
+            UI.like.textContent = stats.like;
+            UI.dislike.textContent = stats.dislike;
+            UI.btnLike.classList.toggle('active-like', userVoted === 'like');
+            UI.btnDislike.classList.toggle('active-dislike', userVoted === 'dislike');
+        }
+
+        function handleVote(type) {
+            if (userVoted === type) return;
+            if (userVoted) stats[userVoted]--;
+            stats[type]++;
+            userVoted = type;
+            save();
+            updateUI();
+        }
+
+        function save() {
+            localStorage.setItem('rsl_dl', stats.dl);
+            localStorage.setItem('rsl_like', stats.like);
+            localStorage.setItem('rsl_dislike', stats.dislike);
+            localStorage.setItem('rsl_voted', userVoted || '');
+        }
+
+        UI.btnLike.onclick = () => handleVote('like');
+        UI.btnDislike.onclick = () => handleVote('dislike');
+
         document.querySelectorAll('.dl-trigger').forEach(btn => {
             btn.onclick = (e) => {
                 e.preventDefault();
+                stats.dl++;
+                save();
+                updateUI();
                 const icon = btn.querySelector('i');
                 icon.classList.remove('icon-jump');
                 void icon.offsetWidth; 
@@ -191,7 +229,15 @@
         themeBtn.onclick = () => {
             const isLight = document.body.classList.toggle('light');
             document.getElementById('themeText').textContent = isLight ? 'Светлая' : 'Тёмная';
+            localStorage.setItem('rsl_theme', isLight ? 'light' : 'dark');
         };
+
+        if(localStorage.getItem('rsl_theme') === 'light') {
+            document.body.classList.add('light');
+            document.getElementById('themeText').textContent = 'Светлая';
+        }
+
+        updateUI();
     </script>
 </body>
 </html>
