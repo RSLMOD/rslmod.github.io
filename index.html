@@ -8,6 +8,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <script src="https://unpkg.com/@lyket/widget@latest/dist/lyket.js?apiKey=pt_78f7e65798939c3905060858e7753e"></script>
 
     <style>
         :root {
@@ -20,141 +21,88 @@
         }
 
         body.light {
-            --bg: #ffffff;
-            --text-main: #000000; 
-            --accent: #2563eb;
-            --card-bg: #f1f5f9;
-            --border: #e2e8f0;
-            --badge-text-color: #1e3a8a;
+            --bg: #ffffff; --text-main: #000000; --accent: #2563eb;
+            --card-bg: #f1f5f9; --border: #e2e8f0; --badge-text-color: #1e3a8a;
         }
 
-        body.light h1 span, body.light .hero-desc, body.light .stat-item, body.light .feature-item h3, body.light .feature-item p {
-            color: #000000 !important;
-        }
+        body.light h1, body.light .hero-desc, body.light .feature-item h3, body.light .feature-item p { color: #000 !important; }
 
         * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
-
-        body {
-            font-family: 'Inter', sans-serif;
-            transition: background 0.3s ease;
-            min-height: 100vh;
-            background: var(--bg) !important;
-            color: var(--text-main);
-            overflow-x: hidden;
-        }
-
+        body { font-family: 'Inter', sans-serif; background: var(--bg) !important; color: var(--text-main); overflow-x: hidden; min-height: 100vh; }
         .container { max-width: 1280px; margin: 0 auto; padding: 0 1.5rem; }
 
-        .navbar { display: flex; justify-content: space-between; align-items: center; padding: 1.5rem 0; }
-        .logo { font-size: 1.6rem; font-weight: 900; display: flex; gap: 0.1em; user-select: none; }
-        .logo span { display: inline-block; animation: wordWaveLogo 2s infinite ease-in-out; color: var(--text-main); }
-        
-        @keyframes wordWaveLogo { 0%, 100% { transform: translate(0, 0, 0); } 50% { transform: translate(0, -6px, 0); } }
+        /* СТИЛИЗАЦИЯ ЛАЙКОВ ПОД ДИЗАЙН */
+        .lyket-wrapper { display: flex; justify-content: center; gap: 15px; margin-bottom: 2rem; }
+        /* Скрываем стандартные рамки Lyket, чтобы вписать в дизайн */
+        [data-lyket-type] { font-family: 'Inter', sans-serif !important; font-weight: 800 !important; }
 
-        .theme-toggle {
-            background: var(--card-bg); border: 1px solid var(--border);
-            padding: 0.5rem 1rem; border-radius: 2rem; color: var(--text-main);
-            font-weight: 700; display: flex; align-items: center; gap: 8px; cursor: pointer;
-        }
+        .navbar { display: flex; justify-content: space-between; align-items: center; padding: 1.5rem 0; }
+        .logo { font-size: 1.6rem; font-weight: 900; }
+        .theme-toggle { background: var(--card-bg); border: 1px solid var(--border); padding: 0.5rem 1rem; border-radius: 2rem; color: var(--text-main); cursor: pointer; }
 
         .hero { text-align: center; padding: 1rem 0; }
-        .version-badge {
-            display: block; margin: 0.8rem auto 1.5rem; width: fit-content; background: #000; color: #fff;
-            padding: 4px 14px; border-radius: 20px; font-size: 0.65rem; font-weight: 900;
-        }
+        .version-badge { display: block; margin: 0.8rem auto 1.5rem; width: fit-content; background: #000; color: #fff; padding: 4px 14px; border-radius: 20px; font-size: 0.65rem; font-weight: 900; }
 
-        .badge {
-            display: inline-block; padding: 0.6rem 1.4rem; border-radius: 40px; font-size: 0.75rem; font-weight: 900;
-            margin-bottom: 2rem; position: relative; background: var(--bg);
-            color: var(--badge-text-color) !important; border: 2px solid transparent; background-clip: padding-box;
-            animation: badgeFloat 3s infinite ease-in-out;
-        }
-        .badge::after {
-            content: ''; position: absolute; top: -2px; bottom: -2px; left: -2px; right: -2px;
-            background: linear-gradient(130deg, #3b82f6, #ec4899, #4f46e5, #ec4899, #3b82f6);
-            background-size: 200% 200%; z-index: -1; border-radius: 40px; animation: badgeRainbow 3.5s linear infinite;
-        }
-        @keyframes badgeRainbow { 0% { background-position: 0% 50%; } 100% { background-position: 200% 50%; } }
-        @keyframes badgeFloat { 0%, 100% { transform: translate(0, 0, 0); } 50% { transform: translate(0, -10px, 0); } }
-
-        /* СТАТИСТИКА */
-        .stats-container { display: flex; justify-content: center; gap: 1rem; margin-bottom: 2rem; flex-wrap: wrap; }
-        .stat-item {
-            font-weight: 800; font-size: 0.85rem; display: flex; align-items: center; gap: 8px;
-            background: var(--card-bg); padding: 0.6rem 1.2rem; border-radius: 15px;
-            border: 1px solid var(--border); transition: 0.3s; cursor: pointer; user-select: none;
-        }
-        .stat-item:active { transform: scale(0.9); }
-        .stat-item.like i { color: #22c55e; }
-        .stat-item.dislike i { color: #ef4444; }
-        .stat-item.dl i { color: #3b82f6; }
+        .badge { display: inline-block; padding: 0.6rem 1.4rem; border-radius: 40px; font-size: 0.75rem; font-weight: 900; margin-bottom: 2rem; position: relative; background: var(--bg); color: var(--badge-text-color) !important; animation: badgeFloat 3s infinite ease-in-out; }
+        .badge::after { content: ''; position: absolute; top: -2px; bottom: -2px; left: -2px; right: -2px; background: linear-gradient(130deg, #3b82f6, #ec4899, #4f46e5); z-index: -1; border-radius: 40px; }
+        @keyframes badgeFloat { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
 
         h1 { font-size: clamp(2.5rem, 9vw, 5rem); font-weight: 900; margin-bottom: 1.5rem; }
-        h1 span.mod-text { color: #2563eb; }
-
+        .mod-text { color: #2563eb; }
         .hero-desc { font-size: clamp(1rem, 4vw, 1.15rem); max-width: 600px; margin: 0 auto 3rem; font-weight: 700; opacity: 0.9; }
 
-        /* КНОПКИ */
         .download-grid { display: flex; flex-wrap: wrap; justify-content: center; gap: 1.2rem; }
-        .download-btn {
-            padding: 1.1rem 2rem; border-radius: 60px; font-weight: 900; text-decoration: none;
-            display: inline-flex; align-items: center; gap: 10px; transition: 0.3s; cursor: pointer;
-        }
-        .download-btn.primary { background: #2563eb; color: white; box-shadow: 0 10px 20px rgba(37, 99, 235, 0.3); }
+        .download-btn { padding: 1.1rem 2rem; border-radius: 60px; font-weight: 900; text-decoration: none; transition: 0.3s; cursor: pointer; display: flex; align-items: center; gap: 10px; }
+        .download-btn.primary { background: #2563eb; color: white; }
         .download-btn.secondary { background: #1e293b; color: white; }
         .download-btn.outline { border: 2px solid #2563eb; color: #2563eb; }
-        .download-btn:hover { transform: translateY(-3px); opacity: 0.9; }
 
         .features { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; margin: 4rem 0; }
-        .feature-item {
-            padding: 2.5rem; text-align: center; border-radius: 2rem; background: var(--card-bg); border: 1px solid var(--border);
-            backdrop-filter: blur(10px); transition: 0.3s;
-        }
-        .feature-item i { font-size: 2.5rem; color: #2563eb; margin-bottom: 1.2rem; }
-
-        footer { text-align: center; padding: 2rem; font-weight: 800; opacity: 0.7; }
+        .feature-item { padding: 2.5rem; text-align: center; border-radius: 2rem; background: var(--card-bg); border: 1px solid var(--border); backdrop-filter: blur(10px); }
+        footer { text-align: center; padding: 2rem; font-weight: 800; opacity: 0.6; }
     </style>
 </head>
 <body class="dark">
 
-    <div class="version-badge">VERSION 3.0.2</div>
-
     <div class="container">
         <nav class="navbar">
-            <div class="logo"><span>RSL SPEED</span></div>
+            <div class="logo">RSL SPEED</div>
             <div class="theme-toggle" id="themeToggle">
                 <i class="fas fa-adjust"></i> <span id="themeText">Тёмная</span>
             </div>
         </nav>
 
         <main class="hero">
+            <div class="version-badge">VERSION 3.0.2</div>
             <div class="badge"><i class="fas fa-bolt"></i> <span>НОВЫЙ РЕЛИЗ</span></div>
 
-            <div class="stats-container" data-aos="fade-up">
-                <div class="stat-item dl" id="btnDl">
-                    <i class="fas fa-download"></i> <span id="countDl">0</span>
-                </div>
-                <div class="stat-item like" id="btnLike">
-                    <i class="fas fa-thumbs-up"></i> <span id="countLike">0</span>
-                </div>
-                <div class="stat-item dislike" id="btnDislike">
-                    <i class="fas fa-thumbs-down"></i> <span id="countDislike">0</span>
-                </div>
+            <div class="lyket-wrapper" data-aos="fade-up">
+                <div 
+                  data-lyket-type="like" 
+                  data-lyket-id="rsl-speed-mod-main" 
+                  data-lyket-namespace="rsl-project"
+                  data-lyket-color="rgba(34, 197, 94, 1)"
+                ></div>
+                <div 
+                  data-lyket-type="dislike" 
+                  data-lyket-id="rsl-speed-mod-main" 
+                  data-lyket-namespace="rsl-project"
+                  data-lyket-color="rgba(239, 68, 68, 1)"
+                ></div>
             </div>
             
             <h1>RSL Speed <span class="mod-text">Mod</span></h1>
+            <p class="hero-desc">Технология ускорения игрового процесса. Стабильный FPS и минимальный инпут-лаг на любом устройстве.</p>
 
-            <p class="hero-desc" data-aos="fade-up">Технология ускорения игрового процесса. Стабильный FPS и минимальный инпут-лаг.</p>
-
-            <div class="download-grid" data-aos="fade-up">
-                <a href="#" class="download-btn primary dl-trigger"><i class="fas fa-rocket"></i> Скачать Mod</a>
-                <a href="#" class="download-btn secondary dl-trigger"><i class="fas fa-copy"></i> Скачать Клон</a>
-                <a href="#" class="download-btn outline dl-trigger">Оригинал</a>
+            <div class="download-grid">
+                <a href="https://github.com/trykath158/rslmod-site/raw/main/mod.apk" class="download-btn primary"><i class="fas fa-rocket"></i> Скачать Mod</a>
+                <a href="#" class="download-btn secondary"><i class="fas fa-copy"></i> Скачать Клон</a>
+                <a href="#" class="download-btn outline">Оригинал</a>
             </div>
         </main>
 
         <section class="features">
-            <div class="feature-item" data-aos="fade-up"><i class="fas fa-bolt"></i><h3>Скорость</h3><p>Оптимизация ресурсов системы.</p></div>
+            <div class="feature-item" data-aos="fade-up"><i class="fas fa-bolt"></i><h3>Скорость</h3><p>Разблокировка лимитов системы.</p></div>
             <div class="feature-item" data-aos="fade-up" data-aos-delay="100"><i class="fas fa-lock"></i><h3>Защита</h3><p>Анти-чит обход и безопасность.</p></div>
             <div class="feature-item" data-aos="fade-up" data-aos-delay="200"><i class="fas fa-mobile-alt"></i><h3>Мобильность</h3><p>Любые устройства.</p></div>
         </section>
@@ -166,78 +114,7 @@
     <script>
         AOS.init({ duration: 800, once: true });
 
-        // --- ЛОГИКА СЧЕТЧИКОВ ---
-        const ns = "rsl_speed_final_fixed_v1"; // Новый уникальный ID
-        
-        const counters = {
-            downloads: { el: document.getElementById('countDl'), val: 0 },
-            likes: { el: document.getElementById('countLike'), val: 0 },
-            dislikes: { el: document.getElementById('countDislike'), val: 0 }
-        };
-
-        // Функция обновления отображения
-        function render(key) {
-            counters[key].el.textContent = counters[key].val.toLocaleString();
-        }
-
-        // Загрузка данных с сервера
-        async function loadStats() {
-            for (let key in counters) {
-                try {
-                    const res = await fetch(`https://api.countapi.xyz/get/${ns}/${key}`);
-                    const data = await res.json();
-                    if (data.value) {
-                        counters[key].val = data.value;
-                        render(key);
-                    }
-                } catch (e) {
-                    // Если ключа нет, создаем его
-                    fetch(`https://api.countapi.xyz/create?namespace=${ns}&key=${key}&value=0`);
-                }
-            }
-        }
-
-        // Нажатие (Hit)
-        async function hit(key) {
-            // Сначала меняем цифру визуально (мгновенный отклик)
-            counters[key].val++;
-            render(key);
-
-            // Затем отправляем запрос на сервер
-            try {
-                await fetch(`https://api.countapi.xyz/hit/${ns}/${key}`);
-            } catch (e) {
-                console.error("Ошибка сохранения на сервере");
-            }
-        }
-
-        // Привязка событий
-        document.getElementById('btnLike').onclick = () => {
-            hit('likes');
-            animateIcon('#btnLike i');
-        };
-        document.getElementById('btnDislike').onclick = () => {
-            hit('dislikes');
-            animateIcon('#btnDislike i');
-        };
-        document.querySelectorAll('.dl-trigger').forEach(btn => {
-            btn.onclick = (e) => {
-                e.preventDefault(); // Чтобы страница не прыгала вверх при нажатии на #
-                hit('downloads');
-                alert("Начинается скачивание..."); // Тестовое уведомление
-            };
-        });
-
-        function animateIcon(sel) {
-            const i = document.querySelector(sel);
-            i.style.transition = '0.3s';
-            i.style.transform = 'scale(1.5) rotate(-15deg)';
-            setTimeout(() => i.style.transform = 'scale(1) rotate(0deg)', 300);
-        }
-
-        loadStats();
-
-        // --- ТЕМА ---
+        // Переключение темы
         const themeBtn = document.getElementById('themeToggle');
         function setTheme(t) {
             document.body.className = t;
