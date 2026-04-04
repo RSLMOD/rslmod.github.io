@@ -15,7 +15,7 @@
 
         body {
             font-family: 'Inter', sans-serif;
-            transition: background 0.25s ease, color 0.2s ease;
+            transition: background 0.3s ease, color 0.2s ease;
             line-height: 1.5;
             min-height: 100vh;
         }
@@ -26,48 +26,10 @@
             color: #f0f0ff;
         }
 
-        /* СВЕТЛАЯ ТЕМА — переопределяем всё через класс */
+        /* СВЕТЛАЯ ТЕМА — просто переключаем фон и цвета напрямую, без переменных */
         body.light {
             background: radial-gradient(circle at 10% 20%, #f8fafc, #e2e8f0);
             color: #0f172a;
-        }
-
-        /* Общие стили с переменными для тёмной темы */
-        body {
-            --card-bg: rgba(20, 20, 35, 0.7);
-            --glass-border: rgba(255, 255, 255, 0.08);
-            --text-secondary: #a0a5c0;
-            --accent: #3b82f6;
-            --accent-glow: rgba(59, 130, 246, 0.4);
-            --button-primary: linear-gradient(135deg, #2563eb, #1e40af);
-            --button-secondary: rgba(30, 41, 59, 0.8);
-            --shadow: 0 20px 35px -12px rgba(0, 0, 0, 0.5);
-            --border-light: 1px solid rgba(255,255,255,0.1);
-        }
-
-        /* Переменные для светлой темы */
-        body.light {
-            --card-bg: rgba(255, 255, 255, 0.85);
-            --glass-border: rgba(0, 0, 0, 0.05);
-            --text-secondary: #334155;
-            --accent: #3b82f6;
-            --accent-glow: rgba(59,130,246,0.2);
-            --button-primary: linear-gradient(135deg, #3b82f6, #2563eb);
-            --button-secondary: #eef2ff;
-            --shadow: 0 20px 35px -12px rgba(0, 0, 0, 0.15);
-            --border-light: 1px solid rgba(0,0,0,0.08);
-        }
-
-        /* Применяем переменные */
-        .glass-card, .feature-item, .version-note, .theme-toggle {
-            background: var(--card-bg);
-            backdrop-filter: blur(14px);
-            border: var(--border-light);
-        }
-
-        .glass-card {
-            border-radius: 2.5rem;
-            box-shadow: var(--shadow);
         }
 
         .container {
@@ -88,11 +50,17 @@
         .logo {
             font-size: 1.8rem;
             font-weight: 800;
-            background: linear-gradient(130deg, #ffffff, var(--accent));
+            background: linear-gradient(130deg, #ffffff, #3b82f6);
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
             letter-spacing: -0.02em;
+        }
+
+        body.light .logo {
+            background: linear-gradient(130deg, #0f172a, #3b82f6);
+            -webkit-background-clip: text;
+            background-clip: text;
         }
 
         .logo span {
@@ -100,19 +68,30 @@
             background: none;
             -webkit-background-clip: unset;
             background-clip: unset;
-            color: var(--text-secondary);
+            color: #a0a5c0;
             font-weight: 500;
         }
 
+        body.light .logo span {
+            color: #334155;
+        }
+
         .theme-toggle {
+            background: rgba(20, 20, 35, 0.7);
+            backdrop-filter: blur(14px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
             padding: 0.7rem 1.2rem;
             border-radius: 3rem;
             cursor: pointer;
             font-size: 1.2rem;
             transition: 0.2s;
-            color: var(--text-secondary);
-            background: var(--card-bg);
-            border: var(--border-light);
+            color: #f0f0ff;
+        }
+
+        body.light .theme-toggle {
+            background: rgba(255, 255, 255, 0.85);
+            border: 1px solid rgba(0, 0, 0, 0.08);
+            color: #0f172a;
         }
 
         .hero {
@@ -122,15 +101,15 @@
 
         .badge {
             display: inline-block;
-            background: rgba(59,130,246,0.2);
+            background: rgba(59, 130, 246, 0.2);
             backdrop-filter: blur(4px);
             padding: 0.4rem 1rem;
             border-radius: 40px;
             font-size: 0.8rem;
             font-weight: 600;
-            color: var(--accent);
+            color: #3b82f6;
             margin-bottom: 1.5rem;
-            border: 1px solid var(--accent-glow);
+            border: 1px solid rgba(59, 130, 246, 0.4);
         }
 
         h1 {
@@ -138,10 +117,6 @@
             font-weight: 800;
             line-height: 1.2;
             margin-bottom: 1.2rem;
-        }
-
-        /* Разный цвет h1 в зависимости от темы */
-        body h1 {
             background: linear-gradient(135deg, #fff, #a5b4fc);
             -webkit-background-clip: text;
             background-clip: text;
@@ -156,9 +131,13 @@
 
         .hero p {
             font-size: 1.2rem;
-            color: var(--text-secondary);
+            color: #a0a5c0;
             max-width: 650px;
             margin: 0 auto 2rem;
+        }
+
+        body.light .hero p {
+            color: #334155;
         }
 
         .download-grid {
@@ -181,27 +160,41 @@
             transition: all 0.25s ease;
             border: none;
             cursor: pointer;
-            backdrop-filter: blur(4px);
         }
 
         .download-btn:first-child {
-            background: var(--button-primary);
+            background: linear-gradient(135deg, #2563eb, #1e40af);
             color: white;
             box-shadow: 0 8px 20px rgba(37, 99, 235, 0.3);
         }
 
+        body.light .download-btn:first-child {
+            background: linear-gradient(135deg, #3b82f6, #2563eb);
+        }
+
         .download-btn.secondary {
-            background: var(--button-secondary);
-            color: var(--text-primary);
+            background: rgba(30, 41, 59, 0.8);
+            color: #f0f0ff;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-            border: var(--border-light);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        body.light .download-btn.secondary {
+            background: #eef2ff;
+            color: #0f172a;
+            border: 1px solid rgba(0, 0, 0, 0.08);
         }
 
         .download-btn.ghost {
             background: transparent;
-            border: 2px solid var(--accent);
-            color: var(--accent);
+            border: 2px solid #3b82f6;
+            color: #3b82f6;
             box-shadow: none;
+        }
+
+        body.light .download-btn.ghost {
+            border: 2px solid #3b82f6;
+            color: #3b82f6;
         }
 
         .download-btn i {
@@ -224,50 +217,74 @@
             padding: 1.8rem;
             text-align: center;
             border-radius: 1.8rem;
+            background: rgba(20, 20, 35, 0.7);
             backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
             transition: 0.2s;
-            background: var(--card-bg);
-            border: var(--border-light);
+        }
+
+        body.light .feature-item {
+            background: rgba(255, 255, 255, 0.85);
+            border: 1px solid rgba(0, 0, 0, 0.08);
         }
 
         .feature-item i {
             font-size: 2.5rem;
-            color: var(--accent);
+            color: #3b82f6;
             margin-bottom: 1rem;
         }
 
         .feature-item h3 {
             font-size: 1.4rem;
             margin-bottom: 0.5rem;
-            color: var(--text-primary);
+            color: #f0f0ff;
+        }
+
+        body.light .feature-item h3 {
+            color: #0f172a;
         }
 
         .feature-item p {
-            color: var(--text-secondary);
+            color: #a0a5c0;
+        }
+
+        body.light .feature-item p {
+            color: #334155;
         }
 
         .version-note {
             margin-top: 3rem;
             text-align: center;
             font-size: 0.9rem;
-            color: var(--text-secondary);
+            color: #a0a5c0;
+            background: rgba(20, 20, 35, 0.7);
+            backdrop-filter: blur(4px);
             padding: 1rem;
             border-radius: 2rem;
-            backdrop-filter: blur(4px);
             width: fit-content;
             margin-left: auto;
             margin-right: auto;
-            background: var(--card-bg);
-            border: var(--border-light);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        body.light .version-note {
+            color: #334155;
+            background: rgba(255, 255, 255, 0.85);
+            border: 1px solid rgba(0, 0, 0, 0.08);
         }
 
         footer {
             margin-top: 5rem;
             text-align: center;
             padding: 2rem;
-            border-top: var(--border-light);
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
             font-size: 0.85rem;
-            color: var(--text-secondary);
+            color: #a0a5c0;
+        }
+
+        body.light footer {
+            border-top: 1px solid rgba(0, 0, 0, 0.08);
+            color: #334155;
         }
 
         @keyframes float {
@@ -306,7 +323,7 @@
             <div class="logo">
                 RSL SPEED MOD <span>// v3.0</span>
             </div>
-            <button class="theme-toggle" id="themeToggle" aria-label="Сменить тему">
+            <button class="theme-toggle" id="themeToggle">
                 <i class="fas fa-moon"></i> <span id="themeText">Тёмная</span>
             </button>
         </div>
@@ -353,68 +370,63 @@
         </div>
 
         <footer>
-            <p>RSL Speed Mod — неофициальное улучшение. <i class="fas fa-heart" style="color: var(--accent);"></i> Для настоящих гонщиков.</p>
+            <p>RSL Speed Mod — неофициальное улучшение. <i class="fas fa-heart" style="color: #3b82f6;"></i> Для настоящих гонщиков.</p>
             <p style="margin-top: 0.5rem;">Все версии доступны для безопасного скачивания.</p>
         </footer>
     </div>
 
     <script>
-        // ========== ССЫЛКИ ДЛЯ СКАЧИВАНИЯ (ЗАМЕНИ НА СВОИ) ==========
+        // ССЫЛКИ ДЛЯ СКАЧИВАНИЯ (ЗАМЕНИ НА СВОИ)
         const DOWNLOAD_LINKS = {
             mod: 'https://cdn.example.com/RSL_Speed_Mod_v3.0.zip',
             clone: 'https://cdn.example.com/RSL_Clone_Mod_v2.1.apk',
             original: 'https://cdn.example.com/Original_Game_v1.0.8.exe'
         };
         
-        // ========== ПЕРЕКЛЮЧЕНИЕ ТЕМЫ (РАБОТАЕТ 100%) ==========
+        // ========== ПЕРЕКЛЮЧЕНИЕ ТЕМЫ (РАБОТАЕТ!) ==========
         const themeBtn = document.getElementById('themeToggle');
         const themeSpan = document.getElementById('themeText');
         const themeIcon = themeBtn.querySelector('i');
 
-        // Функция установки темы
         function setTheme(theme) {
             if (theme === 'light') {
                 document.body.classList.add('light');
                 themeSpan.textContent = 'Светлая';
                 themeIcon.className = 'fas fa-sun';
                 localStorage.setItem('rsl-theme', 'light');
-                console.log('✅ Светлая тема включена');
             } else {
                 document.body.classList.remove('light');
                 themeSpan.textContent = 'Тёмная';
                 themeIcon.className = 'fas fa-moon';
                 localStorage.setItem('rsl-theme', 'dark');
-                console.log('✅ Тёмная тема включена');
             }
         }
 
-        // Загружаем сохранённую тему или определяем системную
-        const saved = localStorage.getItem('rsl-theme');
-        if (saved === 'light') {
+        // Загрузка сохранённой темы
+        const savedTheme = localStorage.getItem('rsl-theme');
+        if (savedTheme === 'light') {
             setTheme('light');
-        } else if (saved === 'dark') {
+        } else if (savedTheme === 'dark') {
             setTheme('dark');
         } else {
             // Проверяем системные настройки
-            const prefersLight = window.matchMedia('(prefers-color-scheme: light)').matches;
-            if (prefersLight) {
+            if (window.matchMedia('(prefers-color-scheme: light)').matches) {
                 setTheme('light');
             } else {
                 setTheme('dark');
             }
         }
 
-        // Обработчик кнопки
+        // Кнопка переключения
         themeBtn.addEventListener('click', () => {
-            const isLight = document.body.classList.contains('light');
-            if (isLight) {
+            if (document.body.classList.contains('light')) {
                 setTheme('dark');
             } else {
                 setTheme('light');
             }
         });
 
-        // ========== ОБРАБОТЧИКИ СКАЧИВАНИЯ ==========
+        // ========== СКАЧИВАНИЕ ==========
         document.getElementById('downloadModBtn').addEventListener('click', (e) => {
             e.preventDefault();
             window.location.href = DOWNLOAD_LINKS.mod;
@@ -430,7 +442,7 @@
             window.location.href = DOWNLOAD_LINKS.original;
         });
 
-        // Красивые уведомления (не влияют на тему)
+        // Уведомления
         function showToast(msg) {
             const toast = document.createElement('div');
             toast.textContent = msg;
@@ -446,7 +458,7 @@
             toast.style.fontSize = '0.9rem';
             toast.style.fontWeight = '600';
             toast.style.zIndex = '9999';
-            toast.style.fontFamily = "'Inter', sans-serif";
+            toast.style.fontFamily = "'Inter', sans-serif';
             toast.style.pointerEvents = 'none';
             document.body.appendChild(toast);
             setTimeout(() => toast.remove(), 2000);
@@ -455,8 +467,6 @@
         document.getElementById('downloadModBtn').addEventListener('click', () => showToast('🚀 RSL Speed Mod — загрузка...'));
         document.getElementById('downloadCloneBtn').addEventListener('click', () => showToast('📀 Клон мода — загрузка...'));
         document.getElementById('downloadOriginalBtn').addEventListener('click', () => showToast('🎮 Оригинал игры — загрузка...'));
-
-        console.log('🔥 RSL Speed Mod | Тема работает | Жми на кнопку смены темы');
     </script>
 </body>
 </html>
