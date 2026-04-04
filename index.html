@@ -13,26 +13,24 @@
         :root {
             --bg: radial-gradient(circle at 10% 20%, #0a0a1a, #02020f);
             --text-main: #ffffff;
-            --text-sub: #a0a5c0;
             --accent: #3b82f6;
             --card-bg: rgba(20, 20, 35, 0.7);
             --border: rgba(255, 255, 255, 0.1);
             --glow: rgba(59, 130, 246, 0.3);
-            --badge-text-color: #ffffff; /* Текст в темной теме — всегда белый */
+            --badge-text-color: #ffffff; /* Белый для темной темы */
         }
 
         body.light {
             --bg: #ffffff;
             --text-main: #000000; 
-            --text-sub: #000000;
             --accent: #2563eb;
             --card-bg: #f1f5f9;
             --border: #e2e8f0;
             --glow: rgba(37, 99, 235, 0.1);
-            --badge-text-color: #2563eb; /* Текст в светлой теме — синий */
+            --badge-text-color: #1e3a8a; /* Темно-синий для четкости в светлой теме */
         }
 
-        /* Форсируем черный цвет в светлой теме для четкости */
+        /* Форсированный черный текст для светлой темы */
         body.light h1 span, 
         body.light .hero-desc, 
         body.light .feature-item h3, 
@@ -110,10 +108,7 @@
             padding: 1.5rem 0;
         }
 
-        .logo {
-            font-size: 1.6rem;
-            font-weight: 900;
-        }
+        .logo { font-size: 1.6rem; font-weight: 900; }
 
         .theme-toggle {
             background: var(--card-bg);
@@ -131,32 +126,25 @@
 
         .hero { text-align: center; padding: 2rem 0; }
 
-        /* ИСПРАВЛЕННАЯ ПЛАШКА: ТЕКСТ ТЕПЕРЬ ВСЕГДА ВИДЕН */
+        /* ИСПРАВЛЕННАЯ КОНТРАСТНАЯ ПЛАШКА */
         .badge {
             display: inline-block;
             padding: 0.6rem 1.4rem;
             border-radius: 40px;
             font-size: 0.75rem;
-            font-weight: 800;
+            font-weight: 900;
             margin-bottom: 2.5rem;
             position: relative;
             z-index: 1;
-            background: var(--bg); /* Фон под плашку, чтобы текст не сливался */
-            color: var(--badge-text-color) !important; /* Текст — всегда контрастный */
-            border: 2px solid transparent; /* Место под рамку */
-            background-clip: padding-box; /* Фон не заходит под рамку */
-            
-            /* Анимации шевеления и появления */
+            background: var(--bg);
+            color: var(--badge-text-color) !important; 
+            border: 2px solid transparent;
+            background-clip: padding-box;
             animation: bounceIn 0.8s both, badgeFloat 3s infinite ease-in-out;
         }
         
-        /* Иконка и текст внутри плашки наследуют контрастный цвет */
-        .badge i, .badge span {
-            color: inherit !important;
-            transition: color 0.3s ease;
-        }
+        .badge i, .badge span { color: inherit !important; }
         
-        /* Градиентная переливающаяся рамка */
         .badge::after {
             content: '';
             position: absolute;
@@ -165,16 +153,14 @@
             background-size: 200% 200%;
             z-index: -1;
             border-radius: 40px;
-            animation: badgeRainbow 3s linear infinite;
+            animation: badgeRainbow 3.5s linear infinite;
         }
 
-        /* Анимация перелива цветов для рамки */
         @keyframes badgeRainbow {
             0% { background-position: 0% 50%; }
             100% { background-position: 200% 50%; }
         }
         
-        /* Анимация шевеления для плашки */
         @keyframes badgeFloat {
             0%, 100% { transform: translateY(0); }
             50% { transform: translateY(-10px); }
@@ -183,11 +169,9 @@
         @keyframes bounceIn {
             0% { opacity: 0; transform: scale(0.3); }
             50% { opacity: 1; transform: scale(1.05); }
-            70% { transform: scale(0.9); }
             100% { transform: scale(1); }
         }
 
-        /* АНИМАЦИЯ ВОЛНЫ ДЛЯ ЗАГОЛОВКА */
         h1 {
             font-size: clamp(2.5rem, 9vw, 5rem);
             font-weight: 900;
@@ -200,18 +184,9 @@
             flex-wrap: wrap;
         }
 
-        h1 span {
-            display: inline-block;
-            animation: wordWave 2s infinite ease-in-out;
-        }
+        h1 span { display: inline-block; animation: wordWave 2s infinite ease-in-out; }
+        h1 span.mod-text { color: #2563eb; }
 
-        /* Красим Mod в синий */
-        h1 span.mod-text {
-            color: #2563eb;
-            text-decoration: none; 
-        }
-
-        /* Задержки для эффекта очереди */
         h1 span:nth-child(1) { animation-delay: 0s; }
         h1 span:nth-child(2) { animation-delay: 0.2s; }
         h1 span:nth-child(3) { animation-delay: 0.4s; }
@@ -253,12 +228,7 @@
             transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
 
-        .download-btn.primary { 
-            background: #2563eb; 
-            color: white; 
-            box-shadow: 0 10px 20px rgba(37, 99, 235, 0.3);
-        }
-
+        .download-btn.primary { background: #2563eb; color: white; box-shadow: 0 10px 20px rgba(37, 99, 235, 0.3); }
         .download-btn:hover { transform: translateY(-5px) scale(1.05); }
         .download-btn.secondary { background: #1e293b; color: white; }
         .download-btn.ghost { border: 2.5px solid #2563eb; color: #2563eb; }
@@ -279,11 +249,7 @@
             transition: 0.5s;
         }
 
-        .feature-item:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 20px 40px var(--glow);
-        }
-
+        .feature-item:hover { transform: translateY(-10px); box-shadow: 0 20px 40px var(--glow); }
         .feature-item h3 { margin-bottom: 0.8rem; font-weight: 900; font-size: 1.4rem; }
         .feature-item p { font-weight: 600; opacity: 0.9; }
         .feature-item i { font-size: 2.5rem; color: #2563eb; margin-bottom: 1.2rem; transition: 0.5s; }
@@ -306,7 +272,6 @@
         </nav>
 
         <main class="hero">
-            
             <div class="badge">
                 <i class="fas fa-bolt"></i> 
                 <span>НОВЫЙ РЕЛИЗ</span>
