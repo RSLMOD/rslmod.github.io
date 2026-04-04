@@ -83,10 +83,9 @@
 
         .hero-desc { font-size: 1rem; max-width: 550px; margin: 0 auto 2.5rem; font-weight: 700; opacity: 0.85; line-height: 1.4; }
         
-        /* АНИМАЦИИ КНОПОК СКВАЧИВАНИЯ */
         .download-grid { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.8rem; margin-bottom: 1.5rem; }
         .download-btn { padding: 0.9rem 1.8rem; border-radius: 50px; font-weight: 900; text-decoration: none; display: inline-flex; align-items: center; gap: 10px; transition: 0.2s cubic-bezier(0.4, 0, 0.2, 1); font-size: 0.9rem; cursor: pointer; }
-        .download-btn:active { transform: scale(0.92); } /* Эффект нажатия */
+        .download-btn:active { transform: scale(0.92); }
         .download-btn.primary { background: var(--accent); color: white; box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3); }
         .download-btn.secondary { background: #1e293b; color: white; }
         .download-btn.outline { border: 2px solid var(--accent); color: var(--accent); background: transparent; }
@@ -185,6 +184,14 @@
 
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>
+        // === НАСТРОЙКА ПРЯМЫХ ССЫЛОК ===
+        const LINKS = {
+            mod: "https://yourserver.com/rsl_mod.apk",      // Кнопка: "Скачать Mod" (Синяя)
+            clone: "https://yourserver.com/rsl_clone.apk",  // Кнопка: "Скачать Клон" (Темная)
+            original: "https://yourserver.com/original.apk" // Кнопка: "Оригинал" (Контурная)
+        };
+        // ========================
+
         AOS.init({ duration: 800, once: true, offset: 0 });
 
         const UI = {
@@ -230,9 +237,15 @@
         UI.btnLike.onclick = () => handleVote('like');
         UI.btnDislike.onclick = () => handleVote('dislike');
 
-        document.querySelectorAll('.dl-trigger').forEach(btn => {
+        document.querySelectorAll('.dl-trigger').forEach((btn, index) => {
             btn.onclick = (e) => {
                 e.preventDefault();
+
+                // Прямое скачивание в текущем окне
+                if (index === 0) window.location.href = LINKS.mod;
+                if (index === 1) window.location.href = LINKS.clone;
+                if (index === 2) window.location.href = LINKS.original;
+
                 stats.dl++;
                 save();
                 updateUI();
