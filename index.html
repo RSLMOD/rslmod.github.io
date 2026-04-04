@@ -55,10 +55,10 @@
 
         .container { max-width: 1280px; margin: 0 auto; padding: 0 1.5rem; }
 
-        /* ЛОГОТИП ВОЛНОЙ */
         .navbar { display: flex; justify-content: space-between; align-items: center; padding: 1.5rem 0; }
         .logo { font-size: 1.6rem; font-weight: 900; display: flex; gap: 0.1em; user-select: none; }
         .logo span { display: inline-block; animation: wordWaveLogo 2s infinite ease-in-out; color: var(--text-main); will-change: transform; }
+        
         .logo span:nth-child(2) { animation-delay: 0.1s; }
         .logo span:nth-child(3) { animation-delay: 0.2s; }
         .logo span:nth-child(5) { animation-delay: 0.4s; }
@@ -77,13 +77,11 @@
         }
 
         .hero { text-align: center; padding: 1rem 0; }
-
         .version-badge {
             display: block; margin: 0.8rem auto 1.5rem; width: fit-content; background: #000; color: #fff;
             padding: 4px 14px; border-radius: 20px; font-size: 0.65rem; font-weight: 900; text-transform: uppercase;
         }
 
-        /* ПЛАШКА */
         .badge {
             display: inline-block; padding: 0.6rem 1.4rem; border-radius: 40px; font-size: 0.75rem; font-weight: 900;
             margin-bottom: 2rem; position: relative; z-index: 1; background: var(--bg);
@@ -98,7 +96,6 @@
         @keyframes badgeRainbow { 0% { background-position: 0% 50%; } 100% { background-position: 200% 50%; } }
         @keyframes badgeFloat { 0%, 100% { transform: translate3d(0, 0, 0); } 50% { transform: translate3d(0, -10px, 0); } }
 
-        /* НОВЫЙ БЛОК РЕАКЦИЙ И СКАЧИВАНИЙ */
         .stats-container { display: flex; justify-content: center; gap: 1rem; margin-bottom: 2rem; flex-wrap: wrap; }
         .stat-item {
             font-weight: 800; font-size: 0.85rem; display: flex; align-items: center; gap: 8px;
@@ -106,11 +103,10 @@
             border: 1px solid var(--border); transition: 0.3s; cursor: pointer; user-select: none;
         }
         .stat-item:active { transform: scale(0.9); }
-        .stat-item.like i { color: #22c55e; } /* Зеленый палец вверх */
-        .stat-item.dislike i { color: #ef4444; } /* Красный палец вниз */
+        .stat-item.like i { color: #22c55e; }
+        .stat-item.dislike i { color: #ef4444; }
         .stat-item.dl i { color: #3b82f6; }
 
-        /* ЗАГОЛОВОК */
         h1 {
             font-size: clamp(2.5rem, 9vw, 5rem); font-weight: 900; margin-bottom: 1.5rem;
             display: flex; justify-content: center; gap: 0.3em; flex-wrap: wrap;
@@ -162,13 +158,13 @@
 
             <div class="stats-container" data-aos="fade-up">
                 <div class="stat-item dl" id="btnDl">
-                    <i class="fas fa-download"></i> <span id="countDl">---</span>
+                    <i class="fas fa-download"></i> <span id="countDl">0</span>
                 </div>
                 <div class="stat-item like" id="btnLike">
-                    <i class="fas fa-thumbs-up"></i> <span id="countLike">---</span>
+                    <i class="fas fa-thumbs-up"></i> <span id="countLike">0</span>
                 </div>
                 <div class="stat-item dislike" id="btnDislike">
-                    <i class="fas fa-thumbs-down"></i> <span id="countDislike">---</span>
+                    <i class="fas fa-thumbs-down"></i> <span id="countDislike">0</span>
                 </div>
             </div>
             
@@ -195,12 +191,12 @@
     <script>
         AOS.init({ duration: 800, once: true });
 
-        // API НАСТРОЙКИ (CountAPI)
-        const ns = "rsl_speed_reactions_v2"; 
+        // API НАСТРОЙКИ (ОБНУЛЕННЫЕ)
+        const ns = "rsl_speed_global_zero_v1"; // Новый ID для чистой статистики
         const elements = {
-            dl: { el: document.getElementById('countDl'), key: 'downloads', start: 1240 },
-            like: { el: document.getElementById('countLike'), key: 'likes', start: 856 },
-            dislike: { el: document.getElementById('countDislike'), key: 'dislikes', start: 12 }
+            dl: { el: document.getElementById('countDl'), key: 'downloads', start: 0 },
+            like: { el: document.getElementById('countLike'), key: 'likes', start: 0 },
+            dislike: { el: document.getElementById('countDislike'), key: 'dislikes', start: 0 }
         };
 
         async function api(action, key, display) {
@@ -210,8 +206,9 @@
                 display.textContent = data.value.toLocaleString();
             } catch (e) {
                 if(action === 'get') {
-                    fetch(`https://api.countapi.xyz/create?namespace=${ns}&key=${key}&value=${elements[Object.keys(elements).find(k => elements[k].key === key)].start}`);
-                    display.textContent = elements[Object.keys(elements).find(k => elements[k].key === key)].start;
+                    // Создаем счетчик с нуля
+                    fetch(`https://api.countapi.xyz/create?namespace=${ns}&key=${key}&value=0`);
+                    display.textContent = "0";
                 }
             }
         }
