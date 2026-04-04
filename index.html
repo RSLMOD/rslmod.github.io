@@ -16,20 +16,21 @@
             --card-bg: rgba(20, 20, 35, 0.7);
             --border: rgba(255, 255, 255, 0.1);
             --sub-text: #a0a5c0;
-            --logo-grad: linear-gradient(130deg, #ffffff, #3b82f6);
             --accent: #3b82f6;
-            --h1-color: #ffffff;
+            --h1-main: #ffffff;
+            --logo-color: #ffffff;
         }
 
-        /* Исправленная светлая тема с высоким контрастом */
+        /* МАКСИМАЛЬНО КОНТРАСТНАЯ СВЕТЛАЯ ТЕМА */
         body.light {
             --bg: #ffffff;
-            --text: #0f172a; 
-            --card-bg: #f8fafc; 
-            --border: #e2e8f0;
-            --sub-text: #334155; /* Очень темный серый */
-            --logo-grad: linear-gradient(130deg, #0f172a, #2563eb);
-            --h1-color: #0f172a; /* Принудительно темный заголовок */
+            --text: #000000; /* Чистый черный для максимальной четкости */
+            --card-bg: #f1f5f9;
+            --border: #cbd5e1;
+            --sub-text: #334155; /* Темно-серый (Slate 700) */
+            --accent: #2563eb;
+            --h1-main: #0f172a; /* Темно-синий почти черный заголовок */
+            --logo-color: #0f172a;
         }
 
         * {
@@ -41,11 +42,10 @@
 
         body {
             font-family: 'Inter', sans-serif;
-            transition: background 0.4s ease, color 0.4s ease;
+            transition: background 0.3s ease, color 0.3s ease;
             line-height: 1.5;
             min-height: 100vh;
             background: var(--bg) !important;
-            background-attachment: fixed;
             color: var(--text);
             overflow-x: hidden;
         }
@@ -58,15 +58,12 @@
             position: fixed;
             pointer-events: none;
             z-index: 9999;
-            transition: transform 0.2s ease;
             box-shadow: 0 0 15px var(--accent);
         }
 
         @media (max-width: 1024px) {
             #cursor { display: none; }
             * { cursor: auto; }
-            .navbar { margin-top: 2rem !important; }
-            .version-badge { top: 0.8rem !important; }
         }
 
         .container {
@@ -76,36 +73,33 @@
             position: relative;
         }
 
+        /* Версия */
         .version-badge {
             position: absolute;
-            top: 1.5rem;
+            top: 0.8rem;
             left: 50%;
             transform: translateX(-50%);
-            background: var(--card-bg);
-            border: 1px solid var(--border);
+            background: #0f172a;
+            color: #ffffff;
             padding: 4px 14px;
             border-radius: 20px;
-            font-size: 0.7rem;
+            font-size: 0.65rem;
             font-weight: 800;
-            color: var(--accent);
-            backdrop-filter: blur(10px);
-            z-index: 10;
+            z-index: 100;
         }
 
         .navbar {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 3rem;
+            margin: 2.5rem 0 3rem;
         }
 
         .logo {
-            font-size: 1.8rem;
+            font-size: 1.6rem;
             font-weight: 800;
-            background: var(--logo-grad);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
+            color: var(--logo-color);
+            letter-spacing: -1px;
         }
 
         .theme-toggle {
@@ -114,46 +108,45 @@
             padding: 0.6rem 1rem;
             border-radius: 3rem;
             color: var(--text);
-            font-weight: 600;
-            transition: 0.3s;
+            font-weight: 700;
+            font-size: 0.85rem;
         }
 
-        .hero { text-align: center; padding: 2rem 0; }
+        .hero { text-align: center; padding: 1rem 0; }
 
         .badge {
             display: inline-block;
-            background: rgba(59, 130, 246, 0.1);
-            padding: 0.4rem 1rem;
+            background: rgba(37, 99, 235, 0.1);
+            padding: 0.5rem 1.2rem;
             border-radius: 40px;
-            font-size: 0.8rem;
-            font-weight: 700;
-            color: #3b82f6;
-            margin-bottom: 1.5rem;
-            border: 1px solid rgba(59, 130, 246, 0.2);
-        }
-
-        /* Улучшенный контраст заголовка */
-        h1 {
-            font-size: clamp(2.5rem, 9vw, 5.5rem);
+            font-size: 0.75rem;
             font-weight: 800;
-            line-height: 1.1;
+            color: var(--accent);
+            margin-bottom: 2rem;
+            border: 1px solid var(--accent);
+        }
+
+        /* Исправленный заголовок */
+        h1 {
+            font-size: clamp(2.5rem, 9vw, 5rem);
+            font-weight: 900;
+            line-height: 1;
             margin-bottom: 1.5rem;
-            color: var(--h1-color); /* Используем переменную для четкого цвета */
-            letter-spacing: -0.04em;
+            color: var(--h1-main);
+            letter-spacing: -0.05em;
         }
 
+        /* Акцент в заголовке */
         h1 span {
-            background: var(--logo-grad);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
+            color: var(--accent);
         }
 
-        /* Текст описания — теперь всегда читаемый */
+        /* Описание — теперь оно ЧИТАЕМОЕ */
         .hero-desc {
             color: var(--sub-text) !important;
+            font-size: clamp(1rem, 4vw, 1.15rem);
             max-width: 600px;
-            margin: 0 auto;
+            margin: 0 auto 3rem;
             font-weight: 500;
         }
 
@@ -162,7 +155,6 @@
             flex-direction: column;
             align-items: center;
             gap: 1rem;
-            margin: 3rem 0;
         }
 
         @media (min-width: 768px) {
@@ -172,7 +164,7 @@
         .download-btn {
             padding: 1.1rem 2rem;
             border-radius: 60px;
-            font-weight: 700;
+            font-weight: 800;
             text-decoration: none;
             display: inline-flex;
             align-items: center;
@@ -183,8 +175,8 @@
             transition: 0.3s;
         }
 
-        .download-btn.primary { background: #2563eb; color: white; }
-        .download-btn.secondary { background: var(--card-bg); color: var(--text); border: 1px solid var(--border); }
+        .download-btn.primary { background: var(--accent); color: white; }
+        .download-btn.secondary { background: #1e293b; color: white; }
         .download-btn.ghost { border: 2px solid var(--accent); color: var(--accent); }
 
         .features {
@@ -197,19 +189,21 @@
         .feature-item {
             padding: 2.5rem;
             text-align: center;
-            border-radius: 2.5rem;
+            border-radius: 2rem;
             background: var(--card-bg);
             border: 1px solid var(--border);
         }
 
-        .feature-item p { color: var(--sub-text); }
+        .feature-item h3 { margin-bottom: 1rem; color: var(--h1-main); }
+        .feature-item p { color: var(--sub-text); font-weight: 500; }
         .feature-item i { font-size: 2.5rem; color: var(--accent); margin-bottom: 1.2rem; }
 
         footer {
             text-align: center;
             padding: 2rem;
             color: var(--sub-text);
-            font-size: 0.8rem;
+            font-size: 0.85rem;
+            border-top: 1px solid var(--border);
         }
     </style>
 </head>
@@ -218,11 +212,11 @@
     <div id="cursor"></div>
 
     <div class="container">
-        <div class="version-badge">VERSION 3.0.2 RELEASE</div>
+        <div class="version-badge">VERSION 3.0.2</div>
         
         <nav class="navbar" data-aos="fade-down">
             <div class="logo">RSL SPEED</div>
-            <button class="theme-toggle hover-target" id="themeToggle">
+            <button class="theme-toggle" id="themeToggle">
                 <i class="fas fa-adjust"></i> <span id="themeText">Тёмная</span>
             </button>
         </nav>
@@ -232,29 +226,29 @@
                 <i class="fas fa-bolt"></i> НОВЫЙ РЕЛИЗ
             </div>
             <h1 data-aos="fade-up">RSL Speed <span>Mod_</span></h1>
-            <p class="hero-desc" data-aos="fade-up" data-aos-delay="200">
+            <p class="hero-desc" data-aos="fade-up" data-aos-delay="100">
                 Технология ускорения игрового процесса. Стабильный FPS и минимальный инпут-лаг на любом устройстве.
             </p>
 
-            <div class="download-grid" data-aos="fade-up" data-aos-delay="400">
-                <a href="#" class="download-btn primary hover-target"><i class="fas fa-rocket"></i> Скачать Mod</a>
-                <a href="#" class="download-btn secondary hover-target"><i class="fas fa-copy"></i> Скачать Клон</a>
-                <a href="#" class="download-btn ghost hover-target"><i class="fas fa-gamepad"></i> Оригинал</a>
+            <div class="download-grid" data-aos="fade-up" data-aos-delay="200">
+                <a href="#" class="download-btn primary"><i class="fas fa-rocket"></i> Скачать Mod</a>
+                <a href="#" class="download-btn secondary"><i class="fas fa-copy"></i> Скачать Клон</a>
+                <a href="#" class="download-btn ghost">Оригинал</a>
             </div>
         </main>
 
         <section class="features">
-            <div class="feature-item hover-target" data-aos="fade-up">
+            <div class="feature-item" data-aos="zoom-in">
                 <i class="fas fa-tachometer-alt"></i>
                 <h3>Скорость</h3>
                 <p>Разблокировка лимитов и оптимизация ресурсов системы.</p>
             </div>
-            <div class="feature-item hover-target" data-aos="fade-up" data-aos-delay="100">
+            <div class="feature-item" data-aos="zoom-in" data-aos-delay="100">
                 <i class="fas fa-shield-alt"></i>
                 <h3>Защита</h3>
                 <p>Полная безопасность данных и анти-чит обход.</p>
             </div>
-            <div class="feature-item hover-target" data-aos="fade-up" data-aos-delay="200">
+            <div class="feature-item" data-aos="zoom-in" data-aos-delay="200">
                 <i class="fas fa-mobile-alt"></i>
                 <h3>Мобильность</h3>
                 <p>Играй на ПК или телефоне без потери качества.</p>
@@ -268,7 +262,7 @@
 
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>
-        AOS.init({ duration: 800, once: true });
+        AOS.init({ duration: 600, once: true });
 
         const cursor = document.getElementById('cursor');
         document.addEventListener('mousemove', (e) => {
