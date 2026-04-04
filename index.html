@@ -61,7 +61,10 @@
         .overlay.active { opacity: 1; visibility: visible; }
 
         .hero { text-align: center; }
-        .badge { display: inline-block; padding: 0.5rem 1.2rem; border-radius: 40px; font-size: 0.7rem; font-weight: 900; margin-bottom: 1.2rem; position: relative; background: var(--bg); color: #fff !important; }
+        
+        /* ИСПРАВЛЕННЫЙ БЕЙДЖ: Белый текст всегда */
+        .badge { display: inline-block; padding: 0.5rem 1.2rem; border-radius: 40px; font-size: 0.7rem; font-weight: 900; margin-bottom: 1.2rem; position: relative; background: #0a0a1a; color: #ffffff !important; }
+        .badge i { color: #ffffff !important; margin-right: 4px; }
         .badge::after { content: ''; position: absolute; top: -2px; bottom: -2px; left: -2px; right: -2px; background: linear-gradient(130deg, #3b82f6, #ec4899, #4f46e5); z-index: -1; border-radius: 40px; animation: badgeRainbow 3.5s linear infinite; background-size: 200% 200%; }
         @keyframes badgeRainbow { 0% { background-position: 0% 50%; } 100% { background-position: 200% 50%; } }
 
@@ -85,7 +88,6 @@
 
         .hero-desc { font-size: 1rem; max-width: 550px; margin: 0 auto 2.5rem; font-weight: 700; opacity: 0.85; line-height: 1.4; }
         
-        /* КНОПКИ С ОРИГИНАЛЬНОЙ АНИМАЦИЕЙ НАЖАТИЯ */
         .download-grid { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.8rem; margin-bottom: 1.5rem; }
         .download-btn { padding: 0.9rem 1.8rem; border-radius: 50px; font-weight: 900; text-decoration: none; display: inline-flex; align-items: center; gap: 10px; transition: 0.3s; font-size: 0.9rem; cursor: pointer; }
         .download-btn:active { transform: scale(0.95); }
@@ -140,7 +142,7 @@
         </nav>
 
         <main class="hero">
-            <div class="badge"><i class="fas fa-bolt"></i> НОВЫЙ РЕЛИЗ</div>
+            <div class="badge"><i class="fas fa-bolt"></i>НОВЫЙ РЕЛИЗ</div>
 
             <div class="stats-container">
                 <div class="stat-item" id="btnDl"><i class="fas fa-download" style="color:#3b82f6"></i> <span id="countDl">0</span></div>
