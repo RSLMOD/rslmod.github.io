@@ -31,7 +31,6 @@
         body { font-family: 'Inter', sans-serif; transition: 0.3s; min-height: 100vh; background: var(--bg) !important; color: var(--text-main); overflow-x: hidden; }
         .container { max-width: 1280px; margin: 0 auto; padding: 0 1.5rem; }
 
-        /* БЕГУЩАЯ СТРОКА */
         .live-ticker-container {
             width: 100%; overflow: hidden; position: absolute; top: 0; left: 0;
             height: 28px; background: rgba(0,0,0,0.15); display: flex; align-items: center; z-index: 5;
@@ -40,12 +39,10 @@
         .live-ticker span { font-weight: 900; font-size: 0.6rem; color: var(--live-text-color); margin: 0 2rem; text-transform: uppercase; letter-spacing: 2px; }
         @keyframes tickerFlow { 0% { transform: translate3d(0, 0, 0); } 100% { transform: translate3d(-50%, 0, 0); } }
 
-        /* НАВИГАЦИЯ */
-        .navbar { display: flex; justify-content: space-between; align-items: center; padding: 3.5rem 0 0.5rem; position: relative; z-index: 10; }
+        .navbar { display: flex; justify-content: space-between; align-items: center; padding: 3rem 0 0.5rem; position: relative; z-index: 10; }
         .menu-btn { background: var(--card-bg); border: 1px solid var(--border); width: 42px; height: 42px; border-radius: 12px; color: var(--text-main); display: flex; align-items: center; justify-content: center; cursor: pointer; backdrop-filter: blur(10px); transition: 0.2s; }
         .theme-toggle { background: var(--card-bg); border: 1px solid var(--border); padding: 0.5rem 1rem; border-radius: 2rem; color: var(--text-main); cursor: pointer; font-weight: 700; font-size: 0.75rem; transition: 0.3s; backdrop-filter: blur(10px); }
 
-        /* САЙДБАР */
         .sidebar { position: fixed; top: 0; left: -300px; width: 280px; height: 100%; background: var(--sidebar-bg); z-index: 1000; transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1); border-right: 1px solid var(--border); padding: 2.5rem 1.5rem; display: flex; flex-direction: column; backdrop-filter: blur(25px); }
         .sidebar.active { transform: translateX(300px); }
         .sidebar-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 2.5rem; }
@@ -59,23 +56,17 @@
         .overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 999; opacity: 0; visibility: hidden; transition: 0.4s; backdrop-filter: blur(4px); }
         .overlay.active { opacity: 1; visibility: visible; }
 
-        /* ГЕРОЙ И ВОЛНА */
         .hero { text-align: center; }
         .badge { display: inline-block; padding: 0.5rem 1.2rem; border-radius: 40px; font-size: 0.7rem; font-weight: 900; margin-bottom: 1.2rem; position: relative; background: var(--bg); color: #fff !important; }
         .badge::after { content: ''; position: absolute; top: -2px; bottom: -2px; left: -2px; right: -2px; background: linear-gradient(130deg, #3b82f6, #ec4899, #4f46e5); z-index: -1; border-radius: 40px; animation: badgeRainbow 3.5s linear infinite; background-size: 200% 200%; }
         @keyframes badgeRainbow { 0% { background-position: 0% 50%; } 100% { background-position: 200% 50%; } }
 
-        /* ЭФФЕКТ ВОЛНЫ ДЛЯ КАЖДОЙ БУКВЫ */
         h1 { font-size: clamp(2rem, 8vw, 4rem); font-weight: 900; margin-bottom: 0.8rem; text-transform: uppercase; display: flex; justify-content: center; flex-wrap: wrap; gap: 0.1rem; }
         h1 b { display: inline-block; animation: wave 2s infinite ease-in-out; }
         h1 .mod-text { color: var(--accent); margin-left: 10px; display: flex; gap: 0.1rem; }
 
-        @keyframes wave {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-15px); }
-        }
+        @keyframes wave { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-15px); } }
 
-        /* Задержки для создания волны */
         h1 b:nth-child(1) { animation-delay: 0.0s; }
         h1 b:nth-child(2) { animation-delay: 0.1s; }
         h1 b:nth-child(3) { animation-delay: 0.2s; }
@@ -88,15 +79,15 @@
         h1 .mod-text b:nth-child(2) { animation-delay: 0.9s; }
         h1 .mod-text b:nth-child(3) { animation-delay: 1.0s; }
 
-        .hero-desc { font-size: 1rem; max-width: 550px; margin: 0 auto 2.5rem; font-weight: 700; opacity: 0.8; }
+        .hero-desc { font-size: 1rem; max-width: 550px; margin: 0 auto 2rem; font-weight: 700; opacity: 0.8; }
         .download-grid { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.8rem; }
         .download-btn { padding: 0.9rem 1.8rem; border-radius: 50px; font-weight: 900; text-decoration: none; display: inline-flex; align-items: center; gap: 10px; transition: 0.2s; font-size: 0.9rem; }
         .download-btn.primary { background: var(--accent); color: white; }
         .download-btn.secondary { background: #1e293b; color: white; }
         .download-btn.outline { border: 2px solid var(--accent); color: var(--accent); background: transparent; }
 
-        /* ПЛАШКИ */
-        .features { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1rem; margin: 3rem 0; }
+        /* ОПТИМИЗАЦИЯ ПЛАШЕК ПОД ЭКРАН */
+        .features { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1rem; margin: 2rem 0; }
         .feature-item { padding: 1.8rem; text-align: center; border-radius: 1.5rem; background: var(--card-bg); border: 1px solid var(--border); transition: 0.3s; }
         .feature-item i { font-size: 2rem; color: var(--accent); margin-bottom: 0.8rem; transition: 0.3s; }
         .feature-item:hover { transform: translateY(-5px); border-color: var(--accent); }
@@ -161,17 +152,17 @@
         </main>
 
         <section class="features">
-            <div class="feature-item" data-aos="fade-up">
+            <div class="feature-item" data-aos="fade-up" data-aos-offset="0">
                 <i class="fas fa-bolt"></i>
                 <h3>Скорость</h3>
                 <p>Разблокировка лимитов и оптимизация ресурсов.</p>
             </div>
-            <div class="feature-item" data-aos="fade-up" data-aos-delay="100">
+            <div class="feature-item" data-aos="fade-up" data-aos-offset="0">
                 <i class="fas fa-lock"></i>
                 <h3>Защита</h3>
                 <p>Анти-чит обход и полная безопасность данных.</p>
             </div>
-            <div class="feature-item" data-aos="fade-up" data-aos-delay="200">
+            <div class="feature-item" data-aos="fade-up" data-aos-offset="0">
                 <i class="fas fa-mobile-alt"></i>
                 <h3>Android</h3>
                 <p>Нативная поддержка Android и работа на ПК.</p>
@@ -183,7 +174,13 @@
 
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>
-        AOS.init({ duration: 800, once: true });
+        // Инициализация AOS с нулевым отступом для моментального срабатывания
+        AOS.init({ 
+            duration: 800, 
+            once: true,
+            offset: 0 
+        });
+
         const sidebar = document.getElementById('sidebar');
         const overlay = document.getElementById('overlay');
         const openBtn = document.getElementById('openSidebar');
