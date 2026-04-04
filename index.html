@@ -28,13 +28,16 @@
         body { font-family: 'Inter', sans-serif; transition: background 0.3s; min-height: 100vh; background: var(--bg) !important; color: var(--text-main); overflow-x: hidden; }
         .container { max-width: 1280px; margin: 0 auto; padding: 0 1.5rem; }
 
-        /* ЛОГОТИП (СДЕЛАН АККУРАТНЕЕ) */
-        .navbar { display: flex; justify-content: space-between; align-items: center; padding: 1.5rem 0; }
-        .logo { font-size: 1.4rem; font-weight: 900; letter-spacing: -0.5px; user-select: none; }
-        .logo span { display: inline-block; transition: 0.3s; color: var(--text-main); animation: logoPulse 4s infinite ease-in-out; }
-        @keyframes logoPulse { 0%, 100% { transform: translateY(0); opacity: 1; } 50% { transform: translateY(-3px); opacity: 0.8; } }
-
-        .theme-toggle { background: var(--card-bg); border: 1px solid var(--border); padding: 0.5rem 1rem; border-radius: 2rem; color: var(--text-main); cursor: pointer; font-weight: 700; font-size: 0.9rem; }
+        /* ШАПКА (БЕЗ ЛОГОТИПА) */
+        .navbar { display: flex; justify-content: flex-end; align-items: center; padding: 1.5rem 0; }
+        
+        .theme-toggle { 
+            background: var(--card-bg); border: 1px solid var(--border); 
+            padding: 0.6rem 1.2rem; border-radius: 2rem; color: var(--text-main); 
+            cursor: pointer; font-weight: 700; font-size: 0.85rem;
+            transition: 0.3s;
+        }
+        .theme-toggle:hover { transform: scale(1.05); border-color: var(--accent); }
 
         .hero { text-align: center; padding: 1rem 0; }
         .version-badge { display: block; margin: 0.8rem auto 1.5rem; width: fit-content; background: #000; color: #fff; padding: 4px 14px; border-radius: 20px; font-size: 0.65rem; font-weight: 900; }
@@ -54,33 +57,31 @@
         .stat-item.active-like { background: rgba(34, 197, 94, 0.2); border-color: #22c55e; }
         .stat-item.active-dislike { background: rgba(239, 68, 68, 0.2); border-color: #ef4444; }
 
-        /* ЗАГОЛОВОК */
+        /* ЗАГОЛОВОК (ШЕВЕЛИТСЯ) */
         h1 { font-size: clamp(2.5rem, 9vw, 5rem); font-weight: 900; margin-bottom: 1.5rem; display: flex; justify-content: center; gap: 0.3em; flex-wrap: wrap; }
         h1 span { display: inline-block; animation: wordWave 2.5s infinite ease-in-out; }
         h1 span.mod-text { color: #2563eb; }
         h1 span:nth-child(2) { animation-delay: 0.2s; }
         h1 span:nth-child(3) { animation-delay: 0.4s; }
-        @keyframes wordWave { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+        @keyframes wordWave { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-12px); } }
 
         .hero-desc { font-size: clamp(1rem, 4vw, 1.15rem); max-width: 600px; margin: 0 auto 3rem; font-weight: 700; opacity: 0.9; }
 
-        /* КНОПКИ С АНИМАЦИЕЙ ИКОНОК */
+        /* КНОПКИ */
         .download-grid { display: flex; flex-wrap: wrap; justify-content: center; gap: 1.2rem; }
         .download-btn {
             padding: 1.1rem 2.2rem; border-radius: 60px; font-weight: 900; text-decoration: none;
-            display: inline-flex; align-items: center; gap: 12px; transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); cursor: pointer;
+            display: inline-flex; align-items: center; gap: 12px; transition: 0.3s; cursor: pointer;
         }
         .download-btn.primary { background: #2563eb; color: white; box-shadow: 0 10px 20px rgba(37, 99, 235, 0.3); }
         .download-btn.secondary { background: #1e293b; color: white; }
         .download-btn.outline { border: 2px solid #2563eb; color: #2563eb; background: transparent; }
         
-        .download-btn:hover { transform: translateY(-5px); }
-        .download-btn i { transition: 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55); }
-        
-        /* Класс для анимации иконки при клике (добавляется через JS) */
-        .icon-jump { transform: scale(1.4) translateY(-5px); color: #fff; }
+        /* АНИМАЦИЯ ИКОНОК */
+        .download-btn i { transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+        .icon-jump { transform: scale(1.5) translateY(-5px) rotate(10deg); color: #fff !important; }
 
-        /* ПЛАШКИ ОСОБЕННОСТЕЙ */
+        /* ПЛАШКИ */
         .features { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; margin: 4rem 0; }
         .feature-item {
             padding: 2.5rem; text-align: center; border-radius: 2rem; background: var(--card-bg); border: 1px solid var(--border);
@@ -97,9 +98,6 @@
 
     <div class="container">
         <nav class="navbar">
-            <div class="logo">
-                <span>RSL SPEED MOD</span>
-            </div>
             <div class="theme-toggle" id="themeToggle"><i class="fas fa-adjust"></i> <span id="themeText">Тёмная</span></div>
         </nav>
 
@@ -194,7 +192,7 @@
                 localStorage.setItem('global_dl', stats.dl);
                 updateDisplay();
 
-                // АНИМАЦИЯ ИКОНКИ ПРИ НАЖАТИИ
+                // Анимация иконки
                 const icon = btn.querySelector('i');
                 icon.classList.add('icon-jump');
                 setTimeout(() => icon.classList.remove('icon-jump'), 400);
