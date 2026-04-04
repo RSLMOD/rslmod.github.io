@@ -27,7 +27,7 @@
         body { font-family: 'Inter', sans-serif; transition: background 0.3s; min-height: 100vh; background: var(--bg) !important; color: var(--text-main); overflow-x: hidden; }
         .container { max-width: 1280px; margin: 0 auto; padding: 0 1.5rem; }
 
-        /* ШАПКА БЕЗ ОТСТУПОВ */
+        /* ШАПКА */
         .navbar { display: flex; justify-content: flex-end; padding: 0.8rem 0; }
         
         .theme-toggle { 
@@ -76,20 +76,23 @@
         .download-btn.secondary { background: #1e293b; color: white; }
         .download-btn.outline { border: 2px solid #2563eb; color: #2563eb; background: transparent; }
         
-        /* ИСПРАВЛЕННАЯ АНИМАЦИЯ ИКОНОК */
+        /* АНИМАЦИЯ ИКОНОК НА КНОПКАХ */
         .download-btn i { transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); pointer-events: none; }
         .icon-jump { transform: translateY(-8px) scale(1.4) !important; }
-        /* Чтобы иконка не исчезала на светлой теме в кнопке Оригинал */
+        /* Фикс для outline кнопок на светлой теме */
         .outline .icon-jump { color: #2563eb !important; }
 
-        /* ПЛАШКИ */
+        /* ПЛАШКИ ОСОБЕННОСТЕЙ (ВОССТАНОВЛЕНА АНИМАЦИЯ) */
         .features { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1rem; margin: 2.5rem 0; }
         .feature-item {
             padding: 1.8rem; text-align: center; border-radius: 1.2rem; background: var(--card-bg); border: 1px solid var(--border);
-            backdrop-filter: blur(8px); transition: 0.3s;
+            backdrop-filter: blur(8px); transition: 0.3s; cursor: pointer;
         }
         .feature-item i { font-size: 2rem; color: #2563eb; margin-bottom: 0.8rem; transition: 0.3s; }
+        
+        /* ВОТ ЭТОТ БЛОК ОТВЕЧАЕТ ЗА "ШЕВЕЛЕНИЕ" */
         .feature-item:hover { transform: translateY(-5px); border-color: var(--accent); }
+        .feature-item:hover i { transform: scale(1.1) rotate(5deg); color: #ec4899; }
 
         footer { text-align: center; padding: 1.5rem; font-weight: 800; opacity: 0.5; font-size: 0.75rem; }
     </style>
