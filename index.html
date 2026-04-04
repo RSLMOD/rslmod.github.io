@@ -16,14 +16,15 @@
 
         body {
             font-family: 'Inter', sans-serif;
-            background: var(--bg-gradient);
-            color: var(--text-primary);
-            transition: background 0.3s ease, color 0.2s ease;
+            /* Начальные цвета будут переопределены через JS на старте */
+            background: radial-gradient(circle at 10% 20%, #0a0a1a, #02020f);
+            color: #f0f0ff;
+            transition: background 0.25s ease, color 0.2s ease;
             line-height: 1.5;
             min-height: 100vh;
         }
 
-        /* ========== ТЕМЫ ========== */
+        /* Базовые CSS-переменные для ТЁМНОЙ темы (по умолчанию) */
         :root {
             --bg-gradient: radial-gradient(circle at 10% 20%, rgba(0, 0, 0, 0.98), #0a0a1a);
             --card-bg: rgba(20, 20, 35, 0.7);
@@ -38,6 +39,7 @@
             --border-light: 1px solid rgba(255,255,255,0.1);
         }
 
+        /* СВЕТЛАЯ ТЕМА — будет применяться через класс .light на body */
         body.light {
             --bg-gradient: radial-gradient(circle at 10% 20%, #f8fafc, #e2e8f0);
             --card-bg: rgba(255, 255, 255, 0.85);
@@ -52,7 +54,12 @@
             --border-light: 1px solid rgba(0,0,0,0.08);
         }
 
-        /* GLASS BACKDROP */
+        /* Применяем переменные к элементам */
+        body {
+            background: var(--bg-gradient);
+            color: var(--text-primary);
+        }
+
         .glass-card {
             background: var(--card-bg);
             backdrop-filter: blur(14px);
@@ -139,7 +146,7 @@
             color: transparent;
         }
 
-        .light h1 {
+        body.light h1 {
             background: linear-gradient(135deg, #0f172a, #2563eb);
             -webkit-background-clip: text;
             background-clip: text;
@@ -348,148 +355,131 @@
     </div>
 
     <script>
-        // ========== РЕАЛЬНЫЕ ССЫЛКИ ДЛЯ СКАЧИВАНИЯ ==========
+        // ========== РЕАЛЬНЫЕ ССЫЛКИ ДЛЯ СКАЧИВАНИЯ (ЗАМЕНИ НА СВОИ) ==========
         const DOWNLOAD_LINKS = {
             mod: 'https://cdn.example.com/RSL_Speed_Mod_v3.0.zip',
             clone: 'https://cdn.example.com/RSL_Clone_Mod_v2.1.apk',
             original: 'https://cdn.example.com/Original_Game_v1.0.8.exe'
         };
         
-        // ====================== ТЕМНАЯ / СВЕТЛАЯ ТЕМА (ИСПРАВЛЕНО) ======================
+        // ====================== ТЕМНАЯ / СВЕТЛАЯ ТЕМА — ИСПРАВЛЕНАЯ ВЕРСИЯ ======================
         const themeToggleBtn = document.getElementById('themeToggle');
         const themeTextSpan = document.getElementById('themeText');
         const iconTheme = themeToggleBtn.querySelector('i');
 
-        // Функция применения темы (без дублирования)
-        function applyTheme(theme) {
-            if (theme === 'light') {
+        // Функция принудительного применения темы (меняем класс и текст)
+        function setTheme(themeName) {
+            if (themeName === 'light') {
+                // Добавляем класс light на body
                 document.body.classList.add('light');
+                // Меняем иконку и текст
                 themeTextSpan.innerText = 'Светлая';
                 iconTheme.className = 'fas fa-sun';
+                // Сохраняем выбор
+                localStorage.setItem('rsl-theme', 'light');
+                console.log('🌞 Светлая тема активирована');
             } else {
+                // Убираем класс light
                 document.body.classList.remove('light');
                 themeTextSpan.innerText = 'Тёмная';
                 iconTheme.className = 'fas fa-moon';
-            }
-        }
-
-        // Загружаем сохранённую тему или определяем системные настройки
-        const savedTheme = localStorage.getItem('rsl-theme');
-        
-        if (savedTheme === 'light') {
-            applyTheme('light');
-        } else if (savedTheme === 'dark') {
-            applyTheme('dark');
-        } else {
-            // Определяем системные настройки (работает на всех современных браузерах)
-            const prefersLight = window.matchMedia('(prefers-color-scheme: light)').matches;
-            const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-            
-            if (prefersLight) {
-                applyTheme('light');
-            } else if (prefersDark) {
-                applyTheme('dark');
-            } else {
-                // Если ничего не определено — ставим тёмную тему по умолчанию (круто для мода)
-                applyTheme('dark');
-            }
-        }
-
-        // Переключение по кнопке
-        themeToggleBtn.addEventListener('click', () => {
-            const isCurrentlyLight = document.body.classList.contains('light');
-            if (isCurrentlyLight) {
-                applyTheme('dark');
                 localStorage.setItem('rsl-theme', 'dark');
+                console.log('🌙 Тёмная тема активирована');
+            }
+        }
+
+        // ИНИЦИАЛИЗАЦИЯ: определяем, какая тема должна быть при загрузке
+        const storedTheme = localStorage.getItem('rsl-theme');
+        
+        if (storedTheme === 'light') {
+            setTheme('light');
+        } 
+        else if (storedTheme === 'dark') {
+            setTheme('dark');
+        }
+        else {
+            // Если в localStorage ничего нет — смотрим системные настройки
+            const prefersLightScheme = window.matchMedia('(prefers-color-scheme: light)').matches;
+            const prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            
+            if (prefersLightScheme) {
+                setTheme('light');
+            } 
+            else if (prefersDarkScheme) {
+                setTheme('dark');
+            }
+            else {
+                // По умолчанию ставим ТЁМНУЮ (для стиля мода)
+                setTheme('dark');
+            }
+        }
+
+        // Обработчик клика по кнопке переключения
+        themeToggleBtn.addEventListener('click', () => {
+            const isLightCurrently = document.body.classList.contains('light');
+            if (isLightCurrently) {
+                setTheme('dark');
             } else {
-                applyTheme('light');
-                localStorage.setItem('rsl-theme', 'light');
+                setTheme('light');
             }
         });
 
         // ====================== ОБРАБОТЧИКИ СКАЧИВАНИЯ (ПРЯМЫЕ ССЫЛКИ) ======================
-        // МОД
         const modBtn = document.getElementById('downloadModBtn');
+        const cloneBtn = document.getElementById('downloadCloneBtn');
+        const originalBtn = document.getElementById('downloadOriginalBtn');
+
         modBtn.addEventListener('click', (e) => {
             e.preventDefault();
             window.location.href = DOWNLOAD_LINKS.mod;
         });
 
-        // КЛОН МОДА
-        const cloneBtn = document.getElementById('downloadCloneBtn');
         cloneBtn.addEventListener('click', (e) => {
             e.preventDefault();
             window.location.href = DOWNLOAD_LINKS.clone;
         });
 
-        // ОРИГИНАЛ ИГРЫ
-        const originalBtn = document.getElementById('downloadOriginalBtn');
         originalBtn.addEventListener('click', (e) => {
             e.preventDefault();
             window.location.href = DOWNLOAD_LINKS.original;
         });
 
-        // Дополнительный интерактив: стильное уведомление о начале загрузки
-        function showDownloadToast(message) {
-            const toast = document.createElement('div');
-            toast.innerText = message;
+        // === Небольшие уведомления (для красоты, не влияют на тему) ===
+        function showFloatyMessage(msg) {
+            let toast = document.createElement('div');
+            toast.innerText = msg;
             toast.style.position = 'fixed';
             toast.style.bottom = '24px';
             toast.style.left = '50%';
             toast.style.transform = 'translateX(-50%)';
-            toast.style.backgroundColor = 'rgba(0, 0, 0, 0.85)';
+            toast.style.background = 'rgba(0,0,0,0.85)';
             toast.style.backdropFilter = 'blur(12px)';
             toast.style.color = 'white';
-            toast.style.padding = '12px 28px';
+            toast.style.padding = '10px 24px';
             toast.style.borderRadius = '60px';
             toast.style.fontWeight = '600';
             toast.style.fontSize = '0.9rem';
             toast.style.zIndex = '9999';
             toast.style.border = '1px solid rgba(255,255,255,0.2)';
-            toast.style.fontFamily = "'Inter', sans-serif";
-            toast.style.boxShadow = '0 10px 25px rgba(0,0,0,0.3)';
+            toast.style.fontFamily = "'Inter', sans-serif';
             toast.style.pointerEvents = 'none';
-            toast.style.letterSpacing = '0.3px';
             document.body.appendChild(toast);
-            
-            // Анимация появления
-            toast.style.opacity = '0';
-            toast.style.transition = 'opacity 0.2s ease';
-            setTimeout(() => { toast.style.opacity = '1'; }, 10);
-            
-            setTimeout(() => {
-                toast.style.opacity = '0';
-                setTimeout(() => toast.remove(), 300);
-            }, 2200);
+            setTimeout(() => toast.remove(), 2000);
         }
 
-        // Добавляем уведомления для лучшего UX (необязательно, но приятно)
-        modBtn.addEventListener('click', () => {
-            showDownloadToast('🚀 RSL Speed Mod — загрузка началась');
-        });
-        cloneBtn.addEventListener('click', () => {
-            showDownloadToast('📀 Клон мода (Clone+) — загрузка');
-        });
-        originalBtn.addEventListener('click', () => {
-            showDownloadToast('🎮 Оригинальная игра — загрузка');
-        });
+        modBtn.addEventListener('click', () => showFloatyMessage('🚀 RSL Speed Mod — загрузка...'));
+        cloneBtn.addEventListener('click', () => showFloatyMessage('📀 Клон мода — загрузка...'));
+        originalBtn.addEventListener('click', () => showFloatyMessage('🎮 Оригинал игры — загрузка...'));
 
-        // Тач-эффекты для мобильных устройств
+        // Мобильные тач-эффекты
         if ('ontouchstart' in window) {
-            const allBtns = document.querySelectorAll('.download-btn');
-            allBtns.forEach(btn => {
-                btn.addEventListener('touchstart', () => {
-                    btn.style.transform = 'scale(0.97)';
-                });
-                btn.addEventListener('touchend', () => {
-                    btn.style.transform = '';
-                });
+            document.querySelectorAll('.download-btn').forEach(btn => {
+                btn.addEventListener('touchstart', () => btn.style.transform = 'scale(0.97)');
+                btn.addEventListener('touchend', () => btn.style.transform = '');
             });
         }
 
-        // Лог в консоль, что всё работает корректно
-        console.log('✅ RSL Speed Mod | Тема работает | Ссылки для скачивания:', DOWNLOAD_LINKS);
-        console.log('🌓 Текущая тема:', document.body.classList.contains('light') ? 'Светлая' : 'Тёмная');
+        console.log('✅ Сайт RSL Speed Mod загружен. Тема работает, ссылки активны.');
     </script>
 </body>
 </html>
