@@ -26,7 +26,7 @@
             color: #f0f0ff;
         }
 
-        /* СВЕТЛАЯ ТЕМА — просто переключаем фон и цвета напрямую, без переменных */
+        /* СВЕТЛАЯ ТЕМА */
         body.light {
             background: radial-gradient(circle at 10% 20%, #f8fafc, #e2e8f0);
             color: #0f172a;
@@ -162,13 +162,13 @@
             cursor: pointer;
         }
 
-        .download-btn:first-child {
+        .download-btn.primary {
             background: linear-gradient(135deg, #2563eb, #1e40af);
             color: white;
             box-shadow: 0 8px 20px rgba(37, 99, 235, 0.3);
         }
 
-        body.light .download-btn:first-child {
+        body.light .download-btn.primary {
             background: linear-gradient(135deg, #3b82f6, #2563eb);
         }
 
@@ -190,11 +190,6 @@
             border: 2px solid #3b82f6;
             color: #3b82f6;
             box-shadow: none;
-        }
-
-        body.light .download-btn.ghost {
-            border: 2px solid #3b82f6;
-            color: #3b82f6;
         }
 
         .download-btn i {
@@ -296,6 +291,7 @@
             animation: float 3s infinite ease-in-out;
         }
 
+        .download-btn:nth-child(1) { animation-delay: 0s; }
         .download-btn:nth-child(2) { animation-delay: 0.2s; }
         .download-btn:nth-child(3) { animation-delay: 0.4s; }
 
@@ -336,7 +332,7 @@
             <p>Полный контроль скорости, нереальный отклик и чистая магия геймплея. Мод, который превращает оригинал в ракету. Выбери свою версию:</p>
 
             <div class="download-grid">
-                <a href="#" class="download-btn" id="downloadModBtn">
+                <a href="#" class="download-btn primary" id="downloadModBtn">
                     <i class="fas fa-rocket"></i> Скачать RSL Speed Mod
                 </a>
                 <a href="#" class="download-btn secondary" id="downloadCloneBtn">
@@ -376,14 +372,14 @@
     </div>
 
     <script>
-        // ССЫЛКИ ДЛЯ СКАЧИВАНИЯ (ЗАМЕНИ НА СВОИ)
+        // ========== ССЫЛКИ ДЛЯ СКАЧИВАНИЯ (ЗАМЕНИ НА СВОИ) ==========
         const DOWNLOAD_LINKS = {
             mod: 'https://cdn.example.com/RSL_Speed_Mod_v3.0.zip',
             clone: 'https://cdn.example.com/RSL_Clone_Mod_v2.1.apk',
             original: 'https://cdn.example.com/Original_Game_v1.0.8.exe'
         };
         
-        // ========== ПЕРЕКЛЮЧЕНИЕ ТЕМЫ (РАБОТАЕТ!) ==========
+        // ========== ПЕРЕКЛЮЧЕНИЕ ТЕМЫ ==========
         const themeBtn = document.getElementById('themeToggle');
         const themeSpan = document.getElementById('themeText');
         const themeIcon = themeBtn.querySelector('i');
@@ -394,11 +390,13 @@
                 themeSpan.textContent = 'Светлая';
                 themeIcon.className = 'fas fa-sun';
                 localStorage.setItem('rsl-theme', 'light');
+                console.log('🌞 Светлая тема включена');
             } else {
                 document.body.classList.remove('light');
                 themeSpan.textContent = 'Тёмная';
                 themeIcon.className = 'fas fa-moon';
                 localStorage.setItem('rsl-theme', 'dark');
+                console.log('🌙 Тёмная тема включена');
             }
         }
 
@@ -417,8 +415,9 @@
             }
         }
 
-        // Кнопка переключения
-        themeBtn.addEventListener('click', () => {
+        // Кнопка переключения темы
+        themeBtn.addEventListener('click', function() {
+            console.log('Кнопка нажата!');
             if (document.body.classList.contains('light')) {
                 setTheme('dark');
             } else {
@@ -426,21 +425,34 @@
             }
         });
 
-        // ========== СКАЧИВАНИЕ ==========
-        document.getElementById('downloadModBtn').addEventListener('click', (e) => {
-            e.preventDefault();
-            window.location.href = DOWNLOAD_LINKS.mod;
-        });
-        
-        document.getElementById('downloadCloneBtn').addEventListener('click', (e) => {
-            e.preventDefault();
-            window.location.href = DOWNLOAD_LINKS.clone;
-        });
-        
-        document.getElementById('downloadOriginalBtn').addEventListener('click', (e) => {
-            e.preventDefault();
-            window.location.href = DOWNLOAD_LINKS.original;
-        });
+        // ========== КНОПКИ СКАЧИВАНИЯ ==========
+        const modBtn = document.getElementById('downloadModBtn');
+        const cloneBtn = document.getElementById('downloadCloneBtn');
+        const originalBtn = document.getElementById('downloadOriginalBtn');
+
+        if (modBtn) {
+            modBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                console.log('Скачивание мода:', DOWNLOAD_LINKS.mod);
+                window.location.href = DOWNLOAD_LINKS.mod;
+            });
+        }
+
+        if (cloneBtn) {
+            cloneBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                console.log('Скачивание клона:', DOWNLOAD_LINKS.clone);
+                window.location.href = DOWNLOAD_LINKS.clone;
+            });
+        }
+
+        if (originalBtn) {
+            originalBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                console.log('Скачивание оригинала:', DOWNLOAD_LINKS.original);
+                window.location.href = DOWNLOAD_LINKS.original;
+            });
+        }
 
         // Уведомления
         function showToast(msg) {
@@ -460,13 +472,16 @@
             toast.style.zIndex = '9999';
             toast.style.fontFamily = "'Inter', sans-serif';
             toast.style.pointerEvents = 'none';
+            toast.style.whiteSpace = 'nowrap';
             document.body.appendChild(toast);
             setTimeout(() => toast.remove(), 2000);
         }
 
-        document.getElementById('downloadModBtn').addEventListener('click', () => showToast('🚀 RSL Speed Mod — загрузка...'));
-        document.getElementById('downloadCloneBtn').addEventListener('click', () => showToast('📀 Клон мода — загрузка...'));
-        document.getElementById('downloadOriginalBtn').addEventListener('click', () => showToast('🎮 Оригинал игры — загрузка...'));
+        if (modBtn) modBtn.addEventListener('click', () => showToast('🚀 RSL Speed Mod — загрузка...'));
+        if (cloneBtn) cloneBtn.addEventListener('click', () => showToast('📀 Клон мода — загрузка...'));
+        if (originalBtn) originalBtn.addEventListener('click', () => showToast('🎮 Оригинал игры — загрузка...'));
+
+        console.log('✅ Сайт полностью загружен. Кнопка темы и скачивания работают!');
     </script>
 </body>
 </html>
