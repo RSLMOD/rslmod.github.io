@@ -17,16 +17,18 @@
             --accent: #3b82f6;
             --card-bg: rgba(20, 20, 35, 0.7);
             --border: rgba(255, 255, 255, 0.1);
+            --logo-grad: linear-gradient(130deg, #ffffff, #3b82f6);
         }
 
-        /* ФИКС СВЕТЛОЙ ТЕМЫ: ЧЕРНЫЙ ТЕКСТ И ВИДИМЫЕ КАРТОЧКИ */
+        /* КРИТИЧЕСКИЕ ПРАВКИ ДЛЯ СВЕТЛОЙ ТЕМЫ */
         body.light {
             --bg: #ffffff;
             --text-main: #000000 !important; 
-            --text-sub: #000000 !important;
+            --text-sub: #1e293b !important;  
             --accent: #2563eb;
-            --card-bg: #f3f4f6 !important; /* Явный светло-серый фон для карточек */
-            --border: #e5e7eb;
+            --card-bg: #f1f5f9;
+            --border: #cbd5e1;
+            --logo-grad: none; 
         }
 
         * {
@@ -39,7 +41,7 @@
         body {
             font-family: 'Inter', sans-serif;
             transition: background 0.3s ease, color 0.3s ease;
-            line-height: 1.5;
+            line-height: 1.4;
             min-height: 100vh;
             background: var(--bg) !important;
             color: var(--text-main);
@@ -71,15 +73,18 @@
 
         .version-badge {
             display: block;
-            margin: 0.8rem auto 0;
+            margin: 0.5rem auto 0;
             width: fit-content;
             background: #000000;
             color: #ffffff;
-            padding: 4px 14px;
+            padding: 3px 12px;
             border-radius: 20px;
             font-size: 0.65rem;
             font-weight: 900;
             text-transform: uppercase;
+            letter-spacing: 1px;
+            position: relative;
+            z-index: 10;
         }
 
         .navbar {
@@ -90,54 +95,58 @@
         }
 
         .logo {
-            font-size: 1.6rem;
+            font-size: 1.5rem;
             font-weight: 900;
             color: var(--text-main);
+            background: var(--logo-grad);
+            -webkit-background-clip: text;
+            background-clip: text;
         }
 
         .theme-toggle {
             background: var(--card-bg);
             border: 1px solid var(--border);
-            padding: 0.5rem 1rem;
+            padding: 0.5rem 0.8rem;
             border-radius: 2rem;
             color: var(--text-main);
             font-weight: 700;
-            font-size: 0.85rem;
-            display: flex;
-            align-items: center;
-            gap: 8px;
+            font-size: 0.8rem;
+            transition: 0.3s;
         }
 
         .hero { text-align: center; padding: 2rem 0; }
 
         .badge {
             display: inline-block;
-            background: #dbeafe;
-            padding: 0.5rem 1.2rem;
+            background: rgba(37, 99, 235, 0.1);
+            padding: 0.4rem 1rem;
             border-radius: 40px;
             font-size: 0.75rem;
             font-weight: 800;
-            color: #2563eb;
-            margin-bottom: 2rem;
-            border: 1px solid #bfdbfe;
+            color: var(--accent);
+            margin-bottom: 1.5rem;
+            border: 1px solid var(--accent);
         }
 
         h1 {
-            font-size: clamp(2.5rem, 9vw, 5rem);
+            font-size: clamp(2.4rem, 8vw, 4.8rem);
             font-weight: 900;
-            line-height: 1;
-            margin-bottom: 1.5rem;
+            line-height: 1.1;
+            margin-bottom: 1rem;
             color: var(--text-main) !important;
+            letter-spacing: -0.04em;
         }
 
-        h1 span { color: #2563eb; }
+        h1 span {
+            color: var(--accent);
+        }
 
         .hero-desc {
             color: var(--text-sub) !important;
-            font-size: clamp(1rem, 4vw, 1.15rem);
-            max-width: 600px;
-            margin: 0 auto 3rem;
-            font-weight: 700;
+            font-size: clamp(1rem, 4vw, 1.1rem);
+            max-width: 550px;
+            margin: 0 auto 2.5rem;
+            font-weight: 600;
         }
 
         .download-grid {
@@ -145,7 +154,6 @@
             flex-direction: column;
             align-items: center;
             gap: 1rem;
-            margin-bottom: 4rem;
         }
 
         @media (min-width: 768px) {
@@ -153,43 +161,51 @@
         }
 
         .download-btn {
-            padding: 1.1rem 2rem;
-            border-radius: 60px;
-            font-weight: 900;
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            font-weight: 800;
             text-decoration: none;
             display: inline-flex;
             align-items: center;
             gap: 10px;
             width: 100%;
-            max-width: 280px;
+            max-width: 260px;
             justify-content: center;
+            transition: 0.2s;
         }
 
-        .download-btn.primary { background: #2563eb; color: white; }
+        .download-btn.primary { background: var(--accent); color: white; }
         .download-btn.secondary { background: #1e293b; color: white; }
-        .download-btn.ghost { border: 2px solid #2563eb; color: #2563eb; }
+        .download-btn.ghost { border: 2px solid var(--accent); color: var(--accent); }
 
         .features {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
             gap: 1.5rem;
-            padding-bottom: 4rem;
+            margin: 3rem 0;
         }
 
-        /* ИСПРАВЛЕННАЯ КАРТОЧКА */
         .feature-item {
             padding: 2.5rem;
             text-align: center;
-            border-radius: 2.5rem;
-            background: var(--card-bg) !important; /* Принудительный фон */
+            border-radius: 2rem;
+            background: var(--card-bg);
             border: 1px solid var(--border);
+            transition: 0.3s;
         }
 
-        .feature-item h3 { margin-bottom: 0.8rem; color: var(--text-main) !important; font-weight: 900; }
-        .feature-item p { color: var(--text-main) !important; font-weight: 600; opacity: 0.9; }
-        .feature-item i { font-size: 2.5rem; color: #2563eb; margin-bottom: 1.2rem; }
+        .feature-item h3 { margin-bottom: 0.8rem; color: var(--text-main); font-weight: 800; }
+        .feature-item p { color: var(--text-sub); font-weight: 500; }
+        .feature-item i { font-size: 2.2rem; color: var(--accent); margin-bottom: 1.2rem; }
 
-        footer { text-align: center; padding: 2rem; color: var(--text-main); font-weight: 800; opacity: 0.6; }
+        footer {
+            text-align: center;
+            padding: 3rem 2rem;
+            color: var(--text-sub);
+            font-size: 0.8rem;
+            font-weight: 600;
+            border-top: 1px solid var(--border);
+        }
     </style>
 </head>
 <body>
@@ -198,7 +214,7 @@
     <div class="version-badge">VERSION 3.0.2</div>
 
     <div class="container">
-        <nav class="navbar">
+        <nav class="navbar" data-aos="fade-down">
             <div class="logo">RSL SPEED</div>
             <button class="theme-toggle" id="themeToggle">
                 <i class="fas fa-circle-half-stroke"></i> <span id="themeText">Тёмная</span>
@@ -206,45 +222,57 @@
         </nav>
 
         <main class="hero">
-            <div class="badge"><i class="fas fa-bolt"></i> НОВЫЙ РЕЛИЗ</div>
+            <div class="badge">
+                <i class="fas fa-bolt"></i> НОВЫЙ РЕЛИЗ
+            </div>
             <h1 data-aos="fade-up">RSL Speed <span>Mod_</span></h1>
             <p class="hero-desc" data-aos="fade-up" data-aos-delay="100">
                 Технология ускорения игрового процесса. Стабильный FPS и минимальный инпут-лаг на любом устройстве.
             </p>
 
             <div class="download-grid" data-aos="fade-up" data-aos-delay="200">
-                <a href="#" class="download-btn primary">Скачать Mod</a>
-                <a href="#" class="download-btn secondary">Скачать Клон</a>
+                <a href="#" class="download-btn primary"><i class="fas fa-rocket"></i> Скачать Mod</a>
+                <a href="#" class="download-btn secondary"><i class="fas fa-copy"></i> Скачать Клон</a>
                 <a href="#" class="download-btn ghost">Оригинал</a>
             </div>
         </main>
 
         <section class="features">
             <div class="feature-item" data-aos="zoom-in">
-                <i class="fas fa-bolt"></i>
+                <i class="fas fa-tachometer-alt"></i>
                 <h3>Скорость</h3>
                 <p>Разблокировка лимитов и оптимизация ресурсов системы.</p>
             </div>
             <div class="feature-item" data-aos="zoom-in" data-aos-delay="100">
-                <i class="fas fa-lock"></i>
+                <i class="fas fa-shield-alt"></i>
                 <h3>Защита</h3>
                 <p>Полная безопасность данных и анти-чит обход.</p>
             </div>
+            <div class="feature-item" data-aos="zoom-in" data-aos-delay="200">
+                <i class="fas fa-mobile-alt"></i>
+                <h3>Мобильность</h3>
+                <p>Играй на ПК или телефоне без потери качества.</p>
+            </div>
         </section>
 
-        <footer><p>© 2026 RSL Speed Mod</p></footer>
+        <footer>
+            <p>© 2026 RSL Speed Mod. Все права защищены.</p>
+        </footer>
     </div>
 
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>
-        AOS.init({ duration: 500, once: true });
+        AOS.init({ duration: 600, once: true });
+
         const cursor = document.getElementById('cursor');
         document.addEventListener('mousemove', (e) => {
             cursor.style.left = e.clientX + 'px';
             cursor.style.top = e.clientY + 'px';
         });
+
         const themeBtn = document.getElementById('themeToggle');
         const themeSpan = document.getElementById('themeText');
+
         function setTheme(theme) {
             if (theme === 'light') {
                 document.body.classList.add('light');
@@ -256,10 +284,12 @@
                 localStorage.setItem('theme', 'dark');
             }
         }
+
         themeBtn.onclick = () => {
             const current = document.body.classList.contains('light') ? 'dark' : 'light';
             setTheme(current);
         };
+
         const saved = localStorage.getItem('theme') || 'dark';
         setTheme(saved);
     </script>
