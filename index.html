@@ -180,11 +180,7 @@
 
         /* Маска для создания тонкого контура */
         .feature-item::before {
-            content: ''; position: absolute;
-            top: 2px; left: 2px; right: 2px; bottom: 2px; 
-            background: var(--card-bg); 
-            border-radius: 1.4rem; /* Исправлено: значение радиуса подобрано для устранения острых углов маски */
-            z-index: 0;
+            display: none; /* Полностью отключаем проблемную маску */
         }
 
         .icon-jump { animation: jump 0.4s ease; }
