@@ -3,14 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>RSL Speed Mod | Official Premium Dashboard</title>
+    <title>RSL Speed Mod</title>
     
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800;900&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
 
     <script>
-        // === КОНФИГУРАЦИЯ ССЫЛОК ===
+        // === НАСТРОЙКА ПРЯМЫХ ССЫЛОК (МЕНЯТЬ ТУТ) ===
         const LINKS = {
             mod: "https://github.com/RSLMOD/rslmod.github.io/releases/download/rsl/RSL.Speed_v11.40.0.122893.apk",
             clone: "https://github.com/RSLMOD/rslmod.github.io/releases/download/rsl/RSL.Speed.Clone_v11.40.0.122893.apk",
@@ -21,387 +21,287 @@
             clone_getmods: "https://example.com/getmods_paid_clone.apk",
             speed_x100: "https://example.com/speed_x100.apk",
             speed_x100_clone: "https://example.com/speed_x100_clone.apk",
+            faq: "https://telegra.ph/FAQ-po-RSL-Speed-Mod-06-12",
             vpn: "https://example.com/working_vpn.apk"
         };
     </script>
 
     <style>
         :root {
-            --bg: radial-gradient(circle at 10% 20%, #06060e 0%, #020205 100%);
-            --accent: #3b82f6;
-            --accent-glow: rgba(59, 130, 246, 0.5);
+            --bg: radial-gradient(circle at 10% 20%, #0a0a1a, #02020f);
             --text-main: #ffffff;
-            --text-dim: rgba(255, 255, 255, 0.6);
-            --card-bg: rgba(15, 15, 25, 0.8);
-            --card-border: rgba(255, 255, 255, 0.08);
-            --sidebar-bg: rgba(5, 5, 12, 0.98);
-            --premium: #f59e0b;
-            --premium-glow: rgba(245, 158, 11, 0.4);
-            --success: #10b981;
-            --error: #ef4444;
-            --panel-blur: blur(20px);
+            --accent: #3b82f6;
+            --card-bg: rgba(20, 20, 35, 0.7);
+            --border: rgba(255, 255, 255, 0.1);
+            --live-text-color: rgba(255, 255, 255, 0.08);
+            --sidebar-bg: rgba(10, 10, 26, 0.98);
+            --premium-gold: #f59e0b;
         }
 
         body.light {
-            --bg: #f8fafc;
+            --bg: #ffffff;
+            --text-main: #000000;
             --accent: #2563eb;
-            --text-main: #0f172a;
-            --text-dim: #64748b;
-            --card-bg: rgba(255, 255, 255, 0.9);
-            --card-border: #e2e8f0;
-            --sidebar-bg: rgba(255, 255, 255, 0.95);
+            --card-bg: #f1f5f9;
+            --border: #e2e8f0;
+            --live-text-color: rgba(0, 0, 0, 0.06);
+            --sidebar-bg: rgba(255, 255, 255, 0.98);
         }
 
-        /* Base Reset */
-        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; outline: none; }
-        html, body { width: 100%; height: 100%; overflow-x: hidden; }
-        body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text-main); transition: background 0.4s, color 0.4s; }
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        body { font-family: 'Inter', sans-serif; transition: 0.3s; min-height: 100vh; background: var(--bg) !important; color: var(--text-main); overflow-x: hidden; }
+        .container { max-width: 1280px; margin: 0 auto; padding: 0 1.5rem; }
 
-        /* Typography */
-        h1, h2, h3 { letter-spacing: -0.02em; }
-        a { text-decoration: none; color: inherit; }
+        /* Бегущая строка */
+        .live-ticker-container {
+            width: 100%; overflow: hidden; position: absolute; top: 0; left: 0;
+            height: 28px; background: rgba(0,0,0,0.15); display: flex; align-items: center; z-index: 5;
+        }
+        .live-ticker { display: flex; white-space: nowrap; animation: tickerFlow 35s linear infinite; }
+        .live-ticker span { font-weight: 900; font-size: 0.6rem; color: var(--live-text-color); margin: 0 2rem; text-transform: uppercase; letter-spacing: 2px; }
+        @keyframes tickerFlow { 0% { transform: translate3d(0, 0, 0); } 100% { transform: translate3d(-50%, 0, 0); } }
 
-        /* Background Effects */
-        .glow-sphere {
-            position: fixed; top: -10%; left: -10%; width: 50%; height: 50%;
-            background: radial-gradient(circle, var(--accent-glow) 0%, transparent 70%);
-            z-index: -1; filter: blur(80px); pointer-events: none; opacity: 0.4;
+        /* Шапка */
+        .navbar { display: flex; justify-content: space-between; align-items: center; padding: 3.5rem 0 0.5rem; position: relative; z-index: 10; }
+        .menu-btn {
+            background: var(--card-bg); border: 1px solid var(--border); width: 42px; height: 42px;
+            border-radius: 12px; color: var(--text-main); display: flex; align-items: center;
+            justify-content: center; cursor: pointer; backdrop-filter: blur(10px); transition: 0.2s;
+        }
+        .theme-toggle {
+            background: var(--card-bg); border: 1px solid var(--border); padding: 0.5rem 1rem;
+            border-radius: 2rem; color: var(--text-main); cursor: pointer; font-weight: 700;
+            font-size: 0.75rem; transition: 0.3s; backdrop-filter: blur(10px);
         }
 
-        /* Live Ticker */
-        .ticker-wrap {
-            position: fixed; top: 0; width: 100%; height: 30px; background: rgba(0,0,0,0.4);
-            backdrop-filter: blur(5px); z-index: 100; display: flex; align-items: center; border-bottom: 1px solid var(--card-border);
-        }
-        .ticker-content { display: flex; white-space: nowrap; animation: tickerScroll 40s linear infinite; }
-        .ticker-item { color: var(--text-dim); font-size: 10px; font-weight: 800; text-transform: uppercase; margin-right: 3rem; letter-spacing: 2px; }
-        @keyframes tickerScroll { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
-
-        /* Layout Container */
-        .app-wrapper { max-width: 1200px; margin: 0 auto; padding: 0 1.5rem; position: relative; }
-
-        /* Navigation */
-        .nav-header { height: 100px; display: flex; justify-content: space-between; align-items: center; padding-top: 30px; }
-        .nav-left, .nav-right { display: flex; align-items: center; gap: 1rem; }
-        
-        .btn-circle {
-            width: 46px; height: 46px; border-radius: 14px; background: var(--card-bg);
-            border: 1px solid var(--card-border); color: var(--text-main);
-            display: flex; align-items: center; justify-content: center; cursor: pointer;
-            transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1); backdrop-filter: var(--panel-blur);
-        }
-        .btn-circle:hover { transform: translateY(-3px); border-color: var(--accent); box-shadow: 0 10px 20px -10px var(--accent-glow); }
-        .btn-circle:active { transform: scale(0.95); }
-
-        .theme-pill {
-            padding: 8px 16px; border-radius: 20px; background: var(--card-bg);
-            border: 1px solid var(--card-border); font-weight: 700; font-size: 12px;
-            cursor: pointer; display: flex; align-items: center; gap: 8px; backdrop-filter: var(--panel-blur);
-        }
-
-        /* Sidebar Overlay System */
+        /* Сайдбар */
         .sidebar {
-            position: fixed; top: 0; left: -320px; width: 300px; height: 100%;
-            background: var(--sidebar-bg); z-index: 2000; transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-            border-right: 1px solid var(--card-border); padding: 40px 25px; display: flex; flex-direction: column;
+            position: fixed; top: 0; left: -300px; width: 280px; height: 100%;
+            background: var(--sidebar-bg); z-index: 1000; transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+            border-right: 1px solid var(--border); padding: 2.5rem 1.5rem; display: flex; flex-direction: column; backdrop-filter: blur(25px);
         }
-        .sidebar.active { transform: translateX(320px); }
+        .sidebar.active { transform: translateX(300px); }
+        .sidebar-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 2.5rem; }
+        .sidebar-header h2 { font-weight: 900; font-size: 1.3rem; color: var(--accent); }
+        .close-sidebar { cursor: pointer; opacity: 0.6; font-size: 1.4rem; }
+        .sidebar-nav { display: flex; flex-direction: column; gap: 0.8rem; }
+        .sidebar-link {
+            padding: 1.1rem; border-radius: 16px; text-decoration: none; color: var(--text-main);
+            font-weight: 700; font-size: 0.95rem; display: flex; align-items: center; gap: 14px;
+            transition: 0.3s; border: 1px solid transparent; cursor: pointer;
+        }
+        .sidebar-link i { color: var(--accent); width: 24px; text-align: center; }
+        .sidebar-link:hover { background: var(--card-bg); border-color: var(--border); color: var(--accent); }
+
         .overlay {
-            position: fixed; inset: 0; background: rgba(0,0,0,0.6); backdrop-filter: blur(8px);
-            z-index: 1500; opacity: 0; visibility: hidden; transition: 0.4s;
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.5); z-index: 999; opacity: 0; visibility: hidden; transition: 0.4s; backdrop-filter: blur(4px);
         }
         .overlay.active { opacity: 1; visibility: visible; }
 
-        .side-title { font-size: 24px; font-weight: 900; color: var(--accent); margin-bottom: 40px; }
-        .side-nav { display: flex; flex-direction: column; gap: 10px; }
-        .side-item {
-            padding: 16px; border-radius: 12px; font-weight: 700; display: flex; align-items: center;
-            gap: 15px; transition: 0.3s; cursor: pointer; border: 1px solid transparent;
+        /* Главный экран */
+        .hero { text-align: center; }
+        .digital-clock {
+            font-family: 'JetBrains Mono', monospace; font-size: clamp(2rem, 8vw, 3.5rem);
+            font-weight: 700; color: var(--accent); margin-top: -2.5rem; margin-bottom: 0.5rem;
+            letter-spacing: 4px; text-shadow: 0 0 20px rgba(59, 130, 246, 0.4); opacity: 0.95; line-height: 1;
         }
-        .side-item:hover { background: rgba(59, 130, 246, 0.1); color: var(--accent); border-color: rgba(59, 130, 246, 0.2); }
-        .side-item.prem-link { color: var(--premium); }
-        .side-item.prem-link:hover { background: rgba(245, 158, 11, 0.1); border-color: rgba(245, 158, 11, 0.2); }
+        .badge {
+            display: inline-block; padding: 0.5rem 1.2rem; border-radius: 40px; font-size: 0.7rem;
+            font-weight: 900; margin-top: 1.5rem; position: relative; background: #0a0a1a; color: #ffffff !important;
+        }
+        .badge::after {
+            content: ''; position: absolute; top: -2px; bottom: -2px; left: -2px; right: -2px;
+            background: linear-gradient(130deg, #3b82f6, #ec4899, #4f46e5); z-index: -1;
+            border-radius: 40px; animation: badgeRainbow 3.5s linear infinite; background-size: 200% 200%;
+        }
+        @keyframes badgeRainbow { 0% { background-position: 0% 50%; } 100% { background-position: 200% 50%; } }
 
-        /* Hero Section */
-        .hero { text-align: center; padding: 40px 0; }
-        .clock-display {
-            font-family: 'JetBrains Mono', monospace; font-size: 64px; font-weight: 700;
-            color: var(--accent); margin-bottom: 10px; letter-spacing: -2px;
-            text-shadow: 0 0 30px var(--accent-glow);
-        }
-        .release-badge {
-            display: inline-block; padding: 6px 14px; border-radius: 30px; background: #000;
-            border: 1px solid #333; font-size: 11px; font-weight: 900; color: #fff;
-            position: relative; overflow: hidden; margin-bottom: 25px;
-        }
-        .release-badge::before {
-            content: ''; position: absolute; inset: -2px;
-            background: linear-gradient(90deg, #f00, #ff0, #0f0, #0ff, #00f, #f0f, #f00);
-            z-index: -1; animation: rainbow 4s linear infinite; background-size: 400%;
-        }
-        @keyframes rainbow { 0% { background-position: 0%; } 100% { background-position: 400%; } }
-
-        .main-title {
-            font-size: clamp(40px, 10vw, 85px); font-weight: 900; line-height: 0.9;
-            text-transform: uppercase; margin-bottom: 20px; display: flex; justify-content: center; flex-wrap: wrap;
-        }
-        .main-title b { display: inline-block; animation: titleWave 2.5s ease-in-out infinite; }
-        @keyframes titleWave { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-15px); } }
+        .version-text { display: block; font-size: 0.75rem; font-weight: 800; opacity: 0.6; margin-top: 0.8rem; margin-bottom: 1.2rem; letter-spacing: 0.5px; }
         
-        .hero-sub { max-width: 600px; margin: 0 auto 40px; color: var(--text-dim); font-weight: 500; font-size: 18px; }
+        h1 { font-size: clamp(2rem, 8vw, 4rem); font-weight: 900; margin-bottom: 0.8rem; text-transform: uppercase; display: flex; justify-content: center; flex-wrap: wrap; gap: 0.1rem; }
+        h1 b { display: inline-block; animation: wave 2s infinite ease-in-out; }
+        h1 .mod-text { color: var(--accent); margin-left: 10px; display: flex; gap: 0.1rem; }
+        @keyframes wave { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-15px); } }
 
-        /* Stats Cards */
-        .stats-row { display: flex; justify-content: center; gap: 15px; margin-bottom: 50px; flex-wrap: wrap; }
-        .stat-card {
-            background: var(--card-bg); border: 1px solid var(--card-border); padding: 12px 24px;
-            border-radius: 18px; display: flex; align-items: center; gap: 12px; backdrop-filter: var(--panel-blur);
-        }
-        .stat-card i { font-size: 20px; }
-        .stat-val { font-weight: 800; font-family: 'JetBrains Mono'; font-size: 18px; }
+        .hero-desc { font-size: 1rem; max-width: 550px; margin: 0 auto 2.5rem; font-weight: 700; opacity: 0.85; line-height: 1.4; }
 
-        /* Buttons Grid */
-        .grid-downloads { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; margin-bottom: 60px; }
-        .dl-card {
-            background: var(--card-bg); border: 1px solid var(--card-border); padding: 30px;
-            border-radius: 24px; transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            text-align: left; position: relative; overflow: hidden; cursor: pointer;
+        /* Кнопки скачивания */
+        .download-grid { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.8rem; margin-bottom: 1.5rem; }
+        .download-btn {
+            padding: 0.9rem 1.8rem; border-radius: 50px; font-weight: 900; text-decoration: none;
+            display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+            transition: 0.2s cubic-bezier(0.4, 0, 0.2, 1); font-size: 0.9rem; cursor: pointer;
         }
-        .dl-card:hover { transform: translateY(-10px); border-color: var(--accent); }
-        .dl-card i.main-icon { font-size: 40px; color: var(--accent); margin-bottom: 20px; display: block; }
-        .dl-card h3 { font-size: 22px; margin-bottom: 8px; font-weight: 800; }
-        .dl-card p { font-size: 14px; color: var(--text-dim); margin-bottom: 20px; }
+        .download-btn:active { transform: scale(0.92); filter: brightness(0.9); }
+        .download-btn.primary { background: var(--accent); color: white; box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3); border: none; }
+        .download-btn.secondary { background: #1e293b; color: white; border: none; }
+        .download-btn.outline { border: 2px solid var(--accent); color: var(--accent); background: transparent; }
+        .download-btn.premium-outline { background: rgba(30, 41, 59, 0.5); color: #fff; border: 2px solid var(--premium-gold); box-shadow: 0 4px 15px rgba(245, 158, 11, 0.15); }
+
+        /* Карточки фич */
+        .features { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1rem; margin: 2rem 0; }
+        .feature-item {
+            padding: 1.8rem; text-align: center; border-radius: 1.5rem; background: var(--card-bg);
+            border: 1px solid var(--border); transition: 0.3s; cursor: pointer; position: relative;
+        }
+        .feature-item i { font-size: 2rem; color: var(--accent); margin-bottom: 0.8rem; transition: 0.3s; display: inline-block; }
         
-        .action-btn {
-            width: 100%; padding: 14px; border-radius: 14px; border: none; font-weight: 800;
-            font-size: 14px; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px;
-            transition: 0.3s;
+        /* Статистика */
+        .stats-container { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.8rem; margin-bottom: 1.2rem; }
+        .stat-item {
+            background: var(--card-bg); border: 1px solid var(--border); padding: 0.5rem 1rem;
+            border-radius: 12px; font-weight: 800; font-size: 0.8rem; display: flex;
+            align-items: center; gap: 6px; cursor: pointer; transition: 0.2s;
         }
-        .btn-primary { background: var(--accent); color: white; }
-        .btn-primary:hover { box-shadow: 0 10px 25px -5px var(--accent-glow); opacity: 0.9; }
-
-        /* Premium Section */
-        #page-premium { display: none; animation: fadeInUp 0.6s ease; }
-        .premium-container { max-width: 600px; margin: 40px auto; }
-        .glass-card {
-            background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 32px;
-            padding: 40px; backdrop-filter: blur(30px); position: relative;
-        }
-        .glass-card::after {
-            content: ''; position: absolute; inset: 0; border-radius: 32px;
-            border: 2px solid transparent; background: linear-gradient(135deg, var(--premium), transparent) border-box;
-            -webkit-mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
-            mask-composite: exclude; pointer-events: none;
-        }
-
-        .id-input-wrap { position: relative; margin: 30px 0; }
-        .id-input {
-            width: 100%; background: rgba(0,0,0,0.3); border: 2px solid var(--card-border);
-            padding: 20px; border-radius: 16px; color: white; font-family: 'JetBrains Mono';
-            font-size: 18px; text-align: center; transition: 0.3s;
-        }
-        .id-input:focus { border-color: var(--premium); box-shadow: 0 0 20px var(--premium-glow); }
-
-        .status-msg { margin-top: 20px; font-weight: 700; height: 24px; display: flex; align-items: center; justify-content: center; gap: 8px; }
-
-        .premium-dl-grid { 
-            display: none; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 30px;
-            animation: fadeIn 0.8s ease;
-        }
-        .prem-btn-item {
-            background: rgba(255,255,255,0.03); border: 1px solid var(--card-border);
-            padding: 15px; border-radius: 16px; font-weight: 700; font-size: 13px;
-            display: flex; align-items: center; gap: 10px; transition: 0.3s;
-        }
-        .prem-btn-item:hover { background: var(--card-bg); border-color: var(--premium); transform: scale(1.02); }
 
         /* FAQ Modal */
-        .modal {
-            position: fixed; inset: 0; display: flex; align-items: center; justify-content: center;
-            z-index: 3000; opacity: 0; visibility: hidden; transition: 0.3s; padding: 20px;
+        .faq-modal {
+            position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(0.9);
+            width: 90%; max-width: 600px; max-height: 85vh; background: var(--sidebar-bg);
+            border: 1px solid var(--border); border-radius: 24px; padding: 2rem; z-index: 2000;
+            overflow-y: auto; visibility: hidden; opacity: 0; transition: 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5); backdrop-filter: blur(20px);
         }
-        .modal.active { opacity: 1; visibility: visible; }
-        .modal-content {
-            background: var(--sidebar-bg); width: 100%; max-width: 700px; max-height: 80vh;
-            border-radius: 30px; border: 1px solid var(--card-border); padding: 40px;
-            overflow-y: auto; position: relative;
+        .faq-modal.active { visibility: visible; opacity: 1; transform: translate(-50%, -50%) scale(1); }
+        .faq-title { color: var(--premium-gold); font-weight: 900; margin-bottom: 1.5rem; display: flex; align-items: center; gap: 10px; }
+        .faq-content { text-align: left; font-size: 0.95rem; line-height: 1.6; }
+        .faq-block { margin-bottom: 1.5rem; border-bottom: 1px solid var(--border); padding-bottom: 1rem; }
+        .faq-q { color: var(--accent); font-weight: 800; display: block; margin-bottom: 0.5rem; }
+        .faq-warning { background: rgba(239, 68, 68, 0.1); border: 1px solid #ef4444; padding: 1rem; border-radius: 12px; margin-top: 1rem; color: #ff5f5f; }
+        .close-faq { position: absolute; top: 1rem; right: 1.5rem; cursor: pointer; font-size: 1.5rem; opacity: 0.5; }
+
+        /* Premium Page */
+        #premiumPage { display: none; text-align: center; padding-top: 2rem; }
+        .premium-card {
+            background: var(--card-bg); border: 1px solid rgba(245, 158, 11, 0.3);
+            border-radius: 24px; padding: 2.5rem 1.5rem; max-width: 500px; margin: 0 auto; backdrop-filter: blur(10px);
         }
-        .faq-item { margin-bottom: 25px; }
-        .faq-q { color: var(--accent); font-weight: 800; font-size: 18px; margin-bottom: 10px; display: block; }
-        .faq-a { color: var(--text-dim); line-height: 1.6; }
-
-        /* Animations */
-        @keyframes fadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-
-        footer { text-align: center; padding: 60px 0; border-top: 1px solid var(--card-border); margin-top: 40px; opacity: 0.4; font-weight: 700; font-size: 13px; }
-
-        @media (max-width: 768px) {
-            .nav-header { height: 80px; }
-            .clock-display { font-size: 40px; }
-            .main-title { font-size: 45px; }
-            .premium-dl-grid { grid-template-columns: 1fr; }
-            .glass-card { padding: 25px; }
+        .prem-input {
+            width: 100%; background: rgba(0,0,0,0.2); border: 1px solid var(--border);
+            padding: 0.8rem; border-radius: 12px; color: white; margin: 1.5rem 0;
+            font-family: 'JetBrains Mono', monospace; text-align: center; outline: none;
         }
+        .prem-btn {
+            background: #f59e0b; color: white; border: none; padding: 0.8rem 2rem;
+            border-radius: 50px; font-weight: 900; cursor: pointer; width: 100%; transition: 0.2s;
+        }
+        #premStatus { margin-top: 1rem; font-weight: 700; font-size: 0.85rem; min-height: 1.2rem; }
+        #premiumDownloads { display: none; margin-top: 1.5rem; border-top: 1px solid var(--border); padding-top: 1.5rem; }
+        .premium-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 10px; margin-top: 10px; }
+
+        footer { text-align: center; padding: 2rem; opacity: 0.5; font-size: 0.75rem; font-weight: 800; }
     </style>
 </head>
-<body>
+<body class="dark">
 
-    <div class="glow-sphere"></div>
-    <div class="ticker-wrap">
-        <div class="ticker-content">
-            <div class="ticker-item"><i class="fas fa-bolt"></i> Speed hack active</div>
-            <div class="ticker-item"><i class="fas fa-shield"></i> Anti-ban safe</div>
-            <div class="ticker-item"><i class="fas fa-circle-check"></i> v11.40 Compatible</div>
-            <div class="ticker-item"><i class="fas fa-crown"></i> Premium Unlocked</div>
-            <div class="ticker-item"><i class="fas fa-bolt"></i> Speed hack active</div>
-            <div class="ticker-item"><i class="fas fa-shield"></i> Anti-ban safe</div>
-            <div class="ticker-item"><i class="fas fa-circle-check"></i> v11.40 Compatible</div>
-            <div class="ticker-item"><i class="fas fa-crown"></i> Premium Unlocked</div>
+    <div class="live-ticker-container">
+        <div class="live-ticker">
+            <span>FPS UNLOCKED</span> <span>LATENCY REDUCED</span> <span>PREMIUM BYPASS</span> <span>STABLE BUILD 11.40</span>
+            <span>FPS UNLOCKED</span> <span>LATENCY REDUCED</span> <span>PREMIUM BYPASS</span> <span>STABLE BUILD 11.40</span>
         </div>
     </div>
 
     <div class="overlay" id="overlay"></div>
 
+    <div class="faq-modal" id="faqModalWindow">
+        <div class="close-faq" onclick="closeFaq()"><i class="fas fa-times"></i></div>
+        <h2 class="faq-title"><i class="fas fa-question-circle"></i> ЧаВо (FAQ)</h2>
+        <div class="faq-content">
+            <div class="faq-block">
+                <span class="faq-q">1) Как подключить второе устройство?</span>
+                <span class="faq-a">Ответ: Подключение каждого нового устройства стоит 500 рублей.</span>
+            </div>
+            <div class="faq-block">
+                <span class="faq-q">2) Я сбросил настройки телефона...</span>
+                <span class="faq-a">Ответ: Перепривязка ID стоит 250 рублей.</span>
+            </div>
+            <div class="faq-warning">
+                <strong>ВНИМАНИЕ:</strong> Не сбрасывайте настройки телефона до заводских без крайней необходимости.
+            </div>
+        </div>
+    </div>
+
     <div class="sidebar" id="sidebar">
-        <div class="side-title">RSL MENU</div>
-        <div class="side-nav">
-            <div class="side-item" onclick="nav('home')"><i class="fas fa-home"></i> Главный экран</div>
-            <div class="side-item prem-link" onclick="nav('premium')"><i class="fas fa-crown"></i> Премиум доступ</div>
-            <div class="side-item" onclick="openFaq()"><i class="fas fa-circle-question"></i> Центр поддержки</div>
-            <a href="https://t.me/RSLMOD" target="_blank" class="side-item"><i class="fab fa-telegram"></i> Наш Telegram</a>
+        <div class="sidebar-header">
+            <h2>Навигация</h2>
+            <div class="close-sidebar" id="closeSidebar"><i class="fas fa-times"></i></div>
         </div>
-        <div style="margin-top: auto; font-size: 11px; opacity: 0.3; font-weight: 800;">BUILD ID: 2026.04.05_PRO</div>
+        <nav class="sidebar-nav">
+            <div onclick="openPage('home')" class="sidebar-link"><i class="fas fa-home"></i> Главная</div>
+            <div onclick="openPage('premium')" class="sidebar-link" style="color:#f59e0b;"><i class="fas fa-crown"></i> Премиум версия</div>
+            <a href="https://t.me/RSLMOD" target="_blank" class="sidebar-link"><i class="fab fa-telegram"></i> Наш канал</a>
+        </nav>
     </div>
 
-    <div class="modal" id="faqModal">
-        <div class="modal-content">
-            <div style="position: absolute; right: 30px; top: 30px; cursor: pointer;" onclick="closeFaq()">
-                <i class="fas fa-times fa-xl"></i>
-            </div>
-            <h2 style="font-size: 32px; margin-bottom: 30px;">Часто задаваемые вопросы</h2>
-            
-            <div class="faq-item">
-                <span class="faq-q">Как активировать мод?</span>
-                <p class="faq-a">Скачайте нужную версию, установите APK. При первом запуске мод автоматически подтянет настройки ускорения.</p>
-            </div>
-            <div class="faq-item">
-                <span class="faq-q">Что делать при ошибке ID?</span>
-                <p class="faq-a">Убедитесь, что вы не используете VPN при проверке. Если ID не найден, обратитесь в поддержку для регистрации вашего устройства.</p>
-            </div>
-            <div class="faq-item">
-                <div style="background: rgba(239, 68, 68, 0.1); border: 1px solid var(--error); padding: 20px; border-radius: 15px; color: var(--error);">
-                    <strong>ВАЖНО:</strong> Сброс телефона до заводских настроек меняет ваш ID. Повторная привязка после сброса является платной услугой (250 руб).
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="app-wrapper">
-        <nav class="nav-header">
-            <div class="nav-left">
-                <div class="btn-circle" id="menuBtn"><i class="fas fa-bars-staggered"></i></div>
-            </div>
-            <div class="nav-right">
-                <div class="theme-pill" id="themeToggle">
-                    <i class="fas fa-moon"></i> <span id="themeName">Тёмная</span>
-                </div>
-            </div>
+    <div class="container">
+        <nav class="navbar">
+            <div class="menu-btn" id="openSidebar"><i class="fas fa-bars-staggered"></i></div>
+            <div class="theme-toggle" id="themeToggle"><i class="fas fa-adjust"></i> <span id="themeText">Тёмная</span></div>
         </nav>
 
-        <div id="page-home">
-            <section class="hero">
-                <div class="clock-display" id="clock">00:00:00</div>
-                <div class="release-badge">RELEASE v11.40.0</div>
+        <div id="homePage">
+            <main class="hero">
+                <div class="digital-clock" id="clock">00:00:00</div>
+                <div class="badge"><i class="fas fa-bolt"></i> НОВЫЙ РЕЛИЗ</div>
+                <span class="version-text">Актуальная версия: 11.40.0</span>
                 
-                <h1 class="main-title">
-                    <b>R</b><b>S</b><b>L</b>&nbsp;<b>S</b><b>P</b><b>E</b><b>E</b><b>D</b>&nbsp;<b>M</b><b>O</b><b>D</b>
+                <div class="stats-container">
+                    <div class="stat-item"><i class="fas fa-download" style="color:#3b82f6"></i> <span id="countDl">...</span></div>
+                    <div class="stat-item" id="btnLike"><i class="fas fa-thumbs-up" style="color:#22c55e"></i> <span id="countLike">...</span></div>
+                </div>
+
+                <h1>
+                    <b>R</b><b>S</b><b>L</b>&nbsp;<b>S</b><b>P</b><b>E</b><b>E</b><b>D</b> 
+                    <span class="mod-text"><b>M</b><b>O</b><b>D</b></span>
                 </h1>
-                <p class="hero-sub">Ультимативное ускорение игрового процесса, поддержка мульти-окон и стабильность 24/7.</p>
-
-                <div class="stats-row">
-                    <div class="stat-card" data-aos="fade-up" data-aos-delay="100">
-                        <i class="fas fa-download" style="color: var(--accent)"></i>
-                        <span class="stat-val" id="stat-dl">...</span>
-                    </div>
-                    <div class="stat-card" id="likeAction" style="cursor:pointer" data-aos="fade-up" data-aos-delay="200">
-                        <i class="fas fa-heart" style="color: #fb7185"></i>
-                        <span class="stat-val" id="stat-likes">...</span>
-                    </div>
-                    <div class="stat-card" data-aos="fade-up" data-aos-delay="300">
-                        <i class="fas fa-users" style="color: #a855f7"></i>
-                        <span class="stat-val" id="stat-online">...</span>
-                    </div>
+                
+                <div class="download-grid">
+                    <a href="#" class="download-btn primary dl-trigger" data-type="mod"><i class="fas fa-rocket"></i> Скачать Mod</a>
+                    <a href="#" class="download-btn secondary dl-trigger" data-type="clone"><i class="fas fa-copy"></i> Скачать Клон</a>
+                    <a href="#" class="download-btn outline dl-trigger" data-type="original"><i class="fas fa-box-open"></i> Оригинал</a>
                 </div>
 
-                <div class="grid-downloads">
-                    <div class="dl-card" onclick="triggerDl('mod')" data-aos="zoom-in">
-                        <i class="fas fa-bolt-lightning main-icon"></i>
-                        <h3>RSL MOD</h3>
-                        <p>Основная версия с полным функционалом ускорения.</p>
-                        <button class="action-btn btn-primary">СКАЧАТЬ APK</button>
+                <div class="features">
+                    <div class="feature-item" data-aos="fade-up">
+                        <i class="fas fa-tachometer-alt"></i>
+                        <h3>Ускорение x100</h3>
+                        <p>Мгновенное завершение боев и анимаций.</p>
                     </div>
-                    <div class="dl-card" onclick="triggerDl('clone')" data-aos="zoom-in" data-aos-delay="100">
-                        <i class="fas fa-clone main-icon" style="color: #a855f7"></i>
-                        <h3>CLONE MOD</h3>
-                        <p>Для игры во втором окне параллельно с оригиналом.</p>
-                        <button class="action-btn btn-primary" style="background: #a855f7">СКАЧАТЬ APK</button>
+                    <div class="feature-item" data-aos="fade-up" data-aos-delay="100">
+                        <i class="fas fa-shield-alt"></i>
+                        <h3>Anti-Ban</h3>
+                        <p>Безопасные алгоритмы обхода защиты.</p>
                     </div>
                 </div>
-            </section>
+            </main>
         </div>
 
-        <div id="page-premium">
-            <div class="premium-container">
-                <div class="glass-card">
-                    <div style="text-align: center;">
-                        <i class="fas fa-crown" style="font-size: 50px; color: var(--premium); filter: drop-shadow(0 0 15px var(--premium-glow));"></i>
-                        <h2 style="margin-top: 20px; font-size: 28px;">Премиум Панель</h2>
-                        <p style="color: var(--text-dim); font-size: 14px; margin-top: 10px;">Авторизуйтесь через ID устройства для доступа к спец-сборкам</p>
-                    </div>
-
-                    <div class="id-input-wrap">
-                        <input type="text" class="id-input" id="premIdField" placeholder="Введите ваш ID...">
-                    </div>
-
-                    <button class="action-btn" id="checkBtn" style="background: var(--premium); color: white; height: 60px; font-size: 16px;">
-                        ПРОВЕРИТЬ ЛИЦЕНЗИЮ
-                    </button>
-
-                    <div class="status-msg" id="premStatus"></div>
-
-                    <div class="premium-dl-grid" id="premGrid">
-                        <div class="prem-btn-item" onclick="triggerDl('mod_9mod')">
-                            <i class="fas fa-star" style="color:var(--premium)"></i> 9Mod Premium
-                        </div>
-                        <div class="prem-btn-item" onclick="triggerDl('clone_9mod')">
-                            <i class="fas fa-star" style="color:var(--premium)"></i> 9Mod Clone
-                        </div>
-                        <div class="prem-btn-item" onclick="triggerDl('speed_x100')">
-                            <i class="fas fa-gauge-high" style="color:#ef4444"></i> Speed x100
-                        </div>
-                        <div class="prem-btn-item" onclick="triggerDl('speed_x100_clone')">
-                            <i class="fas fa-gauge-high" style="color:#ef4444"></i> x100 Clone
-                        </div>
-                        <div class="prem-btn-item" onclick="triggerDl('vpn')">
-                            <i class="fas fa-shield-halved" style="color:var(--accent)"></i> Proxy VPN
-                        </div>
-                        <div class="prem-btn-item" onclick="openFaq()" style="grid-column: span 2; justify-content: center;">
-                            <i class="fas fa-info-circle"></i> Инструкция по использованию
-                        </div>
+        <div id="premiumPage">
+            <div class="premium-card">
+                <i class="fas fa-crown" style="font-size: 3rem; color: #f59e0b; margin-bottom: 1rem;"></i>
+                <h2>Проверка доступа</h2>
+                <input type="text" id="premInput" class="prem-input" placeholder="Введите ваш ID...">
+                <button id="premBtn" class="prem-btn">ПРОВЕРИТЬ</button>
+                <div id="premStatus"></div>
+                
+                <div id="premiumDownloads">
+                    <div class="premium-grid">
+                        <a href="#" class="download-btn premium-outline dl-trigger" data-type="mod_9mod"><i class="fas fa-crown"></i> Mod Paid "9mod"</a>
+                        <a href="#" class="download-btn premium-outline dl-trigger" data-type="clone_9mod"><i class="fas fa-crown"></i> Clone "9mod"</a>
+                        <a href="#" class="download-btn premium-outline dl-trigger" data-type="speed_x100"><i class="fas fa-tachometer-alt"></i> Speed x100</a>
+                        <a href="#" class="download-btn premium-outline dl-trigger" data-type="speed_x100_clone"><i class="fas fa-tachometer-alt"></i> x100 Clone</a>
+                        <div class="download-btn premium-outline" onclick="openFaq()"><i class="fas fa-question-circle"></i> FAQ</div>
+                        <a href="#" class="download-btn premium-outline dl-trigger" data-type="vpn"><i class="fas fa-shield-alt"></i> VPN</a>
                     </div>
                 </div>
             </div>
         </div>
 
-        <footer>
-            &copy; 2026 RSL SPEED MOD DEVELOPMENT. ALL RIGHTS RESERVED. <br>
-            UNOFFICIAL MODIFICATION FOR RAID: SHADOW LEGENDS.
-        </footer>
+        <footer>© 2026 RSL Speed Mod</footer>
     </div>
 
-    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script type="module">
-        // Firebase Integration
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
         import { getDatabase, ref, onValue, runTransaction, get, child } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
 
@@ -418,82 +318,27 @@
         const app = initializeApp(firebaseConfig);
         const db = getDatabase(app);
 
-        // UI Logic
-        const sidebar = document.getElementById('sidebar');
-        const overlay = document.getElementById('overlay');
-        const menuBtn = document.getElementById('menuBtn');
-        const themeToggle = document.getElementById('themeToggle');
-        
-        // Sidebar toggle
-        const toggleSidebar = () => {
-            sidebar.classList.toggle('active');
-            overlay.classList.toggle('active');
-        };
-        menuBtn.onclick = toggleSidebar;
-        overlay.onclick = () => {
+        // Навигация
+        window.openPage = (page) => {
+            document.getElementById('homePage').style.display = page === 'home' ? 'block' : 'none';
+            document.getElementById('premiumPage').style.display = page === 'premium' ? 'block' : 'none';
             sidebar.classList.remove('active');
             overlay.classList.remove('active');
-            closeFaq();
         };
 
-        // Navigation
-        window.nav = (p) => {
-            document.getElementById('page-home').style.display = p === 'home' ? 'block' : 'none';
-            document.getElementById('page-premium').style.display = p === 'premium' ? 'block' : 'none';
-            toggleSidebar();
-            window.scrollTo(0,0);
-        };
+        // FAQ
+        window.openFaq = () => { document.getElementById('faqModalWindow').classList.add('active'); overlay.classList.add('active'); };
+        window.closeFaq = () => { document.getElementById('faqModalWindow').classList.remove('active'); if(!sidebar.classList.contains('active')) overlay.classList.remove('active'); };
 
-        // Theme Switcher
-        themeToggle.onclick = () => {
-            const isLight = document.body.classList.toggle('light');
-            localStorage.setItem('theme', isLight ? 'light' : 'dark');
-            document.getElementById('themeName').innerText = isLight ? 'Светлая' : 'Тёмная';
-            document.querySelector('#themeToggle i').className = isLight ? 'fas fa-sun' : 'fas fa-moon';
-        };
-        if(localStorage.getItem('theme') === 'light') themeToggle.click();
+        // Premium Logic
+        const pBtn = document.getElementById('premBtn');
+        const pInput = document.getElementById('premInput');
+        const pStatus = document.getElementById('premStatus');
+        const pDownloads = document.getElementById('premiumDownloads');
 
-        // Clock
-        setInterval(() => {
-            document.getElementById('clock').innerText = new Date().toLocaleTimeString();
-        }, 1000);
-
-        // Stats Sync
-        onValue(ref(db, 'stats'), (snap) => {
-            const data = snap.val() || {};
-            document.getElementById('stat-dl').innerText = (data.dl || 0).toLocaleString();
-            document.getElementById('stat-likes').innerText = (data.like || 0).toLocaleString();
-            document.getElementById('stat-online').innerText = Math.floor(Math.random() * (150 - 80) + 80);
-        });
-
-        // Like System
-        document.getElementById('likeAction').onclick = () => {
-            if(localStorage.getItem('hasLiked')) return;
-            runTransaction(ref(db, 'stats/like'), v => (v || 0) + 1);
-            localStorage.setItem('hasLiked', 'true');
-            document.querySelector('#likeAction i').style.transform = 'scale(1.5)';
-        };
-
-        // Download System
-        window.triggerDl = (type) => {
-            if(LINKS[type]) {
-                runTransaction(ref(db, 'stats/dl'), v => (v || 0) + 1);
-                window.location.href = LINKS[type];
-            }
-        };
-
-        // Premium Checker (THE BRAIN)
-        const checkBtn = document.getElementById('checkBtn');
-        const premIdField = document.getElementById('premIdField');
-        const premStatus = document.getElementById('premStatus');
-        const premGrid = document.getElementById('premGrid');
-
-        async function performCheck(id) {
+        async function checkPremium(id) {
             if(!id) return;
-            checkBtn.disabled = true;
-            checkBtn.innerText = "СКАНИРОВАНИЕ БАЗЫ...";
-            premStatus.innerHTML = "";
-            
+            pBtn.textContent = "ПОИСК...";
             try {
                 const [snap1, snap2] = await Promise.all([
                     get(child(ref(db), `premium_ids/${id}`)),
@@ -503,50 +348,77 @@
                 const v1 = snap1.exists() && snap1.val() === true;
                 const v2 = snap2.exists() && snap2.val() === true;
 
-                if(v1 || v2) {
-                    premStatus.innerHTML = `<span style="color:var(--success)"><i class="fas fa-check-circle"></i> ЛИЦЕНЗИЯ АКТИВНА</span>`;
-                    premGrid.style.display = 'grid';
-                    localStorage.setItem('saved_id', id);
+                if (v1 || v2) {
+                    pStatus.innerHTML = "<span style='color:#22c55e'>Доступ разрешен!</span>";
+                    pDownloads.style.display = 'block';
+                    localStorage.setItem('rsl_id', id);
 
-                    // Filter Logic
-                    const items = premGrid.querySelectorAll('.prem-btn-item');
-                    const allowV1 = ['9mod', 'getmods', 'vpn'];
-                    const allowV2 = ['x100', 'vpn'];
+                    // Фильтрация кнопок
+                    let allowed = [];
+                    if(v1) allowed.push('mod_9mod', 'clone_9mod', 'vpn');
+                    if(v2) allowed.push('speed_x100', 'speed_x100_clone', 'vpn');
 
-                    items.forEach(item => {
-                        const txt = item.innerText.toLowerCase();
-                        let show = false;
-                        if(v1 && allowV1.some(kw => txt.includes(kw))) show = true;
-                        if(v2 && allowV2.some(kw => txt.includes(kw))) show = true;
-                        if(txt.includes('инструкция')) show = true;
-                        item.style.display = show ? 'flex' : 'none';
+                    document.querySelectorAll('#premiumDownloads .download-btn').forEach(btn => {
+                        const type = btn.getAttribute('data-type');
+                        const isFaq = btn.onclick && btn.onclick.toString().includes('openFaq');
+                        if (isFaq || allowed.includes(type)) {
+                            btn.style.display = 'inline-flex';
+                        } else {
+                            btn.style.display = 'none';
+                        }
                     });
-
                 } else {
-                    premStatus.innerHTML = `<span style="color:var(--error)"><i class="fas fa-times-circle"></i> ID НЕ НАЙДЕН</span>`;
-                    premGrid.style.display = 'none';
+                    pStatus.innerHTML = "<span style='color:#ef4444'>ID не найден</span>";
+                    pDownloads.style.display = 'none';
                 }
-            } catch(e) {
-                premStatus.innerText = "Ошибка сервера. Попробуйте позже.";
-            }
-            checkBtn.disabled = false;
-            checkBtn.innerText = "ПРОВЕРИТЬ ЛИЦЕНЗИЮ";
+            } catch (e) { pStatus.innerText = "Ошибка сети"; }
+            pBtn.textContent = "ПРОВЕРИТЬ";
         }
 
-        checkBtn.onclick = () => performCheck(premIdField.value.trim());
-        
-        // Auto-load
-        const saved = localStorage.getItem('saved_id');
-        if(saved) {
-            premIdField.value = saved;
-            performCheck(saved);
-        }
+        pBtn.onclick = () => checkPremium(pInput.value.trim());
+        if(localStorage.getItem('rsl_id')) { pInput.value = localStorage.getItem('rsl_id'); checkPremium(pInput.value); }
 
-        // Modals
-        window.openFaq = () => { document.getElementById('faqModal').classList.add('active'); overlay.classList.add('active'); };
-        window.closeFaq = () => { document.getElementById('faqModal').classList.remove('active'); overlay.classList.remove('active'); };
+        // Stats
+        onValue(ref(db, 'stats'), (s) => {
+            const data = s.val() || {};
+            document.getElementById('countDl').innerText = data.dl || 0;
+            document.getElementById('countLike').innerText = data.like || 0;
+        });
 
+        // Click Logic
+        document.querySelectorAll('.dl-trigger').forEach(btn => {
+            btn.onclick = (e) => {
+                const type = btn.getAttribute('data-type');
+                if (LINKS[type]) {
+                    runTransaction(ref(db, 'stats/dl'), (v) => (v || 0) + 1);
+                    window.location.href = LINKS[type];
+                }
+            };
+        });
+
+        document.getElementById('btnLike').onclick = () => {
+            if(localStorage.getItem('voted')) return;
+            runTransaction(ref(db, 'stats/like'), (v) => (v || 0) + 1);
+            localStorage.setItem('voted', 'true');
+        };
+    </script>
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
         AOS.init();
+        function updateClock() { document.getElementById('clock').textContent = new Date().toLocaleTimeString(); }
+        setInterval(updateClock, 1000); updateClock();
+        
+        const sidebar = document.getElementById('sidebar');
+        const overlay = document.getElementById('overlay');
+        document.getElementById('openSidebar').onclick = () => { sidebar.classList.add('active'); overlay.classList.add('active'); };
+        document.getElementById('closeSidebar').onclick = () => { sidebar.classList.remove('active'); overlay.classList.remove('active'); };
+        overlay.onclick = () => { sidebar.classList.remove('active'); overlay.classList.remove('active'); closeFaq(); };
+        
+        document.getElementById('themeToggle').onclick = () => {
+            const isL = document.body.classList.toggle('light');
+            document.getElementById('themeText').innerText = isL ? 'Светлая' : 'Тёмная';
+        };
     </script>
 </body>
 </html>
