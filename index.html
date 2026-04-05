@@ -100,7 +100,6 @@
         .badge::after { content: ''; position: absolute; top: -2px; bottom: -2px; left: -2px; right: -2px; background: linear-gradient(130deg, #3b82f6, #ec4899, #4f46e5); z-index: -1; border-radius: 40px; animation: badgeRainbow 3.5s linear infinite; background-size: 200% 200%; }
         @keyframes badgeRainbow { 0% { background-position: 0% 50%; } 100% { background-position: 200% 50%; } }
 
-        /* Стиль для текста версии */
         .version-text { display: block; font-size: 0.75rem; font-weight: 800; opacity: 0.6; margin-top: 0.8rem; margin-bottom: 1.2rem; letter-spacing: 0.5px; }
 
         h1 { font-size: clamp(2rem, 8vw, 4rem); font-weight: 900; margin-bottom: 0.8rem; text-transform: uppercase; display: flex; justify-content: center; flex-wrap: wrap; gap: 0.1rem; }
@@ -349,10 +348,13 @@
                     pDownloads.style.display = 'block';
                     localStorage.setItem('rsl_id', id);
                 } else {
-                    pStatus.innerHTML = "<span style='color:#ef4444'>ID не найден</span>";
+                    pStatus.innerHTML = "<span style='color:#ef4444'>Данного ID нет в базе, доступ запрещен</span>";
                     pDownloads.style.display = 'none';
                 }
-            } catch (e) { pStatus.textContent = "Ошибка связи"; }
+            } catch (e) { 
+                pStatus.textContent = "Ошибка связи"; 
+                pDownloads.style.display = 'none';
+            }
             pBtn.textContent = "ПРОВЕРИТЬ ДОСТУП";
         }
 
