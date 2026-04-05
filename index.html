@@ -5,9 +5,9 @@
     <script>
         // === НАСТРОЙКА ПРЯМЫХ ССЫЛОК (МЕНЯТЬ ТУТ) ===
         const LINKS = {
-            mod: "https://github.com/Trykath158/rslmod-site/releases/download/rsl/RSL.Speed.Paid_v11.40.0.122893.apk",      // Кнопка: "Скачать Mod" (Синяя)
-            clone: "https://github.com/Trykath158/rslmod-site/releases/download/rsl/RSL.Speed.Paid.Clone_v11.40.0.122893.apk",  // Кнопка: "Скачать Клон" (Темная)
-            original: "https://github.com/Trykath158/rslmod-site/releases/download/rsl/Raid_v11.40.0.142984.apk" // Кнопка: "Оригинал" (Контурная)
+            mod: "https://github.com/Trykath158/rslmod-site/releases/download/rsl/RSL.Speed.Paid_v11.40.0.122893.apk",
+            clone: "https://github.com/Trykath158/rslmod-site/releases/download/rsl/RSL.Speed.Paid.Clone_v11.40.0.122893.apk",
+            original: "https://github.com/Trykath158/rslmod-site/releases/download/rsl/Raid_v11.40.0.142984.apk"
         };
         // =============================================
     </script>
@@ -106,13 +106,12 @@
         .feature-item:hover { transform: translateY(-5px); border-color: var(--accent); }
         .feature-item:hover i { transform: scale(1.2) rotate(5deg); color: #ec4899; }
 
-        .stats-container { display: flex; justify-content: center; gap: 0.8rem; margin-bottom: 1.2rem; }
+        .stats-container { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.8rem; margin-bottom: 1.2rem; }
         .stat-item { background: var(--card-bg); border: 1px solid var(--border); padding: 0.5rem 1rem; border-radius: 12px; font-weight: 800; font-size: 0.8rem; display: flex; align-items: center; gap: 6px; cursor: pointer; transition: 0.2s; }
         .stat-item:active { transform: scale(0.9); }
         .stat-item.active-like { background: rgba(34, 197, 94, 0.2); border-color: #22c55e; }
         .stat-item.active-dislike { background: rgba(239, 68, 68, 0.2); border-color: #ef4444; }
 
-        /* Анимация пульсации для Telegram виджета */
         @keyframes pulse-green {
             0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.7); }
             70% { transform: scale(1); box-shadow: 0 0 0 10px rgba(34, 197, 94, 0); }
@@ -160,6 +159,9 @@
                 <div class="stat-item" id="btnDl"><i class="fas fa-download" style="color:#3b82f6"></i> <span id="countDl">...</span></div>
                 <div class="stat-item" id="btnLike"><i class="fas fa-thumbs-up" style="color:#22c55e"></i> <span id="countLike">...</span></div>
                 <div class="stat-item" id="btnDislike"><i class="fas fa-thumbs-down" style="color:#ef4444"></i> <span id="countDislike">...</span></div>
+                
+                <div class="stat-item" title="Посещений за сегодня"><i class="fas fa-user-clock" style="color:#f59e0b"></i> <span id="countToday">...</span></div>
+                <div class="stat-item" title="Всего посещений за всё время"><i class="fas fa-users" style="color:#a855f7"></i> <span id="countTotal">...</span></div>
             </div>
             
             <h1>
@@ -265,37 +267,54 @@
 
         const app = initializeApp(firebaseConfig);
         const db = getDatabase(app);
-        const statsRef = ref(db, 'stats');
-
+        
         const UI_ST = {
             dl: document.getElementById('countDl'),
             like: document.getElementById('countLike'),
             dislike: document.getElementById('countDislike'),
+            today: document.getElementById('countToday'),
+            total: document.getElementById('countTotal'),
             btnLike: document.getElementById('btnLike'),
             btnDislike: document.getElementById('btnDislike')
         };
 
+        // Работа с датой для статистики
+        const todayDate = new Date().toISOString().split('T')[0]; // Формат YYYY-MM-DD
+
         // Загрузка данных в реальном времени
-        onValue(statsRef, (snapshot) => {
-            const data = snapshot.val();
-            if (data) {
-                UI_ST.dl.textContent = data.dl !== undefined ? data.dl : 74;
-                UI_ST.like.textContent = data.like !== undefined ? data.like : 13;
-                UI_ST.dislike.textContent = data.dislike !== undefined ? data.dislike : 0;
-            } else {
-                UI_ST.dl.textContent = 74;
-                UI_ST.like.textContent = 13;
-                UI_ST.dislike.textContent = 0;
-            }
+        onValue(ref(db, 'stats'), (snapshot) => {
+            const data = snapshot.val() || {};
+            UI_ST.dl.textContent = data.dl || 74;
+            UI_ST.like.textContent = data.like || 13;
+            UI_ST.dislike.textContent = data.dislike || 0;
+            UI_ST.total.textContent = data.totalViews || 100;
+            
+            // Если в базе есть данные за сегодня - выводим, иначе 0
+            UI_ST.today.textContent = (data.daily && data.daily[todayDate]) ? data.daily[todayDate] : 1;
+            
             updateVoteStyles();
         });
+
+        // Трекинг посещения
+        window.trackVisit = () => {
+            const visited = sessionStorage.getItem('rsl_v3_visited');
+            if (!visited) {
+                // Общий счетчик
+                runTransaction(ref(db, 'stats/totalViews'), (val) => (val || 100) + 1);
+                // Счетчик за сегодня
+                runTransaction(ref(db, `stats/daily/${todayDate}`), (val) => (val || 0) + 1);
+                
+                sessionStorage.setItem('rsl_v3_visited', 'true');
+            }
+        };
+        window.trackVisit();
 
         // Логика лайков
         window.handleVote = (type) => {
             let voted = localStorage.getItem('rsl_voted');
             if (voted === type) return;
 
-            runTransaction(statsRef, (cur) => {
+            runTransaction(ref(db, 'stats'), (cur) => {
                 if (!cur) cur = { dl: 74, like: 13, dislike: 0 };
                 if (voted && cur[voted] > 0) cur[voted]--;
                 cur[type] = (cur[type] || 0) + 1;
@@ -308,9 +327,7 @@
 
         // Логика скачивания
         window.trackDl = () => {
-            runTransaction(ref(db, 'stats/dl'), (val) => {
-                return (val === null) ? 75 : val + 1;
-            });
+            runTransaction(ref(db, 'stats/dl'), (val) => (val || 74) + 1);
         };
 
         function updateVoteStyles() {
@@ -327,17 +344,13 @@
                 e.preventDefault();
                 const type = btn.getAttribute('data-type');
                 window.trackDl();
-                
                 const icon = btn.querySelector('i');
                 if(icon) {
                     icon.classList.remove('icon-jump');
                     void icon.offsetWidth; 
                     icon.classList.add('icon-jump');
                 }
-
-                setTimeout(() => {
-                    if (LINKS[type]) window.location.href = LINKS[type];
-                }, 150);
+                setTimeout(() => { if (LINKS[type]) window.location.href = LINKS[type]; }, 150);
             };
         });
     </script>
