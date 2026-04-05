@@ -167,6 +167,7 @@
         .stat-item.active-like { background: rgba(34, 197, 94, 0.2); border-color: #22c55e; }
         .stat-item.active-dislike { background: rgba(239, 68, 68, 0.2); border-color: #ef4444; }
 
+        /* FAQ MODAL STYLES */
         .faq-modal {
             position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(0.9);
             width: 90%; max-width: 600px; max-height: 85vh; 
@@ -212,15 +213,23 @@
         <h2 class="faq-title"><i class="fas fa-question-circle"></i> ЧаВо (FAQ)</h2>
         <div class="faq-content">
             <div class="faq-block">
-                <span class="faq-q">1) Как подключить новые устройства?</span>
-                <span class="faq-a">Ответ: Оплата 500 рублей за каждое новое устройство.</span>
+                <span class="faq-q">1) Вопрос: Как можно подключить второе, третье и последующие устройства?</span>
+                <span class="faq-a">Ответ: Подключение каждого нового устройства осуществляется за плату в размере 500 рублей за каждое.</span>
             </div>
             <div class="faq-block">
-                <span class="faq-q">1.1) Смена устройства/сброс настроек?</span>
-                <span class="faq-a">Ответ: Перепривязка ID стоит 250 рублей.</span>
+                <span class="faq-q">1.1) Вопрос: Я ранее был внесён в базу, но сменил устройство/сбросил к заводским настройкам/перепрошил. Могу ли я отвязать старое и привязать новое?</span>
+                <span class="faq-a">Ответ: Да, это возможно. Стоимость данной операции составит 250 рублей.</span>
+            </div>
+            <div class="faq-block">
+                <span class="faq-q">1.2) Вопрос: Я обновил мод, и теперь не могу войти в игру — выходит диалог "Кажется данного устройства нет в базе"</span>
+                <span class="faq-a">Ответ: Это новая мера защиты от распространения платной версии. Нажмите кнопку "Копировать ID" и пришлите скопированный ID мне в личные сообщения. Либо нажмите "Написать Автору" и вас перекинет сразу в диалог со мной и автоматически вставится сообщение с вашим ID.</span>
+            </div>
+            <div class="faq-block">
+                <span class="faq-q">1.3) Вопрос: В модификации 9Mod/Getmods не работает скорость.</span>
+                <span class="faq-a">Ответ: Это известная проблема модификации 9Mod/Getmods. У некоторых пользователей всё работает, у других — нет. Попробуйте перезагрузить устройство. Если это не поможет, вы можете установить игру на компьютер, воспользовавшись эмулятором Android, например, <a href="https://www.bluestacks.com/" target="_blank" style="color:var(--accent)">ЭТИМ</a></span>
             </div>
             <div class="faq-warning">
-                <strong>ВНИМАНИЕ:</strong> Не сбрасывайте настройки телефона, иначе ваш ID изменится и доступ пропадет.
+                <strong>1.4) НЕ СБРАСЫВАЙТЕ НАСТРОЙКИ ТЕЛЕФОНА ДО ЗАВОДСКИХ</strong> Т.К ID УСТРОЙСТВА ИЗМЕНИТСЯ И ВАС НЕ ПУСТИТ В ИГРУ!! В этом случае вам придётся перепривязывать ID согласно пункту 1.1
             </div>
         </div>
     </div>
@@ -233,12 +242,15 @@
         <nav class="sidebar-nav">
             <div onclick="openPage('home')" class="sidebar-link"><i class="fas fa-home"></i> Главная</div>
             <div onclick="openPage('premium')" class="sidebar-link" style="color:#f59e0b;"><i class="fas fa-crown"></i> Премиум версия</div>
-            <a href="https://t.me/RSLMOD" target="_blank" class="sidebar-link"><i class="fab fa-telegram"></i> Telegram</a>
+            <a href="https://t.me/rsl_chats" target="_blank" class="sidebar-link"><i class="fas fa-comments"></i> Наш чат</a>
+            <a href="https://telegra.ph/FAQ-po-RSL-Speed-Mod-06-12" target="_blank" class="sidebar-link"><i class="fas fa-question-circle"></i> FAQ</a>
+            <a href="https://telegra.ph/Referalnaya-programma-03-16" target="_blank" class="sidebar-link"><i class="fas fa-users"></i> Реферальная программа</a>
         </nav>
     </div>
 
     <div class="live-ticker-container">
         <div class="live-ticker">
+            <span>FPS UNLOCKED</span> <span>LOW LATENCY</span> <span>BOOSTING ON</span> <span>STABLE FRAME</span>
             <span>FPS UNLOCKED</span> <span>LOW LATENCY</span> <span>BOOSTING ON</span> <span>STABLE FRAME</span>
         </div>
     </div>
@@ -259,6 +271,8 @@
                     <div class="stat-item" id="btnDl"><i class="fas fa-download" style="color:#3b82f6"></i> <span id="countDl">...</span></div>
                     <div class="stat-item" id="btnLike"><i class="fas fa-thumbs-up" style="color:#22c55e"></i> <span id="countLike">...</span></div>
                     <div class="stat-item" id="btnDislike"><i class="fas fa-thumbs-down" style="color:#ef4444"></i> <span id="countDislike">...</span></div>
+                    <div class="stat-item" title="Посещений за сегодня"><i class="fas fa-user-clock" style="color:#f59e0b"></i> <span id="countToday">...</span></div>
+                    <div class="stat-item" title="Всего посещений"><i class="fas fa-users" style="color:#a855f7"></i> <span id="countTotal">...</span></div>
                 </div>
                 
                 <h1>
@@ -267,31 +281,70 @@
                     <span class="mod-text"><b>M</b><b>O</b><b>D</b></span>
                 </h1>
                 
-                <p class="hero-desc">Технология ускорения игрового процесса для Android.</p>
+                <p class="hero-desc">Технология ускорения игрового процесса для Android. Стабильный FPS и минимальный инпут-лаг.</p>
 
                 <div class="download-grid">
-                    <a href="#" class="download-btn primary dl-trigger" data-type="mod"><i class="fas fa-rocket"></i> Mod</a>
-                    <a href="#" class="download-btn secondary dl-trigger" data-type="clone"><i class="fas fa-copy"></i> Clone</a>
+                    <a href="#" class="download-btn primary dl-trigger" data-type="mod"><i class="fas fa-rocket"></i> Скачать Mod</a>
+                    <a href="#" class="download-btn secondary dl-trigger" data-type="clone"><i class="fas fa-copy"></i> Скачать Клон</a>
+                    <a href="#" class="download-btn outline dl-trigger" data-type="original"><i class="fas fa-box-open"></i> Оригинал</a>
                 </div>
             </main>
+
+            <section class="features">
+                <div class="feature-item" data-aos="fade-up" onclick="animateIcon(this)">
+                    <i class="fas fa-bolt"></i>
+                    <h3>Скорость</h3>
+                    <p>Разблокировка лимитов и оптимизация ресурсов.</p>
+                </div>
+                <div class="feature-item" data-aos="fade-up" onclick="animateIcon(this)">
+                    <i class="fas fa-lock"></i>
+                    <h3>Защита</h3>
+                    <p>Анти-чит обход и полная безопасность данных.</p>
+                </div>
+                <div class="feature-item" data-aos="fade-up" onclick="animateIcon(this)">
+                    <i class="fas fa-mobile-alt"></i>
+                    <h3>Android</h3>
+                    <p>Нативная поддержка Android и работа на ПК.</p>
+                </div>
+            </section>
+
+            <section data-aos="zoom-in" style="margin: 4rem 0 2rem; position: relative;">
+                <div style="background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(36, 161, 222, 0.05)); border: 1px solid var(--border); border-radius: 24px; padding: 2.5rem 1.5rem; text-align: center; backdrop-filter: blur(10px);">
+                    <div style="display: inline-block; position: relative; margin-bottom: 1.5rem;">
+                        <i class="fab fa-telegram" style="font-size: 4rem; color: #24A1DE; filter: drop-shadow(0 0 15px rgba(36, 161, 222, 0.4));"></i>
+                        <span style="position: absolute; bottom: 5px; right: 5px; width: 12px; height: 12px; background: #22c55e; border: 2px solid #0a0a1a; border-radius: 50%; box-shadow: 0 0 10px #22c55e; animation: pulse-green 2s infinite;"></span>
+                    </div>
+                    <h2 style="font-weight: 900; font-size: 1.5rem; margin-bottom: 0.5rem; text-transform: uppercase; letter-spacing: 1px;">Наше комьюнити</h2>
+                    <p style="max-width: 400px; margin: 0 auto 2rem; opacity: 0.7; font-size: 0.9rem; line-height: 1.5; font-weight: 600;">Обсуждай тактики, получай помощь по моду и узнавай о новых версиях первым в нашем Telegram.</p>
+                    <div style="display: flex; flex-direction: column; align-items: center; gap: 1rem;">
+                        <a href="https://t.me/RSLMOD" target="_blank" class="download-btn primary" style="background: #24A1DE; border: none;">
+                            <i class="fas fa-external-link-alt"></i> Войти в группу
+                        </a>
+                    </div>
+                </div>
+            </section>
         </div>
 
         <div id="premiumPage">
             <div class="premium-card">
                 <i class="fas fa-crown" style="font-size: 3rem; color: #f59e0b; margin-bottom: 1rem;"></i>
-                <h2>Проверка доступа</h2>
+                <h2>Проверка ID</h2>
+                <p style="opacity: 0.7; font-size: 0.9rem;">Введите ваш игровой ID для доступа к Premium версиям</p>
                 <input type="text" id="premInput" class="prem-input" placeholder="Введите ваш ID...">
-                <button id="premBtn" class="prem-btn">ПРОВЕРИТЬ</button>
+                <button id="premBtn" class="prem-btn">ПРОВЕРИТЬ ДОСТУП</button>
                 <div id="premStatus"></div>
                 
                 <div id="premiumDownloads">
                     <div class="premium-grid">
-                        <a href="#" class="download-btn premium-outline dl-trigger" data-type="speed_x100" id="btn_x100_1" style="display:none;"><i class="fas fa-tachometer-alt"></i> RSL Speed x100</a>
-                        <a href="#" class="download-btn premium-outline dl-trigger" data-type="speed_x100_clone" id="btn_x100_2" style="display:none;"><i class="fas fa-tachometer-alt"></i> RSL Speed x100 Clone</a>
-                        <a href="#" class="download-btn premium-outline dl-trigger" data-type="mod_9mod" id="btn_p1" style="display:none;">Mod Paid "9mod"</a>
-                        <a href="#" class="download-btn premium-outline dl-trigger" data-type="mod_getmods" id="btn_p2" style="display:none;">Mod Paid "Getmods"</a>
-                        <a href="#" class="download-btn premium-outline dl-trigger" data-type="vpn">Рабочий VPN</a>
-                        <div class="download-btn premium-outline" onclick="openFaq()">FAQ</div>
+                        <a href="#" class="download-btn premium-outline dl-trigger" data-type="mod_9mod"><i class="fas fa-crown"></i> Mod Paid "9mod"</a>
+                        <a href="#" class="download-btn premium-outline dl-trigger" data-type="clone_9mod"><i class="fas fa-crown"></i> Mod Paid Clone "9mod"</a>
+                        <a href="#" class="download-btn premium-outline dl-trigger" data-type="mod_getmods"><i class="fas fa-crown"></i> Mod Paid "Getmods"</a>
+                        <a href="#" class="download-btn premium-outline dl-trigger" data-type="clone_getmods"><i class="fas fa-crown"></i> Mod Paid Clone "Getmods"</a>
+                        
+                        <a href="#" class="download-btn premium-outline dl-trigger" data-type="speed_x100"><i class="fas fa-tachometer-alt"></i> RSL Speed x100</a>
+                        <a href="#" class="download-btn premium-outline dl-trigger" data-type="speed_x100_clone"><i class="fas fa-tachometer-alt"></i> RSL Speed x100 Clone</a>
+                        <div class="download-btn premium-outline faq-btn-trigger" onclick="openFaq()"><i class="fas fa-question-circle"></i> ЧаВо (FAQ)</div>
+                        <a href="#" class="download-btn premium-outline dl-trigger" data-type="vpn"><i class="fas fa-shield-alt"></i> Рабочий VPN</a>
                     </div>
                 </div>
             </div>
@@ -316,104 +369,168 @@
 
         const app = initializeApp(firebaseConfig);
         const db = getDatabase(app);
-
-        window.checkPremium = async (id) => {
-            if(!id) return;
-            const btnStatus = document.getElementById('premBtn');
-            const statusDiv = document.getElementById('premStatus');
-            const panel = document.getElementById('premiumDownloads');
-            
-            btnStatus.textContent = "ПОИСК...";
-            
-            try {
-                const [snap1, snap2] = await Promise.all([
-                    get(child(ref(db), `premium_ids/${id}`)),
-                    get(child(ref(db), `premium_ids_v2/${id}`))
-                ]);
-
-                const inV1 = snap1.exists();
-                const inV2 = snap2.exists();
-
-                if (inV1 || inV2) {
-                    statusDiv.innerHTML = "<span style='color:#22c55e'>Лицензия подтверждена!</span>";
-                    panel.style.display = 'block';
-                    localStorage.setItem('rsl_id', id);
-
-                    // Управление видимостью кнопок
-                    const x100_1 = document.getElementById('btn_x100_1');
-                    const x100_2 = document.getElementById('btn_x100_2');
-                    const p1 = document.getElementById('btn_p1');
-                    const p2 = document.getElementById('btn_p2');
-
-                    // ПРИНУДИТЕЛЬНОЕ ОТОБРАЖЕНИЕ КНОПОК X100 ДЛЯ БАЗЫ V2
-                    if (inV2) {
-                        x100_1.style.setProperty('display', 'inline-flex', 'important');
-                        x100_2.style.setProperty('display', 'inline-flex', 'important');
-                    } else {
-                        x100_1.style.display = 'none';
-                        x100_2.style.display = 'none';
-                    }
-
-                    if (inV1) {
-                        p1.style.display = 'inline-flex';
-                        p2.style.display = 'inline-flex';
-                    } else {
-                        p1.style.display = 'none';
-                        p2.style.display = 'none';
-                    }
-
-                } else {
-                    statusDiv.innerHTML = "<span style='color:#ef4444'>ID не найден в базе</span>";
-                    panel.style.display = 'none';
-                }
-            } catch (e) {
-                statusDiv.textContent = "Ошибка сети";
-            }
-            btnStatus.textContent = "ПРОВЕРИТЬ";
-        };
-
-        document.getElementById('premBtn').onclick = () => window.checkPremium(document.getElementById('premInput').value.trim());
-        if(localStorage.getItem('rsl_id')) {
-            document.getElementById('premInput').value = localStorage.getItem('rsl_id');
-            window.checkPremium(localStorage.getItem('rsl_id'));
-        }
-
-        // Статистика (сокращено для примера, но работает)
-        onValue(ref(db, 'stats'), (snapshot) => {
-            const data = snapshot.val() || {};
-            document.getElementById('countDl').textContent = data.dl || 0;
-            document.getElementById('countLike').textContent = data.like || 0;
-            document.getElementById('countDislike').textContent = data.dislike || 0;
-        });
-
-        document.querySelectorAll('.dl-trigger').forEach(btn => {
-            btn.onclick = (e) => {
-                const type = btn.getAttribute('data-type');
-                if (LINKS[type]) window.location.href = LINKS[type];
-            };
-        });
-    </script>
-
-    <script>
-        function updateClock() { document.getElementById('clock').textContent = new Date().toLocaleTimeString(); }
-        setInterval(updateClock, 1000); updateClock();
-
-        const sidebar = document.getElementById('sidebar');
-        const overlay = document.getElementById('overlay');
+        const todayDate = new Date().toISOString().split('T')[0];
 
         window.openPage = (page) => {
             document.getElementById('homePage').style.display = page === 'home' ? 'block' : 'none';
             document.getElementById('premiumPage').style.display = page === 'premium' ? 'block' : 'none';
-            sidebar.classList.remove('active');
-            overlay.classList.remove('active');
+            if (document.getElementById('sidebar').classList.contains('active')) toggleMenu();
         };
 
-        document.getElementById('openSidebar').onclick = () => { sidebar.classList.add('active'); overlay.classList.add('active'); };
-        document.getElementById('closeSidebar').onclick = () => { sidebar.classList.remove('active'); overlay.classList.remove('active'); };
-        overlay.onclick = () => { sidebar.classList.remove('active'); overlay.classList.remove('active'); closeFaq(); };
+        window.openFaq = () => {
+            document.getElementById('faqModalWindow').classList.add('active');
+            document.getElementById('overlay').classList.add('active');
+        }
+        window.closeFaq = () => {
+            document.getElementById('faqModalWindow').classList.remove('active');
+            if (!document.getElementById('sidebar').classList.contains('active')) {
+                document.getElementById('overlay').classList.remove('active');
+            }
+        }
 
-        window.openFaq = () => { document.getElementById('faqModalWindow').classList.add('active'); overlay.classList.add('active'); };
-        window.closeFaq = () => { document.getElementById('faqModalWindow').classList.remove('active'); overlay.classList.remove('active'); };
+        const pBtn = document.getElementById('premBtn');
+        const pInput = document.getElementById('premInput');
+        const pStatus = document.getElementById('premStatus');
+        const pDownloads = document.getElementById('premiumDownloads');
+
+        async function checkPremium(id) {
+            if(!id) return;
+            pBtn.textContent = "ПОИСК...";
+            try {
+                // Прямой запрос к узлам по ID
+                const snap1 = await get(child(ref(db), `premium_ids/${id}`));
+                const snap2 = await get(child(ref(db), `premium_ids_v2/${id}`));
+
+                // Проверка на существование данных (любого значения, отличного от null)
+                const inBase1 = snap1.exists() && snap1.val() !== null;
+                const inBase2 = snap2.exists() && snap2.val() !== null;
+
+                if (inBase1 || inBase2) {
+                    pStatus.innerHTML = "<span style='color:#22c55e'><i class='fas fa-check-circle'></i> Лицензия активна!</span>";
+                    pDownloads.style.display = 'block';
+                    localStorage.setItem('rsl_id', id);
+
+                    const allButtons = pDownloads.querySelectorAll('.download-btn');
+                    allButtons.forEach(btn => {
+                        const type = btn.getAttribute('data-type');
+                        const isX100 = (type === 'speed_x100' || type === 'speed_x100_clone');
+                        const isFaq = btn.classList.contains('faq-btn-trigger');
+                        const isVpn = (type === 'vpn');
+                        const isPaidMod = (type === 'mod_9mod' || type === 'clone_9mod' || type === 'mod_getmods' || type === 'clone_getmods');
+
+                        let show = false;
+                        // База 1 видит обычные моды, VPN, FAQ
+                        if (inBase1 && (isPaidMod || isVpn || isFaq)) show = true;
+                        // База 2 видит x100, VPN, FAQ (и обычные, если нужно, но тут строго по логике)
+                        if (inBase2 && (isX100 || isVpn || isFaq)) show = true;
+
+                        btn.style.setProperty('display', show ? 'inline-flex' : 'none', 'important');
+                    });
+
+                } else {
+                    pStatus.innerHTML = "<span style='color:#ef4444'>ID не найден в базе</span>";
+                    pDownloads.style.display = 'none';
+                }
+            } catch (e) { 
+                pStatus.innerHTML = "<span style='color:#ef4444'>Ошибка сети</span>";
+                pDownloads.style.display = 'none';
+            }
+            pBtn.textContent = "ПРОВЕРИТЬ ДОСТУП";
+        }
+
+        pBtn.onclick = () => checkPremium(pInput.value.trim());
+        if(localStorage.getItem('rsl_id')) {
+            pInput.value = localStorage.getItem('rsl_id');
+            checkPremium(pInput.value);
+        }
+
+        const UI = {
+            dl: document.getElementById('countDl'), like: document.getElementById('countLike'),
+            dislike: document.getElementById('countDislike'), today: document.getElementById('countToday'),
+            total: document.getElementById('countTotal'), btnLike: document.getElementById('btnLike'),
+            btnDislike: document.getElementById('btnDislike')
+        };
+
+        onValue(ref(db, 'stats'), (snapshot) => {
+            const data = snapshot.val() || {};
+            UI.dl.textContent = data.dl || 0;
+            UI.like.textContent = data.like || 0;
+            UI.dislike.textContent = data.dislike || 0;
+            UI.total.textContent = data.totalViews || 0;
+            UI.today.textContent = (data.daily && data.daily[todayDate]) ? data.daily[todayDate] : 0;
+            updateVoteStyles();
+        });
+
+        window.trackVisit = () => {
+            if (!sessionStorage.getItem('rsl_v3_visited')) {
+                runTransaction(ref(db, 'stats'), (cur) => {
+                    if (!cur) cur = { dl: 0, like: 0, dislike: 0, totalViews: 0, daily: {} };
+                    cur.totalViews = (cur.totalViews || 0) + 1;
+                    if (!cur.daily) cur.daily = {};
+                    cur.daily[todayDate] = (cur.daily[todayDate] || 0) + 1;
+                    return cur;
+                }).then(() => { sessionStorage.setItem('rsl_v3_visited', 'true'); });
+            }
+        };
+        window.trackVisit();
+
+        window.handleVote = (type) => {
+            let voted = localStorage.getItem('rsl_voted');
+            if (voted === type) return;
+            runTransaction(ref(db, 'stats'), (cur) => {
+                if (!cur) return cur;
+                if (voted && cur[voted] > 0) cur[voted]--;
+                cur[type] = (cur[type] || 0) + 1;
+                return cur;
+            }).then(() => { localStorage.setItem('rsl_voted', type); });
+        };
+
+        function updateVoteStyles() {
+            const voted = localStorage.getItem('rsl_voted');
+            UI.btnLike.classList.toggle('active-like', voted === 'like');
+            UI.btnDislike.classList.toggle('active-dislike', voted === 'dislike');
+        }
+
+        UI.btnLike.onclick = () => window.handleVote('like');
+        UI.btnDislike.onclick = () => window.handleVote('dislike');
+
+        document.querySelectorAll('.dl-trigger').forEach(btn => {
+            btn.onclick = (e) => {
+                const type = btn.getAttribute('data-type');
+                if (!type) return; 
+                e.preventDefault();
+                btn.classList.add('btn-active-anim');
+                setTimeout(() => btn.classList.remove('btn-active-anim'), 400);
+                runTransaction(ref(db, 'stats/dl'), (v) => (v || 0) + 1);
+                if (LINKS[type]) {
+                    setTimeout(() => { window.location.href = LINKS[type]; }, 150);
+                }
+            };
+        });
+    </script>
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init({ duration: 800, once: true });
+        function updateClock() { document.getElementById('clock').textContent = new Date().toLocaleTimeString(); }
+        setInterval(updateClock, 1000); updateClock();
+        const sidebar = document.getElementById('sidebar');
+        const overlay = document.getElementById('overlay');
+        function toggleMenu() { sidebar.classList.toggle('active'); overlay.classList.toggle('active'); }
+        document.getElementById('openSidebar').onclick = toggleMenu;
+        document.getElementById('closeSidebar').onclick = toggleMenu;
+        overlay.onclick = () => { if(sidebar.classList.contains('active')) toggleMenu(); closeFaq(); };
+        document.getElementById('themeToggle').onclick = () => {
+            const isLight = document.body.classList.toggle('light');
+            document.getElementById('themeText').textContent = isLight ? 'Светлая' : 'Тёмная';
+        };
+        function animateIcon(card) {
+            const icon = card.querySelector('i');
+            icon.classList.remove('icon-jump');
+            void icon.offsetWidth;
+            icon.classList.add('icon-jump');
+            setTimeout(() => icon.classList.remove('icon-jump'), 400);
+        }
     </script>
 </body>
 </html>
