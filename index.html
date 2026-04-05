@@ -95,10 +95,13 @@
             line-height: 1;
         }
 
-        .badge { display: inline-block; padding: 0.5rem 1.2rem; border-radius: 40px; font-size: 0.7rem; font-weight: 900; margin-top: 1.5rem; margin-bottom: 1.2rem; position: relative; background: #0a0a1a; color: #ffffff !important; }
+        .badge { display: inline-block; padding: 0.5rem 1.2rem; border-radius: 40px; font-size: 0.7rem; font-weight: 900; margin-top: 1.5rem; position: relative; background: #0a0a1a; color: #ffffff !important; }
         .badge i { color: #ffffff !important; margin-right: 4px; }
         .badge::after { content: ''; position: absolute; top: -2px; bottom: -2px; left: -2px; right: -2px; background: linear-gradient(130deg, #3b82f6, #ec4899, #4f46e5); z-index: -1; border-radius: 40px; animation: badgeRainbow 3.5s linear infinite; background-size: 200% 200%; }
         @keyframes badgeRainbow { 0% { background-position: 0% 50%; } 100% { background-position: 200% 50%; } }
+
+        /* Стиль для текста версии */
+        .version-text { display: block; font-size: 0.75rem; font-weight: 800; opacity: 0.6; margin-top: 0.8rem; margin-bottom: 1.2rem; letter-spacing: 0.5px; }
 
         h1 { font-size: clamp(2rem, 8vw, 4rem); font-weight: 900; margin-bottom: 0.8rem; text-transform: uppercase; display: flex; justify-content: center; flex-wrap: wrap; gap: 0.1rem; }
         h1 b { display: inline-block; animation: wave 2s infinite ease-in-out; }
@@ -210,7 +213,9 @@
         <div id="homePage">
             <main class="hero">
                 <div class="digital-clock" id="clock">00:00:00</div>
+                
                 <div class="badge"><i class="fas fa-bolt"></i>НОВЫЙ РЕЛИЗ</div>
+                <span class="version-text">Актуальная версия: 11.40.0</span>
 
                 <div class="stats-container">
                     <div class="stat-item" id="btnDl"><i class="fas fa-download" style="color:#3b82f6"></i> <span id="countDl">...</span></div>
@@ -327,16 +332,13 @@
         const pStatus = document.getElementById('premStatus');
         const pDownloads = document.getElementById('premiumDownloads');
 
-        // === ОБНОВЛЕННАЯ ФУНКЦИЯ ПРОВЕРКИ (2 БАЗЫ) ===
         async function checkPremium(id) {
             if(!id) return;
             pBtn.textContent = "ПОИСК...";
             try {
-                // Проверка основной базы
                 const snap1 = await get(child(ref(db), `premium_ids/${id}`));
                 let isVip = (snap1.exists() && snap1.val() === true);
                 
-                // Если в первой не нашли, проверяем вторую
                 if (!isVip) {
                     const snap2 = await get(child(ref(db), `premium_ids_v2/${id}`));
                     isVip = (snap2.exists() && snap2.val() === true);
