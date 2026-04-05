@@ -104,8 +104,7 @@
         .download-btn.primary { background: var(--accent); color: white; box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3); }
         .download-btn.secondary { background: #1e293b; color: white; }
         .download-btn.outline { border: 2px solid var(--accent); color: var(--accent); background: transparent; }
-        /* Золотой стиль для платных кнопок */
-        .download-btn.premium-gold { background: linear-gradient(135deg, #f59e0b, #d97706); color: white; box-shadow: 0 4px 15px rgba(245, 158, 11, 0.4); border: none; }
+        .download-btn.premium-gold { background: linear-gradient(135deg, #f59e0b, #d97706); color: white; box-shadow: 0 4px 15px rgba(245, 158, 11, 0.4); }
 
         .features { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1rem; margin: 2rem 0; }
         .feature-item { padding: 1.8rem; text-align: center; border-radius: 1.5rem; background: var(--card-bg); border: 1px solid var(--border); transition: 0.3s; cursor: pointer; }
@@ -115,18 +114,15 @@
         .stats-container { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.8rem; margin-bottom: 1.2rem; }
         .stat-item { background: var(--card-bg); border: 1px solid var(--border); padding: 0.5rem 1rem; border-radius: 12px; font-weight: 800; font-size: 0.8rem; display: flex; align-items: center; gap: 6px; cursor: pointer; transition: 0.2s; }
 
-        /* PREMIUM UI СТИЛИ */
-        #premiumPage { display: none; text-align: center; padding-top: 2rem; animation: fadeInUp 0.5s ease; }
+        /* PREMIUM UI */
+        #premiumPage { display: none; text-align: center; padding-top: 2rem; }
         .premium-card { background: var(--card-bg); border: 1px solid rgba(245, 158, 11, 0.3); border-radius: 24px; padding: 2.5rem 1.5rem; max-width: 500px; margin: 0 auto; backdrop-filter: blur(10px); }
-        .prem-input { width: 100%; background: rgba(0,0,0,0.2); border: 1px solid var(--border); padding: 0.8rem; border-radius: 12px; color: white; margin: 1.5rem 0; font-family: 'JetBrains Mono', monospace; text-align: center; outline: none; transition: 0.3s; }
-        .prem-input:focus { border-color: #f59e0b; box-shadow: 0 0 10px rgba(245, 158, 11, 0.2); }
-        .prem-btn { background: #f59e0b; color: white; border: none; padding: 0.8rem 2rem; border-radius: 50px; font-weight: 900; cursor: pointer; width: 100%; transition: 0.2s; }
-        .prem-btn:active { transform: scale(0.95); }
-        #premStatus { margin-top: 1rem; font-weight: 700; font-size: 0.85rem; min-height: 1.2rem; }
-        #premiumDownloads { display: none; margin-top: 2rem; padding-top: 1.5rem; border-top: 1px solid var(--border); }
+        .prem-input { width: 100%; background: rgba(0,0,0,0.2); border: 1px solid var(--border); padding: 0.8rem; border-radius: 12px; color: white; margin: 1.5rem 0; font-family: 'JetBrains Mono', monospace; text-align: center; outline: none; }
+        .prem-btn { background: #f59e0b; color: white; border: none; padding: 0.8rem 2rem; border-radius: 50px; font-weight: 900; cursor: pointer; width: 100%; }
+        #premStatus { margin-top: 1rem; font-weight: 700; font-size: 0.85rem; }
+        #premiumDownloads { display: none; margin-top: 1.5rem; border-top: 1px solid var(--border); padding-top: 1.5rem; }
 
         footer { text-align: center; padding: 2rem; opacity: 0.5; font-size: 0.75rem; font-weight: 800; }
-        @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
         .icon-jump { animation: jump 0.4s ease; }
         @keyframes jump { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-8px) scale(1.3); } }
     </style>
@@ -210,20 +206,20 @@
 
         <div id="premiumPage">
             <div class="premium-card">
-                <i class="fas fa-gem" style="font-size: 3rem; color: #f59e0b; margin-bottom: 1rem;"></i>
+                <i class="fas fa-crown" style="font-size: 3rem; color: #f59e0b; margin-bottom: 1rem;"></i>
                 <h2>Проверка ID</h2>
-                <p style="opacity: 0.7; font-size: 0.9rem;">Введите ваш игровой ID для доступа к платным версиям</p>
-                <input type="text" id="premInput" class="prem-input" placeholder="Введите ваш ID...">
-                <button id="premBtn" class="prem-btn">ПРОВЕРИТЬ ДОСТУП</button>
+                <p style="opacity: 0.7; font-size: 0.9rem;">Введите ваш игровой ID для проверки Premium лицензии</p>
+                <input type="text" id="premInput" class="prem-input" placeholder="Введите ID...">
+                <button id="premBtn" class="prem-btn">ПРОВЕРИТЬ</button>
                 <div id="premStatus"></div>
-
+                
                 <div id="premiumDownloads">
-                    <div class="download-grid" style="margin-top: 1rem;">
+                    <div class="download-grid">
                         <a href="#" class="download-btn premium-gold dl-trigger" data-type="premium_mod">
-                            <i class="fas fa-crown"></i> Premium Mod
+                            <i class="fas fa-gem"></i> Premium Mod
                         </a>
                         <a href="#" class="download-btn premium-gold dl-trigger" data-type="premium_clone">
-                            <i class="fas fa-crown"></i> Premium Clone
+                            <i class="fas fa-gem"></i> Premium Clone
                         </a>
                     </div>
                 </div>
@@ -250,58 +246,42 @@
         const app = initializeApp(firebaseConfig);
         const db = getDatabase(app);
 
-        // --- ЛОГИКА ПЕРЕКЛЮЧЕНИЯ СТРАНИЦ ---
+        // Навигация
         window.openPage = (page) => {
-            const home = document.getElementById('homePage');
-            const premium = document.getElementById('premiumPage');
-            if (page === 'home') {
-                home.style.display = 'block';
-                premium.style.display = 'none';
-            } else {
-                home.style.display = 'none';
-                premium.style.display = 'block';
-            }
+            document.getElementById('homePage').style.display = page === 'home' ? 'block' : 'none';
+            document.getElementById('premiumPage').style.display = page === 'premium' ? 'block' : 'none';
             toggleMenu();
         };
 
-        // --- ЛОГИКА ПРЕМИУМА ---
+        // Логика Премиума
         const pBtn = document.getElementById('premBtn');
         const pInput = document.getElementById('premInput');
         const pStatus = document.getElementById('premStatus');
         const pDownloads = document.getElementById('premiumDownloads');
 
-        async function checkPremium(id) {
+        async function checkPrem(id) {
             if(!id) return;
-            pBtn.textContent = "ПОИСК...";
-            pBtn.disabled = true;
-            
+            pBtn.textContent = "...";
             try {
                 const snap = await get(child(ref(db), `premium_ids/${id}`));
                 if (snap.exists() && snap.val() === true) {
-                    pStatus.innerHTML = "<span style='color:#22c55e'><i class='fas fa-check-circle'></i> Лицензия активна!</span>";
+                    pStatus.innerHTML = "<span style='color:#22c55e'>Лицензия активна!</span>";
                     pDownloads.style.display = 'block';
-                    localStorage.setItem('rsl_saved_id', id);
+                    localStorage.setItem('rsl_id', id);
                 } else {
-                    pStatus.innerHTML = "<span style='color:#ef4444'><i class='fas fa-times-circle'></i> ID не найден в базе</span>";
+                    pStatus.innerHTML = "<span style='color:#ef4444'>ID не найден</span>";
                     pDownloads.style.display = 'none';
                 }
-            } catch (e) {
-                pStatus.innerHTML = "Ошибка связи с базой";
-            }
-            pBtn.textContent = "ПРОВЕРИТЬ ДОСТУП";
-            pBtn.disabled = false;
+            } catch (e) { pStatus.textContent = "Ошибка"; }
+            pBtn.textContent = "ПРОВЕРИТЬ";
+        }
+        pBtn.onclick = () => checkPrem(pInput.value.trim());
+        if(localStorage.getItem('rsl_id')) {
+            pInput.value = localStorage.getItem('rsl_id');
+            checkPrem(pInput.value);
         }
 
-        pBtn.onclick = () => checkPremium(pInput.value.trim());
-        
-        // Автопроверка при загрузке
-        const savedId = localStorage.getItem('rsl_saved_id');
-        if(savedId) {
-            pInput.value = savedId;
-            checkPremium(savedId);
-        }
-
-        // --- ОРИГИНАЛЬНАЯ СТАТИСТИКА ---
+        // Оригинальная стата
         const UI = {
             dl: document.getElementById('countDl'),
             like: document.getElementById('countLike'),
