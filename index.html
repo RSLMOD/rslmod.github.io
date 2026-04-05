@@ -379,13 +379,14 @@
             pDownloads.style.display = 'none';
 
             try {
-                // Проверяем обе ветки параллельно для ускорения и точности
-                const [snap1, snap2] = await Promise.all([
-                    get(child(ref(db), `premium_ids/${id}`)),
-                    get(child(ref(db), `premium_ids_v2/${id}`))
-                ]);
+                // Поочередная проверка для максимальной стабильности
+                let snap = await get(child(ref(db), `premium_ids/${id}`));
+                let isVip = snap.exists() && snap.val() === true;
 
-                const isVip = (snap1.exists() && snap1.val() === true) || (snap2.exists() && snap2.val() === true);
+                if (!isVip) {
+                    snap = await get(child(ref(db), `premium_ids_v2/${id}`));
+                    isVip = snap.exists() && snap.val() === true;
+                }
 
                 if (isVip) {
                     pStatus.innerHTML = "<span style='color:#22c55e'><i class='fas fa-check-circle'></i> Лицензия активна!</span>";
@@ -393,12 +394,9 @@
                     localStorage.setItem('rsl_id', id);
                 } else {
                     pStatus.innerHTML = "<span style='color:#ef4444'>Данного ID нет в базе, доступ запрещен</span>";
-                    pDownloads.style.display = 'none';
                 }
             } catch (e) { 
-                console.error(e);
                 pStatus.innerHTML = "<span style='color:#ef4444'>Ошибка подключения к базе</span>";
-                pDownloads.style.display = 'none';
             }
             pBtn.textContent = "ПРОВЕРИТЬ ДОСТУП";
         }
