@@ -345,8 +345,9 @@
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-        import { getDatabase, ref, onValue, runTransaction, get, child } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+        import { getDatabase, ref, onValue, runTransaction } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
 
+        // Firebase нужен ТОЛЬКО для статистики (лайки, посещения)
         const firebaseConfig = {
             apiKey: "AIzaSyAP6KsJ3mMPY1DU4ehoo_HSs_T_PhqkzHg",
             authDomain: "rslmod-4634c.firebaseapp.com",
@@ -361,6 +362,11 @@
         const db = getDatabase(app);
         const todayDate = new Date().toISOString().split('T')[0];
 
+        // --- БЛОК PASTEBIN (Проверка ID) ---
+        const BASE_1 = "https://pastebin.com/raw/Kk4UfZ4C";
+        const BASE_2 = "https://pastebin.com/raw/CJAhRshe";
+        const PROXY = "https://api.allorigins.win/get?url=";
+
         window.openPage = (page) => {
             document.getElementById('homePage').style.display = page === 'home' ? 'block' : 'none';
             document.getElementById('premiumPage').style.display = page === 'premium' ? 'block' : 'none';
@@ -374,29 +380,39 @@
 
         async function checkPremium(id) {
             if(!id) return;
-            pBtn.textContent = "ПОИСК...";
+            const searchId = id.trim().toLowerCase();
+            
+            pBtn.textContent = "СИНХРОНИЗАЦИЯ...";
             pStatus.innerHTML = "";
             pDownloads.style.display = 'none';
 
             try {
-                // Пытаемся проверить обе базы параллельно
-                const check1 = get(child(ref(db), `premium_ids/${id}`)).catch(() => null);
-                const check2 = get(child(ref(db), `premium_ids_v2/${id}`)).catch(() => null);
+                const [res1, res2] = await Promise.all([
+                    fetch(`${PROXY}${encodeURIComponent(BASE_1)}`),
+                    fetch(`${PROXY}${encodeURIComponent(BASE_2)}`)
+                ]);
 
-                const [snap1, snap2] = await Promise.all([check1, check2]);
+                const data1 = await res1.json();
+                const data2 = await res2.json();
 
-                const isVip = (snap1 && snap1.exists() && snap1.val() === true) || 
-                              (snap2 && snap2.exists() && snap2.val() === true);
+                // Обработка базы через запятую
+                const ids1 = data1.contents.split(',').map(item => item.trim().toLowerCase());
+
+                // Обработка базы ID:ДАТА
+                const ids2 = data2.contents.split('\n').map(line => line.split(':')[0].trim().toLowerCase());
+
+                const isVip = ids1.includes(searchId) || ids2.includes(searchId);
 
                 if (isVip) {
                     pStatus.innerHTML = "<span style='color:#22c55e'><i class='fas fa-check-circle'></i> Лицензия активна!</span>";
                     pDownloads.style.display = 'block';
                     localStorage.setItem('rsl_id', id);
                 } else {
-                    pStatus.innerHTML = "<span style='color:#ef4444'>Данного ID нет в базе, доступ запрещен</span>";
+                    pStatus.innerHTML = "<span style='color:#ef4444'>ID не найден в базе доступа</span>";
                 }
-            } catch (e) { 
-                pStatus.innerHTML = "<span style='color:#ef4444'>Ошибка подключения к базе</span>";
+            } catch (e) {
+                console.error(e);
+                pStatus.innerHTML = "<span style='color:#f59e0b'>Ошибка загрузки баз Pastebin</span>";
             }
             pBtn.textContent = "ПРОВЕРИТЬ ДОСТУП";
         }
@@ -407,6 +423,7 @@
             checkPremium(pInput.value);
         }
 
+        // --- СТАТИСТИКА (FIREBASE) ---
         const UI = {
             dl: document.getElementById('countDl'), like: document.getElementById('countLike'),
             dislike: document.getElementById('countDislike'), today: document.getElementById('countToday'),
