@@ -70,13 +70,12 @@
 
         .hero { text-align: center; }
         
-        /* КОРРЕКТИРОВКА ЧАСОВ */
         .digital-clock {
             font-family: 'JetBrains Mono', monospace;
-            font-size: clamp(2rem, 8vw, 3.5rem); /* Чуть меньше */
+            font-size: clamp(2rem, 8vw, 3.5rem);
             font-weight: 700;
             color: var(--accent);
-            margin-top: -2.5rem; /* Подняты еще выше */
+            margin-top: -2.5rem;
             margin-bottom: 0.5rem;
             letter-spacing: 4px;
             text-shadow: 0 0 20px rgba(59, 130, 246, 0.4);
@@ -84,7 +83,8 @@
             line-height: 1;
         }
 
-        .badge { display: inline-block; padding: 0.5rem 1.2rem; border-radius: 40px; font-size: 0.7rem; font-weight: 900; margin-bottom: 1.2rem; position: relative; background: #0a0a1a; color: #ffffff !important; }
+        /* УВЕЛИЧЕН ОТСТУП СВЕРХУ ДЛЯ БЕЙДЖА */
+        .badge { display: inline-block; padding: 0.5rem 1.2rem; border-radius: 40px; font-size: 0.7rem; font-weight: 900; margin-top: 1.5rem; margin-bottom: 1.2rem; position: relative; background: #0a0a1a; color: #ffffff !important; }
         .badge i { color: #ffffff !important; margin-right: 4px; }
         .badge::after { content: ''; position: absolute; top: -2px; bottom: -2px; left: -2px; right: -2px; background: linear-gradient(130deg, #3b82f6, #ec4899, #4f46e5); z-index: -1; border-radius: 40px; animation: badgeRainbow 3.5s linear infinite; background-size: 200% 200%; }
         @keyframes badgeRainbow { 0% { background-position: 0% 50%; } 100% { background-position: 200% 50%; } }
