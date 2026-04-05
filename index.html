@@ -343,7 +343,7 @@
                         
                         <a href="#" class="download-btn premium-outline dl-trigger" data-type="speed_x100"><i class="fas fa-tachometer-alt"></i> RSL Speed x100</a>
                         <a href="#" class="download-btn premium-outline dl-trigger" data-type="speed_x100_clone"><i class="fas fa-tachometer-alt"></i> RSL Speed x100 Clone</a>
-                        <div class="download-btn premium-outline faq-btn-trigger" onclick="openFaq()"><i class="fas fa-question-circle"></i> ЧаВо (FAQ)</div>
+                        <div class="download-btn premium-outline" onclick="openFaq()"><i class="fas fa-question-circle"></i> ЧаВо (FAQ)</div>
                         <a href="#" class="download-btn premium-outline dl-trigger" data-type="vpn"><i class="fas fa-shield-alt"></i> Рабочий VPN</a>
                     </div>
                 </div>
@@ -377,6 +377,7 @@
             if (document.getElementById('sidebar').classList.contains('active')) toggleMenu();
         };
 
+        // --- FAQ LOGIC ---
         window.openFaq = () => {
             document.getElementById('faqModalWindow').classList.add('active');
             document.getElementById('overlay').classList.add('active');
@@ -397,42 +398,59 @@
             if(!id) return;
             pBtn.textContent = "ПОИСК...";
             try {
-                // Прямой запрос к узлам по ID
-                const snap1 = await get(child(ref(db), `premium_ids/${id}`));
-                const snap2 = await get(child(ref(db), `premium_ids_v2/${id}`));
+                // Проверка обеих баз
+                const [snap1, snap2] = await Promise.all([
+                    get(child(ref(db), `premium_ids/${id}`)),
+                    get(child(ref(db), `premium_ids_v2/${id}`))
+                ]);
 
-                // Проверка на существование данных (любого значения, отличного от null)
-                const inBase1 = snap1.exists() && snap1.val() !== null;
-                const inBase2 = snap2.exists() && snap2.val() !== null;
+                const inBase1 = snap1.exists() && snap1.val() === true;
+                const inBase2 = snap2.exists() && snap2.val() === true;
 
                 if (inBase1 || inBase2) {
                     pStatus.innerHTML = "<span style='color:#22c55e'><i class='fas fa-check-circle'></i> Лицензия активна!</span>";
                     pDownloads.style.display = 'block';
                     localStorage.setItem('rsl_id', id);
 
-                    const allButtons = pDownloads.querySelectorAll('.download-btn');
-                    allButtons.forEach(btn => {
+                    // Управление видимостью кнопок
+                    const btns = document.querySelectorAll('#premiumDownloads .download-btn');
+                    btns.forEach(btn => {
                         const type = btn.getAttribute('data-type');
-                        const isX100 = (type === 'speed_x100' || type === 'speed_x100_clone');
-                        const isFaq = btn.classList.contains('faq-btn-trigger');
-                        const isVpn = (type === 'vpn');
-                        const isPaidMod = (type === 'mod_9mod' || type === 'clone_9mod' || type === 'mod_getmods' || type === 'clone_getmods');
+                        
+                        // Если в обеих базах — показываем всё
+                        if (inBase1 && inBase2) {
+                            btn.style.display = 'inline-flex';
+                            return;
+                        }
 
-                        let show = false;
-                        // База 1 видит обычные моды, VPN, FAQ
-                        if (inBase1 && (isPaidMod || isVpn || isFaq)) show = true;
-                        // База 2 видит x100, VPN, FAQ (и обычные, если нужно, но тут строго по логике)
-                        if (inBase2 && (isX100 || isVpn || isFaq)) show = true;
+                        // Если только в первой базе (premium_ids) — всё кроме x100
+                        if (inBase1 && !inBase2) {
+                            if (type === 'speed_x100' || type === 'speed_x100_clone') {
+                                btn.style.display = 'none';
+                            } else {
+                                btn.style.display = 'inline-flex';
+                            }
+                        }
 
-                        btn.style.setProperty('display', show ? 'inline-flex' : 'none', 'important');
+                        // Если только во второй базе (premium_ids_v2) — только x100, FAQ, VPN
+                        if (inBase2 && !inBase1) {
+                            const allowed = ['speed_x100', 'speed_x100_clone', 'vpn'];
+                            // FAQ не имеет data-type в HTML (он вызывает openFaq), но он вложен в грид
+                            if (allowed.includes(type) || btn.getAttribute('onclick') === 'openFaq()') {
+                                btn.style.display = 'inline-flex';
+                            } else {
+                                btn.style.display = 'none';
+                            }
+                        }
                     });
 
                 } else {
-                    pStatus.innerHTML = "<span style='color:#ef4444'>ID не найден в базе</span>";
+                    pStatus.innerHTML = "<span style='color:#ef4444'>Данного ID нет в базе, доступ запрещен</span>";
                     pDownloads.style.display = 'none';
                 }
             } catch (e) { 
-                pStatus.innerHTML = "<span style='color:#ef4444'>Ошибка сети</span>";
+                console.error(e);
+                pStatus.innerHTML = "<span style='color:#ef4444'>Ошибка проверки, попробуйте позже</span>";
                 pDownloads.style.display = 'none';
             }
             pBtn.textContent = "ПРОВЕРИТЬ ДОСТУП";
@@ -497,11 +515,13 @@
         document.querySelectorAll('.dl-trigger').forEach(btn => {
             btn.onclick = (e) => {
                 const type = btn.getAttribute('data-type');
-                if (!type) return; 
+                if (type === 'faq') return; 
+                
                 e.preventDefault();
                 btn.classList.add('btn-active-anim');
                 setTimeout(() => btn.classList.remove('btn-active-anim'), 400);
                 runTransaction(ref(db, 'stats/dl'), (v) => (v || 0) + 1);
+                
                 if (LINKS[type]) {
                     setTimeout(() => { window.location.href = LINKS[type]; }, 150);
                 }
@@ -514,16 +534,23 @@
         AOS.init({ duration: 800, once: true });
         function updateClock() { document.getElementById('clock').textContent = new Date().toLocaleTimeString(); }
         setInterval(updateClock, 1000); updateClock();
+
         const sidebar = document.getElementById('sidebar');
         const overlay = document.getElementById('overlay');
         function toggleMenu() { sidebar.classList.toggle('active'); overlay.classList.toggle('active'); }
         document.getElementById('openSidebar').onclick = toggleMenu;
         document.getElementById('closeSidebar').onclick = toggleMenu;
-        overlay.onclick = () => { if(sidebar.classList.contains('active')) toggleMenu(); closeFaq(); };
+        
+        overlay.onclick = () => {
+            if(sidebar.classList.contains('active')) toggleMenu();
+            closeFaq();
+        };
+
         document.getElementById('themeToggle').onclick = () => {
             const isLight = document.body.classList.toggle('light');
             document.getElementById('themeText').textContent = isLight ? 'Светлая' : 'Тёмная';
         };
+
         function animateIcon(card) {
             const icon = card.querySelector('i');
             icon.classList.remove('icon-jump');
