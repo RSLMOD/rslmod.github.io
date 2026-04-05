@@ -398,24 +398,46 @@
             if(!id) return;
             pBtn.textContent = "ПОИСК...";
             try {
-                const snap1 = await get(child(ref(db), `premium_ids/${id}`));
-                let isVip = (snap1.exists() && snap1.val() === true);
-                
-                if (!isVip) {
-                    const snap2 = await get(child(ref(db), `premium_ids_v2/${id}`));
-                    isVip = (snap2.exists() && snap2.val() === true);
-                }
+                // Проверяем наличие в обеих базах
+                const [snap1, snap2] = await Promise.all([
+                    get(child(ref(db), `premium_ids/${id}`)),
+                    get(child(ref(db), `premium_ids_v2/${id}`))
+                ]);
 
-                if (isVip) {
+                const inBase1 = (snap1.exists() && snap1.val() === true);
+                const inBase2 = (snap2.exists() && snap2.val() === true);
+
+                if (inBase1 || inBase2) {
                     pStatus.innerHTML = "<span style='color:#22c55e'><i class='fas fa-check-circle'></i> Лицензия активна!</span>";
                     pDownloads.style.display = 'block';
                     localStorage.setItem('rsl_id', id);
+
+                    // Логика отображения кнопок
+                    const allTriggers = pDownloads.querySelectorAll('.download-btn');
+                    allTriggers.forEach(btn => {
+                        const type = btn.getAttribute('data-type');
+                        const isX100 = (type === 'speed_x100' || type === 'speed_x100_clone');
+                        const isFaq = (btn.onclick && btn.onclick.toString().includes('openFaq'));
+                        const isVpn = (type === 'vpn');
+
+                        if (inBase1 && inBase2) {
+                            // 1. В обеих базах — все кнопки
+                            btn.style.display = 'inline-flex';
+                        } else if (inBase1 && !inBase2) {
+                            // 2. Только в первой базе — все кроме x100 и x100 clone
+                            btn.style.display = isX100 ? 'none' : 'inline-flex';
+                        } else if (!inBase1 && inBase2) {
+                            // 3. Только во второй базе — только x100, x100 clone, FAQ и VPN
+                            btn.style.display = (isX100 || isFaq || isVpn) ? 'inline-flex' : 'none';
+                        }
+                    });
+
                 } else {
                     pStatus.innerHTML = "<span style='color:#ef4444'>Данного ID нет в базе, доступ запрещен</span>";
                     pDownloads.style.display = 'none';
                 }
             } catch (e) { 
-                pStatus.innerHTML = "<span style='color:#ef4444'>Данного ID нет в базе, доступ запрещен</span>";
+                pStatus.innerHTML = "<span style='color:#ef4444'>Ошибка доступа к базе</span>";
                 pDownloads.style.display = 'none';
             }
             pBtn.textContent = "ПРОВЕРИТЬ ДОСТУП";
@@ -480,7 +502,7 @@
         document.querySelectorAll('.dl-trigger').forEach(btn => {
             btn.onclick = (e) => {
                 const type = btn.getAttribute('data-type');
-                if (type === 'faq') return; // FAQ теперь открывается через onclick модалкой
+                if (!type) return; 
                 
                 e.preventDefault();
                 btn.classList.add('btn-active-anim');
