@@ -126,11 +126,20 @@
         .hero-desc { font-size: 1rem; max-width: 550px; margin: 0 auto 2.5rem; font-weight: 700; opacity: 0.85; line-height: 1.4; }
         
         .download-grid { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.8rem; margin-bottom: 1.5rem; }
+        
+        /* Стили кнопок скачивания с эффектом нажатия */
         .download-btn { padding: 0.9rem 1.8rem; border-radius: 50px; font-weight: 900; text-decoration: none; display: inline-flex; align-items: center; justify-content: center; gap: 10px; transition: 0.2s cubic-bezier(0.4, 0, 0.2, 1); font-size: 0.9rem; cursor: pointer; }
-        .download-btn:active { transform: scale(0.92); }
+        .download-btn:active { transform: scale(0.92); filter: brightness(0.9); }
         .download-btn.primary { background: var(--accent); color: white; box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3); border: none; }
         .download-btn.secondary { background: #1e293b; color: white; border: none; }
         .download-btn.outline { border: 2px solid var(--accent); color: var(--accent); background: transparent; }
+
+        /* Анимация прыжка иконки при нажатии */
+        @keyframes icon-bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-6px); }
+        }
+        .btn-active-anim i { animation: icon-bounce 0.4s ease; }
 
         .download-btn.premium-outline { 
             background: rgba(30, 41, 59, 0.5); 
@@ -352,7 +361,6 @@
                     pDownloads.style.display = 'none';
                 }
             } catch (e) { 
-                // Исправлено: теперь при ошибке связи выводится нужная фраза
                 pStatus.innerHTML = "<span style='color:#ef4444'>Данного ID нет в базе, доступ запрещен</span>";
                 pDownloads.style.display = 'none';
             }
@@ -415,12 +423,25 @@
         UI.btnLike.onclick = () => window.handleVote('like');
         UI.btnDislike.onclick = () => window.handleVote('dislike');
 
+        // Обработка клика по кнопкам скачивания с анимацией
         document.querySelectorAll('.dl-trigger').forEach(btn => {
             btn.onclick = (e) => {
                 e.preventDefault();
+                
+                // Эффект анимации иконки
+                btn.classList.add('btn-active-anim');
+                setTimeout(() => btn.classList.remove('btn-active-anim'), 400);
+
+                // Транзакция счетчика
                 runTransaction(ref(db, 'stats/dl'), (v) => (v || 0) + 1);
+                
                 const type = btn.getAttribute('data-type');
-                if (LINKS[type]) window.location.href = LINKS[type];
+                if (LINKS[type]) {
+                    // Небольшая задержка перед переходом для видимости эффекта
+                    setTimeout(() => {
+                        window.location.href = LINKS[type];
+                    }, 150);
+                }
             };
         });
     </script>
