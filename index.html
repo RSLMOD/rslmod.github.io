@@ -417,23 +417,18 @@
                         const isX100 = (type === 'speed_x100' || type === 'speed_x100_clone');
                         const isFaq = (btn.onclick && btn.onclick.toString().includes('openFaq'));
                         const isVpn = (type === 'vpn');
+                        const isPaidMod = (type === 'mod_9mod' || type === 'clone_9mod' || type === 'mod_getmods' || type === 'clone_getmods');
 
-                        // КУМУЛЯТИВНАЯ ЛОГИКА: 
-                        // Сначала скрываем всё, потом включаем по условиям
-                        btn.style.display = 'none';
-
-                        // 1. Если ID в базе 1 - разрешаем все платные моды (НЕ x100)
-                        if (inBase1 && !isX100) {
-                            btn.style.display = 'inline-flex';
-                        }
+                        // Исправленная кумулятивная логика:
+                        let show = false;
                         
-                        // 2. Если ID в базе 2 - разрешаем x100, FAQ и VPN
-                        if (inBase2 && (isX100 || isFaq || isVpn)) {
-                            btn.style.display = 'inline-flex';
-                        }
+                        // Если в базе 1 - даем платные моды, VPN и FAQ
+                        if (inBase1 && (isPaidMod || isVpn || isFaq)) show = true;
+                        
+                        // Если в базе 2 - даем x100, VPN и FAQ
+                        if (inBase2 && (isX100 || isVpn || isFaq)) show = true;
 
-                        // ПРИМЕЧАНИЕ: Если ID в обеих базах, условия выше просто сработают по очереди, 
-                        // и кнопка x100 включится благодаря второму условию.
+                        btn.style.display = show ? 'inline-flex' : 'none';
                     });
 
                 } else {
