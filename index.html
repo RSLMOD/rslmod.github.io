@@ -379,14 +379,14 @@
             pDownloads.style.display = 'none';
 
             try {
-                // Поочередная проверка для максимальной стабильности
-                let snap = await get(child(ref(db), `premium_ids/${id}`));
-                let isVip = snap.exists() && snap.val() === true;
+                // Пытаемся проверить обе базы параллельно
+                const check1 = get(child(ref(db), `premium_ids/${id}`)).catch(() => null);
+                const check2 = get(child(ref(db), `premium_ids_v2/${id}`)).catch(() => null);
 
-                if (!isVip) {
-                    snap = await get(child(ref(db), `premium_ids_v2/${id}`));
-                    isVip = snap.exists() && snap.val() === true;
-                }
+                const [snap1, snap2] = await Promise.all([check1, check2]);
+
+                const isVip = (snap1 && snap1.exists() && snap1.val() === true) || 
+                              (snap2 && snap2.exists() && snap2.val() === true);
 
                 if (isVip) {
                     pStatus.innerHTML = "<span style='color:#22c55e'><i class='fas fa-check-circle'></i> Лицензия активна!</span>";
