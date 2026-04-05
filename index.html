@@ -418,16 +418,22 @@
                         const isFaq = (btn.onclick && btn.onclick.toString().includes('openFaq'));
                         const isVpn = (type === 'vpn');
 
-                        // Новая логика независимых флагов
-                        let shouldShow = false;
+                        // КУМУЛЯТИВНАЯ ЛОГИКА: 
+                        // Сначала скрываем всё, потом включаем по условиям
+                        btn.style.display = 'none';
 
-                        // Условие 1: Если в базе 1, показываем все кроме x100
-                        if (inBase1 && !isX100) shouldShow = true;
+                        // 1. Если ID в базе 1 - разрешаем все платные моды (НЕ x100)
+                        if (inBase1 && !isX100) {
+                            btn.style.display = 'inline-flex';
+                        }
                         
-                        // Условие 2: Если в базе 2, показываем x100, FAQ и VPN
-                        if (inBase2 && (isX100 || isFaq || isVpn)) shouldShow = true;
+                        // 2. Если ID в базе 2 - разрешаем x100, FAQ и VPN
+                        if (inBase2 && (isX100 || isFaq || isVpn)) {
+                            btn.style.display = 'inline-flex';
+                        }
 
-                        btn.style.display = shouldShow ? 'inline-flex' : 'none';
+                        // ПРИМЕЧАНИЕ: Если ID в обеих базах, условия выше просто сработают по очереди, 
+                        // и кнопка x100 включится благодаря второму условию.
                     });
 
                 } else {
