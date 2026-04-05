@@ -352,7 +352,8 @@
                     pDownloads.style.display = 'none';
                 }
             } catch (e) { 
-                pStatus.textContent = "Ошибка связи"; 
+                // Исправлено: теперь при ошибке связи выводится нужная фраза
+                pStatus.innerHTML = "<span style='color:#ef4444'>Данного ID нет в базе, доступ запрещен</span>";
                 pDownloads.style.display = 'none';
             }
             pBtn.textContent = "ПРОВЕРИТЬ ДОСТУП";
