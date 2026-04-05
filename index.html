@@ -178,9 +178,24 @@
         .feature-item.active-rainbow { border-color: transparent; }
         .feature-item.active-rainbow::after { opacity: 1; }
 
-        /* Маска для создания тонкого контура */
+        /* ВОТ ТУТ ИСПРАВЛЕНА МАСКА: ПОДКОРРЕКТИРОВАН z-index И overflow: hidden БОЛЬШЕ НЕ НУЖЕН */
         .feature-item::before {
-            display: none; /* Полностью отключаем проблемную маску */
+            content: ''; position: absolute;
+            top: 2px; left: 2px; right: 2px; bottom: 2px; 
+            background: var(--card-bg); 
+            border-radius: calc(1.5rem - 2px);
+            z-index: 0; /* Маска остается под контентом */
+        }
+        
+        /* Убираем overflow: hidden, чтобы маска не резала скругление при прокрутке */
+        .feature-item {
+            overflow: visible;
+        }
+        
+        /* Гарантируем, что контент поверх всего */
+        .feature-item * {
+            position: relative;
+            z-index: 2;
         }
 
         .icon-jump { animation: jump 0.4s ease; }
