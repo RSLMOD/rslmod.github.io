@@ -148,7 +148,6 @@
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
         import { getDatabase, ref, onValue, runTransaction } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
 
-        // ТВОЙ КОНФИГ ИЗ СКРИНШОТА
         const firebaseConfig = {
             apiKey: "AIzaSyAP6KsJ3mMPY1DU4ehoo_HSs_T_PhqkzHg",
             authDomain: "rslmod-4634c.firebaseapp.com",
@@ -172,28 +171,23 @@
             btnDislike: document.getElementById('btnDislike')
         };
 
-        // Слушаем базу в реальном времени
         onValue(statsRef, (snapshot) => {
             const data = snapshot.val() || { dl: 74, like: 12, dislike: 0 };
-            UI.dl.textContent = data.dl;
-            UI.like.textContent = data.like;
-            UI.dislike.textContent = data.dislike;
+            UI.dl.textContent = data.dl || 74;
+            UI.like.textContent = data.like || 12;
+            UI.dislike.textContent = data.dislike || 0;
             updateButtonColors();
         });
 
-        // Функция голосования
         window.handleVote = (type) => {
             let userVoted = localStorage.getItem('rsl_voted');
             if (userVoted === type) return;
 
             runTransaction(statsRef, (currentData) => {
                 if (!currentData) currentData = { dl: 74, like: 12, dislike: 0 };
-                
-                // Если меняем голос (был лайк, стал дизлайк)
                 if (userVoted) {
-                    currentData[userVoted] = (currentData[userVoted] || 1) - 1;
+                    currentData[userVoted] = Math.max(0, (currentData[userVoted] || 1) - 1);
                 }
-                
                 currentData[type] = (currentData[type] || 0) + 1;
                 return currentData;
             }).then(() => {
@@ -202,9 +196,11 @@
             });
         };
 
-        // Счетчик скачиваний
         window.trackDownload = () => {
-            runTransaction(ref(db, 'stats/dl'), (current) => (current || 74) + 1);
+            const dlRef = ref(db, 'stats/dl');
+            runTransaction(dlRef, (current) => {
+                return (current === null) ? 75 : current + 1;
+            });
         };
 
         function updateButtonColors() {
@@ -220,11 +216,15 @@
             btn.onclick = (e) => {
                 e.preventDefault();
                 const type = btn.getAttribute('data-type');
-                window.location.href = LINKS[type];
-                window.trackDownload();
+                if (LINKS[type]) {
+                    window.location.href = LINKS[type];
+                    window.trackDownload();
+                }
                 const icon = btn.querySelector('i');
-                icon.classList.add('icon-jump');
-                setTimeout(() => icon.classList.remove('icon-jump'), 400);
+                if(icon) {
+                    icon.classList.add('icon-jump');
+                    setTimeout(() => icon.classList.remove('icon-jump'), 400);
+                }
             };
         });
     </script>
