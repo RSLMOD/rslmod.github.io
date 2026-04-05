@@ -147,7 +147,6 @@
         .feature-item i { font-size: 2rem; color: var(--accent); margin-bottom: 0.8rem; transition: 0.3s; display: inline-block; }
         .feature-item:hover { transform: translateY(-5px); border-color: var(--accent); }
 
-        /* Анимация прыжка иконки */
         .icon-jump { animation: jump 0.4s ease; }
         @keyframes jump {
             0%, 100% { transform: translateY(0); }
@@ -328,12 +327,22 @@
         const pStatus = document.getElementById('premStatus');
         const pDownloads = document.getElementById('premiumDownloads');
 
+        // === ОБНОВЛЕННАЯ ФУНКЦИЯ ПРОВЕРКИ (2 БАЗЫ) ===
         async function checkPremium(id) {
             if(!id) return;
             pBtn.textContent = "ПОИСК...";
             try {
-                const snap = await get(child(ref(db), `premium_ids/${id}`));
-                if (snap.exists() && snap.val() === true) {
+                // Проверка основной базы
+                const snap1 = await get(child(ref(db), `premium_ids/${id}`));
+                let isVip = (snap1.exists() && snap1.val() === true);
+                
+                // Если в первой не нашли, проверяем вторую
+                if (!isVip) {
+                    const snap2 = await get(child(ref(db), `premium_ids_v2/${id}`));
+                    isVip = (snap2.exists() && snap2.val() === true);
+                }
+
+                if (isVip) {
                     pStatus.innerHTML = "<span style='color:#22c55e'><i class='fas fa-check-circle'></i> Лицензия активна!</span>";
                     pDownloads.style.display = 'block';
                     localStorage.setItem('rsl_id', id);
@@ -344,6 +353,7 @@
             } catch (e) { pStatus.textContent = "Ошибка связи"; }
             pBtn.textContent = "ПРОВЕРИТЬ ДОСТУП";
         }
+
         pBtn.onclick = () => checkPremium(pInput.value.trim());
         if(localStorage.getItem('rsl_id')) {
             pInput.value = localStorage.getItem('rsl_id');
@@ -428,11 +438,10 @@
             document.getElementById('themeText').textContent = isLight ? 'Светлая' : 'Тёмная';
         };
 
-        // Функция анимации иконки
         function animateIcon(card) {
             const icon = card.querySelector('i');
             icon.classList.remove('icon-jump');
-            void icon.offsetWidth; // Магия для сброса анимации
+            void icon.offsetWidth;
             icon.classList.add('icon-jump');
             setTimeout(() => icon.classList.remove('icon-jump'), 400);
         }
