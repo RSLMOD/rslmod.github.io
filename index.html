@@ -5,11 +5,12 @@
     <script>
         // === НАСТРОЙКА ПРЯМЫХ ССЫЛОК (МЕНЯТЬ ТУТ) ===
         const LINKS = {
+            // Бесплатный раздел
             mod: "https://github.com/RSLMOD/rslmod.github.io/releases/download/rsl/RSL.Speed_v11.40.0.122893.apk",
             clone: "https://github.com/RSLMOD/rslmod.github.io/releases/download/rsl/RSL.Speed.Clone_v11.40.0.122893.apk",
             original: "https://github.com/Trykath158/rslmod-site/releases/download/rsl/Raid_v11.40.0.142984.apk",
             
-            // Ссылки для платного раздела
+            // Платный раздел (Premium)
             mod_9mod: "https://example.com/9mod_paid.apk",
             clone_9mod: "https://example.com/9mod_paid_clone.apk",
             mod_getmods: "https://example.com/getmods_paid.apk",
@@ -102,7 +103,25 @@
         h1 { font-size: clamp(2rem, 8vw, 4rem); font-weight: 900; margin-bottom: 0.8rem; text-transform: uppercase; display: flex; justify-content: center; flex-wrap: wrap; gap: 0.1rem; }
         h1 b { display: inline-block; animation: wave 2s infinite ease-in-out; }
         h1 .mod-text { color: var(--accent); margin-left: 10px; display: flex; gap: 0.1rem; }
-        @keyframes wave { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-15px); } }
+        
+        /* Анимация волны */
+        @keyframes wave {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-15px); }
+        }
+
+        /* Задержки для каждой буквы */
+        h1 b:nth-child(1) { animation-delay: 0.0s; }
+        h1 b:nth-child(2) { animation-delay: 0.1s; }
+        h1 b:nth-child(3) { animation-delay: 0.2s; }
+        h1 b:nth-child(4) { animation-delay: 0.3s; }
+        h1 b:nth-child(5) { animation-delay: 0.4s; }
+        h1 b:nth-child(6) { animation-delay: 0.5s; }
+        h1 b:nth-child(7) { animation-delay: 0.6s; }
+        h1 b:nth-child(8) { animation-delay: 0.7s; }
+        h1 .mod-text b:nth-child(1) { animation-delay: 0.8s; }
+        h1 .mod-text b:nth-child(2) { animation-delay: 0.9s; }
+        h1 .mod-text b:nth-child(3) { animation-delay: 1.0s; }
 
         .hero-desc { font-size: 1rem; max-width: 550px; margin: 0 auto 2.5rem; font-weight: 700; opacity: 0.85; line-height: 1.4; }
         
@@ -113,19 +132,19 @@
         .download-btn.secondary { background: #1e293b; color: white; border: none; }
         .download-btn.outline { border: 2px solid var(--accent); color: var(--accent); background: transparent; }
 
-        /* === ЕДИНЫЙ СТИЛЬ: Темный фон, золотая обводка === */
+        /* Стиль премиум-кнопок */
         .download-btn.premium-outline { 
-            background: rgba(30, 41, 59, 0.5); /* Темный, полупрозрачный фон */
+            background: rgba(30, 41, 59, 0.5); 
             color: #fff; 
-            border: 2px solid var(--premium-gold); /* Золотая обводка */
-            box-shadow: 0 4px 15px rgba(245, 158, 11, 0.15); /* Мягкое золотое свечение */
+            border: 2px solid var(--premium-gold); 
+            box-shadow: 0 4px 15px rgba(245, 158, 11, 0.15); 
         }
         .download-btn.premium-outline:hover {
-            background: rgba(245, 158, 11, 0.1); /* Легкая заливка при наведении */
+            background: rgba(245, 158, 11, 0.1); 
             box-shadow: 0 4px 20px rgba(245, 158, 11, 0.3);
         }
         .download-btn.premium-outline i {
-            color: var(--premium-gold); /* Иконка золотая */
+            color: var(--premium-gold); 
         }
 
         .features { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1rem; margin: 2rem 0; }
@@ -144,9 +163,8 @@
             100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(34, 197, 94, 0); }
         }
 
-        /* PREMIUM UI */
         #premiumPage { display: none; text-align: center; padding-top: 2rem; }
-        .premium-card { background: var(--card-bg); border: 1px solid rgba(245, 158, 11, 0.3); border-radius: 24px; padding: 2.5rem 1.5rem; max-width: 600px; margin: 0 auto; backdrop-filter: blur(10px); }
+        .premium-card { background: var(--card-bg); border: 1px solid rgba(245, 158, 11, 0.3); border-radius: 24px; padding: 2.5rem 1.5rem; max-width: 500px; margin: 0 auto; backdrop-filter: blur(10px); }
         .prem-input { width: 100%; background: rgba(0,0,0,0.2); border: 1px solid var(--border); padding: 0.8rem; border-radius: 12px; color: white; margin: 1.5rem 0; font-family: 'JetBrains Mono', monospace; text-align: center; outline: none; }
         .prem-btn { background: #f59e0b; color: white; border: none; padding: 0.8rem 2rem; border-radius: 50px; font-weight: 900; cursor: pointer; width: 100%; transition: 0.2s; }
         .prem-btn:active { transform: scale(0.95); }
@@ -245,10 +263,9 @@
                     <h2 style="font-weight: 900; font-size: 1.5rem; margin-bottom: 0.5rem; text-transform: uppercase; letter-spacing: 1px;">Наше комьюнити</h2>
                     <p style="max-width: 400px; margin: 0 auto 2rem; opacity: 0.7; font-size: 0.9rem; line-height: 1.5; font-weight: 600;">Обсуждай тактики, получай помощь по моду и узнавай о новых версиях первым в нашем Telegram.</p>
                     <div style="display: flex; flex-direction: column; align-items: center; gap: 1rem;">
-                        <a href="https://t.me/RSLMOD" target="_blank" class="download-btn primary" style="background: #24A1DE; padding: 1rem 2.5rem; font-size: 1rem; box-shadow: 0 15px 30px rgba(36, 161, 222, 0.3); border: none;">
+                        <a href="https://t.me/RSLMOD" target="_blank" class="download-btn primary" style="background: #24A1DE; border: none;">
                             <i class="fas fa-external-link-alt"></i> Войти в группу
                         </a>
-                        <span style="font-size: 0.7rem; font-weight: 800; opacity: 0.5; text-transform: uppercase;"><i class="fas fa-users"></i> Присоединяйся к нам</span>
                     </div>
                 </div>
             </section>
