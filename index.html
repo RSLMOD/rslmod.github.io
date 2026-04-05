@@ -343,7 +343,7 @@
                         
                         <a href="#" class="download-btn premium-outline dl-trigger" data-type="speed_x100"><i class="fas fa-tachometer-alt"></i> RSL Speed x100</a>
                         <a href="#" class="download-btn premium-outline dl-trigger" data-type="speed_x100_clone"><i class="fas fa-tachometer-alt"></i> RSL Speed x100 Clone</a>
-                        <div class="download-btn premium-outline" onclick="openFaq()"><i class="fas fa-question-circle"></i> ЧаВо (FAQ)</div>
+                        <div class="download-btn premium-outline faq-btn-trigger" onclick="openFaq()"><i class="fas fa-question-circle"></i> ЧаВо (FAQ)</div>
                         <a href="#" class="download-btn premium-outline dl-trigger" data-type="vpn"><i class="fas fa-shield-alt"></i> Рабочий VPN</a>
                     </div>
                 </div>
@@ -415,20 +415,22 @@
                     allTriggers.forEach(btn => {
                         const type = btn.getAttribute('data-type');
                         const isX100 = (type === 'speed_x100' || type === 'speed_x100_clone');
-                        const isFaq = (btn.onclick && btn.onclick.toString().includes('openFaq'));
+                        const isFaq = btn.classList.contains('faq-btn-trigger');
                         const isVpn = (type === 'vpn');
                         const isPaidMod = (type === 'mod_9mod' || type === 'clone_9mod' || type === 'mod_getmods' || type === 'clone_getmods');
 
-                        // Исправленная кумулятивная логика:
-                        let show = false;
-                        
-                        // Если в базе 1 - даем платные моды, VPN и FAQ
-                        if (inBase1 && (isPaidMod || isVpn || isFaq)) show = true;
-                        
-                        // Если в базе 2 - даем x100, VPN и FAQ
-                        if (inBase2 && (isX100 || isVpn || isFaq)) show = true;
+                        // Новая логика: сначала скрываем, потом включаем по условию
+                        btn.style.display = 'none';
 
-                        btn.style.display = show ? 'inline-flex' : 'none';
+                        if (inBase1) {
+                            // База 1 открывает обычный премиум, VPN и FAQ
+                            if (isPaidMod || isVpn || isFaq) btn.style.display = 'inline-flex';
+                        }
+                        
+                        if (inBase2) {
+                            // База 2 открывает x100, VPN и FAQ
+                            if (isX100 || isVpn || isFaq) btn.style.display = 'inline-flex';
+                        }
                     });
 
                 } else {
