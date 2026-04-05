@@ -398,7 +398,6 @@
             if(!id) return;
             pBtn.textContent = "ПОИСК...";
             try {
-                // Проверка обеих баз
                 const [snap1, snap2] = await Promise.all([
                     get(child(ref(db), `premium_ids/${id}`)),
                     get(child(ref(db), `premium_ids_v2/${id}`))
@@ -412,30 +411,25 @@
                     pDownloads.style.display = 'block';
                     localStorage.setItem('rsl_id', id);
 
-                    // Управление видимостью кнопок
                     const btns = document.querySelectorAll('#premiumDownloads .download-btn');
                     btns.forEach(btn => {
                         const type = btn.getAttribute('data-type');
                         
-                        // Если в обеих базах — показываем всё
+                        // ПРИОРИТЕТ: Если в обеих базах — показываем всё без исключений
                         if (inBase1 && inBase2) {
                             btn.style.display = 'inline-flex';
-                            return;
-                        }
-
-                        // Если только в первой базе (premium_ids) — всё кроме x100
-                        if (inBase1 && !inBase2) {
+                        } 
+                        // Если ТОЛЬКО в первой базе — всё кроме x100
+                        else if (inBase1 && !inBase2) {
                             if (type === 'speed_x100' || type === 'speed_x100_clone') {
                                 btn.style.display = 'none';
                             } else {
                                 btn.style.display = 'inline-flex';
                             }
                         }
-
-                        // Если только во второй базе (premium_ids_v2) — только x100, FAQ, VPN
-                        if (inBase2 && !inBase1) {
+                        // Если ТОЛЬКО во второй базе — x100, FAQ, VPN
+                        else if (inBase2 && !inBase1) {
                             const allowed = ['speed_x100', 'speed_x100_clone', 'vpn'];
-                            // FAQ не имеет data-type в HTML (он вызывает openFaq), но он вложен в грид
                             if (allowed.includes(type) || btn.getAttribute('onclick') === 'openFaq()') {
                                 btn.style.display = 'inline-flex';
                             } else {
@@ -449,7 +443,6 @@
                     pDownloads.style.display = 'none';
                 }
             } catch (e) { 
-                console.error(e);
                 pStatus.innerHTML = "<span style='color:#ef4444'>Ошибка проверки, попробуйте позже</span>";
                 pDownloads.style.display = 'none';
             }
