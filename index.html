@@ -15,7 +15,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>RSL Speed Mod — Ускорение реальности</title>
     
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
 
@@ -69,6 +69,19 @@
         .overlay.active { opacity: 1; visibility: visible; }
 
         .hero { text-align: center; }
+        
+        /* Стили для электронных часов */
+        .digital-clock {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1.2rem;
+            font-weight: 500;
+            color: var(--accent);
+            margin-bottom: 0.5rem;
+            letter-spacing: 2px;
+            text-shadow: 0 0 10px rgba(59, 130, 246, 0.5);
+            opacity: 0.9;
+        }
+
         .badge { display: inline-block; padding: 0.5rem 1.2rem; border-radius: 40px; font-size: 0.7rem; font-weight: 900; margin-bottom: 1.2rem; position: relative; background: #0a0a1a; color: #ffffff !important; }
         .badge i { color: #ffffff !important; margin-right: 4px; }
         .badge::after { content: ''; position: absolute; top: -2px; bottom: -2px; left: -2px; right: -2px; background: linear-gradient(130deg, #3b82f6, #ec4899, #4f46e5); z-index: -1; border-radius: 40px; animation: badgeRainbow 3.5s linear infinite; background-size: 200% 200%; }
@@ -153,6 +166,8 @@
         </nav>
 
         <main class="hero">
+            <div class="digital-clock" id="clock">00:00:00</div>
+            
             <div class="badge"><i class="fas fa-bolt"></i>НОВЫЙ РЕЛИЗ</div>
 
             <div class="stats-container">
@@ -278,42 +293,31 @@
             btnDislike: document.getElementById('btnDislike')
         };
 
-        // Работа с датой для статистики
-        const todayDate = new Date().toISOString().split('T')[0]; // Формат YYYY-MM-DD
+        const todayDate = new Date().toISOString().split('T')[0];
 
-        // Загрузка данных в реальном времени
         onValue(ref(db, 'stats'), (snapshot) => {
             const data = snapshot.val() || {};
             UI_ST.dl.textContent = data.dl || 74;
             UI_ST.like.textContent = data.like || 13;
             UI_ST.dislike.textContent = data.dislike || 0;
             UI_ST.total.textContent = data.totalViews || 100;
-            
-            // Если в базе есть данные за сегодня - выводим, иначе 0
             UI_ST.today.textContent = (data.daily && data.daily[todayDate]) ? data.daily[todayDate] : 1;
-            
             updateVoteStyles();
         });
 
-        // Трекинг посещения
         window.trackVisit = () => {
             const visited = sessionStorage.getItem('rsl_v3_visited');
             if (!visited) {
-                // Общий счетчик
                 runTransaction(ref(db, 'stats/totalViews'), (val) => (val || 100) + 1);
-                // Счетчик за сегодня
                 runTransaction(ref(db, `stats/daily/${todayDate}`), (val) => (val || 0) + 1);
-                
                 sessionStorage.setItem('rsl_v3_visited', 'true');
             }
         };
         window.trackVisit();
 
-        // Логика лайков
         window.handleVote = (type) => {
             let voted = localStorage.getItem('rsl_voted');
             if (voted === type) return;
-
             runTransaction(ref(db, 'stats'), (cur) => {
                 if (!cur) cur = { dl: 74, like: 13, dislike: 0 };
                 if (voted && cur[voted] > 0) cur[voted]--;
@@ -325,7 +329,6 @@
             });
         };
 
-        // Логика скачивания
         window.trackDl = () => {
             runTransaction(ref(db, 'stats/dl'), (val) => (val || 74) + 1);
         };
@@ -358,6 +361,17 @@
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>
         AOS.init({ duration: 800, once: true, offset: 0 });
+
+        // Функция живых часов
+        function updateClock() {
+            const now = new Date();
+            const h = String(now.getHours()).padStart(2, '0');
+            const m = String(now.getMinutes()).padStart(2, '0');
+            const s = String(now.getSeconds()).padStart(2, '0');
+            document.getElementById('clock').textContent = `${h}:${m}:${s}`;
+        }
+        setInterval(updateClock, 1000);
+        updateClock();
 
         const sidebar = document.getElementById('sidebar');
         const overlay = document.getElementById('overlay');
