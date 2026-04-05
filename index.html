@@ -126,15 +126,12 @@
         .hero-desc { font-size: 1rem; max-width: 550px; margin: 0 auto 2.5rem; font-weight: 700; opacity: 0.85; line-height: 1.4; }
         
         .download-grid { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.8rem; margin-bottom: 1.5rem; }
-        
-        /* Стили кнопок скачивания с эффектом нажатия */
         .download-btn { padding: 0.9rem 1.8rem; border-radius: 50px; font-weight: 900; text-decoration: none; display: inline-flex; align-items: center; justify-content: center; gap: 10px; transition: 0.2s cubic-bezier(0.4, 0, 0.2, 1); font-size: 0.9rem; cursor: pointer; }
         .download-btn:active { transform: scale(0.92); filter: brightness(0.9); }
         .download-btn.primary { background: var(--accent); color: white; box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3); border: none; }
         .download-btn.secondary { background: #1e293b; color: white; border: none; }
         .download-btn.outline { border: 2px solid var(--accent); color: var(--accent); background: transparent; }
 
-        /* Анимация прыжка иконки при нажатии */
         @keyframes icon-bounce {
             0%, 100% { transform: translateY(0); }
             50% { transform: translateY(-6px); }
@@ -153,10 +150,24 @@
         }
         .download-btn.premium-outline i { color: var(--premium-gold); }
 
+        /* Стили для блоков фич */
         .features { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1rem; margin: 2rem 0; }
-        .feature-item { padding: 1.8rem; text-align: center; border-radius: 1.5rem; background: var(--card-bg); border: 1px solid var(--border); transition: 0.3s; cursor: pointer; position: relative; }
+        .feature-item { padding: 1.8rem; text-align: center; border-radius: 1.5rem; background: var(--card-bg); border: 1px solid var(--border); transition: 0.3s; cursor: pointer; position: relative; overflow: hidden; z-index: 1; }
+        
+        /* Приподнимаем заголовки */
+        .feature-item h3 { margin-top: -0.5rem; margin-bottom: 0.5rem; }
         .feature-item i { font-size: 2rem; color: var(--accent); margin-bottom: 0.8rem; transition: 0.3s; display: inline-block; }
         .feature-item:hover { transform: translateY(-5px); border-color: var(--accent); }
+
+        /* Эффект переливающегося контура при клике */
+        .feature-item.active-rainbow { border-color: transparent; }
+        .feature-item.active-rainbow::after {
+            content: ''; position: absolute; top: -2px; bottom: -2px; left: -2px; right: -2px; 
+            background: linear-gradient(130deg, #3b82f6, #ec4899, #4f46e5); 
+            z-index: -1; border-radius: 1.5rem; 
+            animation: badgeRainbow 1.5s linear infinite; 
+            background-size: 200% 200%;
+        }
 
         .icon-jump { animation: jump 0.4s ease; }
         @keyframes jump {
@@ -249,17 +260,17 @@
             </main>
 
             <section class="features">
-                <div class="feature-item" data-aos="fade-up" onclick="animateIcon(this)">
+                <div class="feature-item" data-aos="fade-up" onclick="animateFeature(this)">
                     <i class="fas fa-bolt"></i>
                     <h3>Скорость</h3>
                     <p>Разблокировка лимитов и оптимизация ресурсов.</p>
                 </div>
-                <div class="feature-item" data-aos="fade-up" onclick="animateIcon(this)">
+                <div class="feature-item" data-aos="fade-up" onclick="animateFeature(this)">
                     <i class="fas fa-lock"></i>
                     <h3>Защита</h3>
                     <p>Анти-чит обход и полная безопасность данных.</p>
                 </div>
-                <div class="feature-item" data-aos="fade-up" onclick="animateIcon(this)">
+                <div class="feature-item" data-aos="fade-up" onclick="animateFeature(this)">
                     <i class="fas fa-mobile-alt"></i>
                     <h3>Android</h3>
                     <p>Нативная поддержка Android и работа на ПК.</p>
@@ -423,24 +434,15 @@
         UI.btnLike.onclick = () => window.handleVote('like');
         UI.btnDislike.onclick = () => window.handleVote('dislike');
 
-        // Обработка клика по кнопкам скачивания с анимацией
         document.querySelectorAll('.dl-trigger').forEach(btn => {
             btn.onclick = (e) => {
                 e.preventDefault();
-                
-                // Эффект анимации иконки
                 btn.classList.add('btn-active-anim');
                 setTimeout(() => btn.classList.remove('btn-active-anim'), 400);
-
-                // Транзакция счетчика
                 runTransaction(ref(db, 'stats/dl'), (v) => (v || 0) + 1);
-                
                 const type = btn.getAttribute('data-type');
                 if (LINKS[type]) {
-                    // Небольшая задержка перед переходом для видимости эффекта
-                    setTimeout(() => {
-                        window.location.href = LINKS[type];
-                    }, 150);
+                    setTimeout(() => { window.location.href = LINKS[type]; }, 150);
                 }
             };
         });
@@ -464,12 +466,19 @@
             document.getElementById('themeText').textContent = isLight ? 'Светлая' : 'Тёмная';
         };
 
-        function animateIcon(card) {
+        function animateFeature(card) {
+            // Анимация иконки
             const icon = card.querySelector('i');
             icon.classList.remove('icon-jump');
             void icon.offsetWidth;
             icon.classList.add('icon-jump');
-            setTimeout(() => icon.classList.remove('icon-jump'), 400);
+            
+            // Радужный контур
+            card.classList.add('active-rainbow');
+            setTimeout(() => {
+                card.classList.remove('active-rainbow');
+                icon.classList.remove('icon-jump');
+            }, 600);
         }
     </script>
 </body>
