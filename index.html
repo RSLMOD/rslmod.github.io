@@ -104,7 +104,7 @@
         .download-btn.primary { background: var(--accent); color: white; box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3); }
         .download-btn.secondary { background: #1e293b; color: white; }
         .download-btn.outline { border: 2px solid var(--accent); color: var(--accent); background: transparent; }
-        .download-btn.premium-gold { background: linear-gradient(135deg, #f59e0b, #d97706); color: white; box-shadow: 0 4px 15px rgba(245, 158, 11, 0.4); }
+        .download-btn.premium-gold { background: linear-gradient(135deg, #f59e0b, #d97706); color: white; box-shadow: 0 4px 15px rgba(245, 158, 11, 0.4); border: none; }
 
         .features { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1rem; margin: 2rem 0; }
         .feature-item { padding: 1.8rem; text-align: center; border-radius: 1.5rem; background: var(--card-bg); border: 1px solid var(--border); transition: 0.3s; cursor: pointer; }
@@ -113,13 +113,21 @@
 
         .stats-container { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.8rem; margin-bottom: 1.2rem; }
         .stat-item { background: var(--card-bg); border: 1px solid var(--border); padding: 0.5rem 1rem; border-radius: 12px; font-weight: 800; font-size: 0.8rem; display: flex; align-items: center; gap: 6px; cursor: pointer; transition: 0.2s; }
+        .stat-item.active-like { background: rgba(34, 197, 94, 0.2); border-color: #22c55e; }
+        .stat-item.active-dislike { background: rgba(239, 68, 68, 0.2); border-color: #ef4444; }
+
+        @keyframes pulse-green {
+            0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.7); }
+            70% { transform: scale(1); box-shadow: 0 0 0 10px rgba(34, 197, 94, 0); }
+            100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(34, 197, 94, 0); }
+        }
 
         /* PREMIUM UI */
         #premiumPage { display: none; text-align: center; padding-top: 2rem; }
         .premium-card { background: var(--card-bg); border: 1px solid rgba(245, 158, 11, 0.3); border-radius: 24px; padding: 2.5rem 1.5rem; max-width: 500px; margin: 0 auto; backdrop-filter: blur(10px); }
         .prem-input { width: 100%; background: rgba(0,0,0,0.2); border: 1px solid var(--border); padding: 0.8rem; border-radius: 12px; color: white; margin: 1.5rem 0; font-family: 'JetBrains Mono', monospace; text-align: center; outline: none; }
         .prem-btn { background: #f59e0b; color: white; border: none; padding: 0.8rem 2rem; border-radius: 50px; font-weight: 900; cursor: pointer; width: 100%; }
-        #premStatus { margin-top: 1rem; font-weight: 700; font-size: 0.85rem; }
+        #premStatus { margin-top: 1rem; font-weight: 700; font-size: 0.85rem; min-height: 1.2rem; }
         #premiumDownloads { display: none; margin-top: 1.5rem; border-top: 1px solid var(--border); padding-top: 1.5rem; }
 
         footer { text-align: center; padding: 2rem; opacity: 0.5; font-size: 0.75rem; font-weight: 800; }
@@ -202,25 +210,37 @@
                     <p>Нативная поддержка Android и работа на ПК.</p>
                 </div>
             </section>
+
+            <section data-aos="zoom-in" style="margin: 4rem 0 2rem; position: relative;">
+                <div style="background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(36, 161, 222, 0.05)); border: 1px solid var(--border); border-radius: 24px; padding: 2.5rem 1.5rem; text-align: center; backdrop-filter: blur(10px);">
+                    <div style="display: inline-block; position: relative; margin-bottom: 1.5rem;">
+                        <i class="fab fa-telegram" style="font-size: 4rem; color: #24A1DE; filter: drop-shadow(0 0 15px rgba(36, 161, 222, 0.4));"></i>
+                        <span style="position: absolute; bottom: 5px; right: 5px; width: 12px; height: 12px; background: #22c55e; border: 2px solid #0a0a1a; border-radius: 50%; box-shadow: 0 0 10px #22c55e; animation: pulse-green 2s infinite;"></span>
+                    </div>
+                    <h2 style="font-weight: 900; font-size: 1.5rem; margin-bottom: 0.5rem; text-transform: uppercase; letter-spacing: 1px;">Наше комьюнити</h2>
+                    <p style="max-width: 400px; margin: 0 auto 2rem; opacity: 0.7; font-size: 0.9rem; line-height: 1.5; font-weight: 600;">Обсуждай тактики, получай помощь по моду и узнавай о новых версиях первым в нашем Telegram.</p>
+                    <div style="display: flex; flex-direction: column; align-items: center; gap: 1rem;">
+                        <a href="https://t.me/RSLMOD" target="_blank" class="download-btn primary" style="background: #24A1DE; padding: 1rem 2.5rem; font-size: 1rem; box-shadow: 0 15px 30px rgba(36, 161, 222, 0.3); border: none;">
+                            <i class="fas fa-external-link-alt"></i> Войти в группу
+                        </a>
+                        <span style="font-size: 0.7rem; font-weight: 800; opacity: 0.5; text-transform: uppercase;"><i class="fas fa-users"></i> Присоединяйся к нам</span>
+                    </div>
+                </div>
+            </section>
         </div>
 
         <div id="premiumPage">
             <div class="premium-card">
-                <i class="fas fa-crown" style="font-size: 3rem; color: #f59e0b; margin-bottom: 1rem;"></i>
+                <i class="fas fa-gem" style="font-size: 3rem; color: #f59e0b; margin-bottom: 1rem;"></i>
                 <h2>Проверка ID</h2>
-                <p style="opacity: 0.7; font-size: 0.9rem;">Введите ваш игровой ID для проверки Premium лицензии</p>
-                <input type="text" id="premInput" class="prem-input" placeholder="Введите ID...">
-                <button id="premBtn" class="prem-btn">ПРОВЕРИТЬ</button>
+                <p style="opacity: 0.7; font-size: 0.9rem;">Введите ваш игровой ID для доступа к платным версиям</p>
+                <input type="text" id="premInput" class="prem-input" placeholder="Введите ваш ID...">
+                <button id="premBtn" class="prem-btn">ПРОВЕРИТЬ ДОСТУП</button>
                 <div id="premStatus"></div>
-                
                 <div id="premiumDownloads">
-                    <div class="download-grid">
-                        <a href="#" class="download-btn premium-gold dl-trigger" data-type="premium_mod">
-                            <i class="fas fa-gem"></i> Premium Mod
-                        </a>
-                        <a href="#" class="download-btn premium-gold dl-trigger" data-type="premium_clone">
-                            <i class="fas fa-gem"></i> Premium Clone
-                        </a>
+                    <div class="download-grid" style="margin-top: 1rem;">
+                        <a href="#" class="download-btn premium-gold dl-trigger" data-type="premium_mod"><i class="fas fa-crown"></i> Premium Mod</a>
+                        <a href="#" class="download-btn premium-gold dl-trigger" data-type="premium_clone"><i class="fas fa-crown"></i> Premium Clone</a>
                     </div>
                 </div>
             </div>
@@ -253,15 +273,15 @@
             toggleMenu();
         };
 
-        // Логика Премиума
+        // Премиум логика
         const pBtn = document.getElementById('premBtn');
         const pInput = document.getElementById('premInput');
         const pStatus = document.getElementById('premStatus');
         const pDownloads = document.getElementById('premiumDownloads');
 
-        async function checkPrem(id) {
+        async function checkPremium(id) {
             if(!id) return;
-            pBtn.textContent = "...";
+            pBtn.textContent = "ПОИСК...";
             try {
                 const snap = await get(child(ref(db), `premium_ids/${id}`));
                 if (snap.exists() && snap.val() === true) {
@@ -272,32 +292,59 @@
                     pStatus.innerHTML = "<span style='color:#ef4444'>ID не найден</span>";
                     pDownloads.style.display = 'none';
                 }
-            } catch (e) { pStatus.textContent = "Ошибка"; }
-            pBtn.textContent = "ПРОВЕРИТЬ";
+            } catch (e) { pStatus.textContent = "Ошибка связи"; }
+            pBtn.textContent = "ПРОВЕРИТЬ ДОСТУП";
         }
-        pBtn.onclick = () => checkPrem(pInput.value.trim());
+        pBtn.onclick = () => checkPremium(pInput.value.trim());
         if(localStorage.getItem('rsl_id')) {
             pInput.value = localStorage.getItem('rsl_id');
-            checkPrem(pInput.value);
+            checkPremium(pInput.value);
         }
 
-        // Оригинальная стата
+        // Статистика и Лайки
         const UI = {
-            dl: document.getElementById('countDl'),
-            like: document.getElementById('countLike'),
-            dislike: document.getElementById('countDislike'),
-            today: document.getElementById('countToday'),
-            total: document.getElementById('countTotal')
+            dl: document.getElementById('countDl'), like: document.getElementById('countLike'),
+            dislike: document.getElementById('countDislike'), today: document.getElementById('countToday'),
+            total: document.getElementById('countTotal'), btnLike: document.getElementById('btnLike'),
+            btnDislike: document.getElementById('btnDislike')
         };
         const todayDate = new Date().toISOString().split('T')[0];
 
         onValue(ref(db, 'stats'), (snapshot) => {
             const data = snapshot.val() || {};
-            UI.dl.textContent = data.dl || 0;
-            UI.like.textContent = data.like || 0;
-            UI.dislike.textContent = data.dislike || 0;
-            UI.total.textContent = data.totalViews || 0;
+            UI.dl.textContent = data.dl || 0; UI.like.textContent = data.like || 0;
+            UI.dislike.textContent = data.dislike || 0; UI.total.textContent = data.totalViews || 0;
             UI.today.textContent = (data.daily && data.daily[todayDate]) ? data.daily[todayDate] : 1;
+            updateVoteStyles();
+        });
+
+        window.handleVote = (type) => {
+            let voted = localStorage.getItem('rsl_voted');
+            if (voted === type) return;
+            runTransaction(ref(db, 'stats'), (cur) => {
+                if (!cur) cur = { dl: 0, like: 0, dislike: 0 };
+                if (voted && cur[voted] > 0) cur[voted]--;
+                cur[type] = (cur[type] || 0) + 1;
+                return cur;
+            }).then(() => { localStorage.setItem('rsl_voted', type); updateVoteStyles(); });
+        };
+
+        function updateVoteStyles() {
+            const voted = localStorage.getItem('rsl_voted');
+            UI.btnLike.classList.toggle('active-like', voted === 'like');
+            UI_ST.btnDislike.classList.toggle('active-dislike', voted === 'dislike');
+        }
+
+        UI.btnLike.onclick = () => window.handleVote('like');
+        UI.btnDislike.onclick = () => window.handleVote('dislike');
+
+        document.querySelectorAll('.dl-trigger').forEach(btn => {
+            btn.onclick = (e) => {
+                e.preventDefault();
+                runTransaction(ref(db, 'stats/dl'), (v) => (v || 0) + 1);
+                const type = btn.getAttribute('data-type');
+                if (LINKS[type]) window.location.href = LINKS[type];
+            };
         });
 
         window.trackVisit = () => {
@@ -308,23 +355,12 @@
             }
         };
         window.trackVisit();
-
-        document.querySelectorAll('.dl-trigger').forEach(btn => {
-            btn.onclick = (e) => {
-                e.preventDefault();
-                runTransaction(ref(db, 'stats/dl'), (v) => (v || 0) + 1);
-                const type = btn.getAttribute('data-type');
-                if (LINKS[type]) window.location.href = LINKS[type];
-            };
-        });
     </script>
 
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>
         AOS.init({ duration: 800, once: true });
-        function updateClock() {
-            document.getElementById('clock').textContent = new Date().toLocaleTimeString();
-        }
+        function updateClock() { document.getElementById('clock').textContent = new Date().toLocaleTimeString(); }
         setInterval(updateClock, 1000); updateClock();
 
         const sidebar = document.getElementById('sidebar');
