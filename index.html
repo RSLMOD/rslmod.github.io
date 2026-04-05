@@ -8,9 +8,16 @@
             mod: "https://github.com/RSLMOD/rslmod.github.io/releases/download/rsl/RSL.Speed_v11.40.0.122893.apk",
             clone: "https://github.com/RSLMOD/rslmod.github.io/releases/download/rsl/RSL.Speed.Clone_v11.40.0.122893.apk",
             original: "https://github.com/Trykath158/rslmod-site/releases/download/rsl/Raid_v11.40.0.142984.apk",
-            // Ссылки для платных версий
-            premium_mod: "https://github.com/RSLMOD/release/premium_mod.apk",
-            premium_clone: "https://github.com/RSLMOD/release/premium_clone.apk"
+            
+            // Ссылки для платного раздела
+            mod_9mod: "https://example.com/9mod_paid.apk",
+            clone_9mod: "https://example.com/9mod_paid_clone.apk",
+            mod_getmods: "https://example.com/getmods_paid.apk",
+            clone_getmods: "https://example.com/getmods_paid_clone.apk",
+            speed_x100: "https://example.com/speed_x100.apk",
+            speed_x100_clone: "https://example.com/speed_x100_clone.apk",
+            faq: "https://telegra.ph/FAQ-po-RSL-Speed-Mod-06-12",
+            vpn: "https://example.com/working_vpn.apk"
         };
         // =============================================
     </script>
@@ -99,7 +106,7 @@
         .hero-desc { font-size: 1rem; max-width: 550px; margin: 0 auto 2.5rem; font-weight: 700; opacity: 0.85; line-height: 1.4; }
         
         .download-grid { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.8rem; margin-bottom: 1.5rem; }
-        .download-btn { padding: 0.9rem 1.8rem; border-radius: 50px; font-weight: 900; text-decoration: none; display: inline-flex; align-items: center; gap: 10px; transition: 0.2s cubic-bezier(0.4, 0, 0.2, 1); font-size: 0.9rem; cursor: pointer; }
+        .download-btn { padding: 0.9rem 1.8rem; border-radius: 50px; font-weight: 900; text-decoration: none; display: inline-flex; align-items: center; justify-content: center; gap: 10px; transition: 0.2s cubic-bezier(0.4, 0, 0.2, 1); font-size: 0.9rem; cursor: pointer; }
         .download-btn:active { transform: scale(0.92); }
         .download-btn.primary { background: var(--accent); color: white; box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3); border: none; }
         .download-btn.secondary { background: #1e293b; color: white; border: none; }
@@ -122,13 +129,16 @@
             100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(34, 197, 94, 0); }
         }
 
+        /* PREMIUM UI */
         #premiumPage { display: none; text-align: center; padding-top: 2rem; }
-        .premium-card { background: var(--card-bg); border: 1px solid rgba(245, 158, 11, 0.3); border-radius: 24px; padding: 2.5rem 1.5rem; max-width: 500px; margin: 0 auto; backdrop-filter: blur(10px); }
+        .premium-card { background: var(--card-bg); border: 1px solid rgba(245, 158, 11, 0.3); border-radius: 24px; padding: 2.5rem 1.5rem; max-width: 600px; margin: 0 auto; backdrop-filter: blur(10px); }
         .prem-input { width: 100%; background: rgba(0,0,0,0.2); border: 1px solid var(--border); padding: 0.8rem; border-radius: 12px; color: white; margin: 1.5rem 0; font-family: 'JetBrains Mono', monospace; text-align: center; outline: none; }
         .prem-btn { background: #f59e0b; color: white; border: none; padding: 0.8rem 2rem; border-radius: 50px; font-weight: 900; cursor: pointer; width: 100%; transition: 0.2s; }
         .prem-btn:active { transform: scale(0.95); }
         #premStatus { margin-top: 1rem; font-weight: 700; font-size: 0.85rem; min-height: 1.2rem; }
+        
         #premiumDownloads { display: none; margin-top: 1.5rem; border-top: 1px solid var(--border); padding-top: 1.5rem; }
+        .premium-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 10px; margin-top: 10px; }
 
         footer { text-align: center; padding: 2rem; opacity: 0.5; font-size: 0.75rem; font-weight: 800; }
     </style>
@@ -234,10 +244,17 @@
                 <input type="text" id="premInput" class="prem-input" placeholder="Введите ваш ID...">
                 <button id="premBtn" class="prem-btn">ПРОВЕРИТЬ ДОСТУП</button>
                 <div id="premStatus"></div>
+
                 <div id="premiumDownloads">
-                    <div class="download-grid" style="margin-top: 1rem;">
-                        <a href="#" class="download-btn premium-gold dl-trigger" data-type="premium_mod"><i class="fas fa-crown"></i> Premium Mod</a>
-                        <a href="#" class="download-btn premium-gold dl-trigger" data-type="premium_clone"><i class="fas fa-crown"></i> Premium Clone</a>
+                    <div class="premium-grid">
+                        <a href="#" class="download-btn premium-gold dl-trigger" data-type="mod_9mod"><i class="fas fa-crown"></i> Mod Paid "9mod"</a>
+                        <a href="#" class="download-btn premium-gold dl-trigger" data-type="clone_9mod"><i class="fas fa-crown"></i> Mod Paid Clone "9mod"</a>
+                        <a href="#" class="download-btn premium-gold dl-trigger" data-type="mod_getmods"><i class="fas fa-crown"></i> Mod Paid "Getmods"</a>
+                        <a href="#" class="download-btn premium-gold dl-trigger" data-type="clone_getmods"><i class="fas fa-crown"></i> Mod Paid Clone "Getmods"</a>
+                        <a href="#" class="download-btn primary dl-trigger" data-type="speed_x100"><i class="fas fa-tachometer-alt"></i> RSL Speed x100</a>
+                        <a href="#" class="download-btn primary dl-trigger" data-type="speed_x100_clone"><i class="fas fa-tachometer-alt"></i> RSL Speed x100 Clone</a>
+                        <a href="#" class="download-btn secondary dl-trigger" data-type="faq"><i class="fas fa-question-circle"></i> ЧаВо (FAQ)</a>
+                        <a href="#" class="download-btn secondary dl-trigger" data-type="vpn"><i class="fas fa-shield-alt"></i> Рабочий VPN</a>
                     </div>
                 </div>
             </div>
@@ -264,14 +281,12 @@
         const db = getDatabase(app);
         const todayDate = new Date().toISOString().split('T')[0];
 
-        // Навигация
         window.openPage = (page) => {
             document.getElementById('homePage').style.display = page === 'home' ? 'block' : 'none';
             document.getElementById('premiumPage').style.display = page === 'premium' ? 'block' : 'none';
             if (document.getElementById('sidebar').classList.contains('active')) toggleMenu();
         };
 
-        // Премиум
         const pBtn = document.getElementById('premBtn');
         const pInput = document.getElementById('premInput');
         const pStatus = document.getElementById('premStatus');
@@ -299,7 +314,6 @@
             checkPremium(pInput.value);
         }
 
-        // СТАТИСТИКА (ИСПРАВЛЕННАЯ ЛОГИКА)
         const UI = {
             dl: document.getElementById('countDl'), like: document.getElementById('countLike'),
             dislike: document.getElementById('countDislike'), today: document.getElementById('countToday'),
