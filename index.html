@@ -35,7 +35,7 @@
             --bg: radial-gradient(circle at 10% 20%, #0a0a1a, #02020f);
             --text-main: #ffffff;
             --accent: #3b82f6;
-            --card-bg: rgba(20, 20, 35, 0.7);
+            --card-bg: #10101f; /* Фиксированный темный фон для блоков, чтобы скрыть ::after внутри */
             --border: rgba(255, 255, 255, 0.1);
             --live-text-color: rgba(255, 255, 255, 0.08);
             --sidebar-bg: rgba(10, 10, 26, 0.98);
@@ -62,9 +62,9 @@
         @keyframes tickerFlow { 0% { transform: translate3d(0, 0, 0); } 100% { transform: translate3d(-50%, 0, 0); } }
 
         .navbar { display: flex; justify-content: space-between; align-items: center; padding: 3.5rem 0 0.5rem; position: relative; z-index: 10; }
-        .menu-btn { background: var(--card-bg); border: 1px solid var(--border); width: 42px; height: 42px; border-radius: 12px; color: var(--text-main); display: flex; align-items: center; justify-content: center; cursor: pointer; backdrop-filter: blur(10px); transition: 0.2s; }
+        .menu-btn { background: rgba(20, 20, 35, 0.7); border: 1px solid var(--border); width: 42px; height: 42px; border-radius: 12px; color: var(--text-main); display: flex; align-items: center; justify-content: center; cursor: pointer; backdrop-filter: blur(10px); transition: 0.2s; }
         .menu-btn:active { transform: scale(0.9); }
-        .theme-toggle { background: var(--card-bg); border: 1px solid var(--border); padding: 0.5rem 1rem; border-radius: 2rem; color: var(--text-main); cursor: pointer; font-weight: 700; font-size: 0.75rem; transition: 0.3s; backdrop-filter: blur(10px); }
+        .theme-toggle { background: rgba(20, 20, 35, 0.7); border: 1px solid var(--border); padding: 0.5rem 1rem; border-radius: 2rem; color: var(--text-main); cursor: pointer; font-weight: 700; font-size: 0.75rem; transition: 0.3s; backdrop-filter: blur(10px); }
         .theme-toggle:active { transform: scale(0.95); }
 
         .sidebar { position: fixed; top: 0; left: -300px; width: 280px; height: 100%; background: var(--sidebar-bg); z-index: 1000; transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1); border-right: 1px solid var(--border); padding: 2.5rem 1.5rem; display: flex; flex-direction: column; backdrop-filter: blur(25px); }
@@ -75,7 +75,7 @@
         .sidebar-nav { display: flex; flex-direction: column; gap: 0.8rem; }
         .sidebar-link { padding: 1.1rem; border-radius: 16px; text-decoration: none; color: var(--text-main); font-weight: 700; font-size: 0.95rem; display: flex; align-items: center; gap: 14px; transition: 0.3s; border: 1px solid transparent; cursor: pointer; }
         .sidebar-link i { color: var(--accent); width: 24px; text-align: center; }
-        .sidebar-link:hover { background: var(--card-bg); border-color: var(--border); padding-left: 1.5rem; color: var(--accent); }
+        .sidebar-link:hover { background: rgba(20, 20, 35, 0.7); border-color: var(--border); padding-left: 1.5rem; color: var(--accent); }
 
         .overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 999; opacity: 0; visibility: hidden; transition: 0.4s; backdrop-filter: blur(4px); }
         .overlay.active { opacity: 1; visibility: visible; }
@@ -155,26 +155,37 @@
         .feature-item { 
             padding: 1.8rem; text-align: center; border-radius: 1.5rem; 
             background: var(--card-bg); border: 1px solid var(--border); 
-            transition: 0.3s; cursor: pointer; position: relative; 
+            transition: border-color 0.3s, transform 0.3s; cursor: pointer; position: relative; 
+            overflow: hidden; /* Важно: скрываем ::after внутри, оставляем только на границе */
             z-index: 1; 
         }
         
-        .feature-item h3 { margin-top: -0.8rem; margin-bottom: 0.6rem; font-weight: 800; letter-spacing: 0.5px; }
-        .feature-item i { font-size: 2.2rem; color: var(--accent); margin-bottom: 1rem; transition: 0.3s; display: inline-block; }
+        .feature-item h3 { margin-top: -0.8rem; margin-bottom: 0.6rem; font-weight: 800; letter-spacing: 0.5px; z-index: 2; position: relative; }
+        .feature-item p { z-index: 2; position: relative; }
+        .feature-item i { font-size: 2.2rem; color: var(--accent); margin-bottom: 1rem; transition: 0.3s; display: inline-block; z-index: 2; position: relative; }
         .feature-item:hover { transform: translateY(-5px); border-color: var(--accent); }
 
         /* Эффект переливающегося контура при клике */
-        .feature-item.active-rainbow { border-color: transparent; }
         .feature-item::after {
             content: ''; position: absolute; 
-            top: -2px; left: -2px; right: -2px; bottom: -2px;
+            top: 0; left: 0; right: 0; bottom: 0;
             background: linear-gradient(130deg, #3b82f6, #ec4899, #4f46e5); 
             z-index: -1; border-radius: 1.5rem; 
             opacity: 0; transition: opacity 0.3s;
             animation: badgeRainbow 2s linear infinite; 
             background-size: 200% 200%;
         }
+        .feature-item.active-rainbow { border-color: transparent; }
         .feature-item.active-rainbow::after { opacity: 1; }
+
+        /* Маска для создания тонкого контура */
+        .feature-item::before {
+            content: ''; position: absolute;
+            top: 2px; left: 2px; right: 2px; bottom: 2px; /* Размер контура */
+            background: var(--card-bg); /* Цвет фона блока */
+            border-radius: calc(1.5rem - 2px);
+            z-index: 0;
+        }
 
         .icon-jump { animation: jump 0.4s ease; }
         @keyframes jump {
@@ -183,7 +194,7 @@
         }
 
         .stats-container { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.8rem; margin-bottom: 1.2rem; }
-        .stat-item { background: var(--card-bg); border: 1px solid var(--border); padding: 0.5rem 1rem; border-radius: 12px; font-weight: 800; font-size: 0.8rem; display: flex; align-items: center; gap: 6px; cursor: pointer; transition: 0.2s; }
+        .stat-item { background: rgba(20, 20, 35, 0.7); border: 1px solid var(--border); padding: 0.5rem 1rem; border-radius: 12px; font-weight: 800; font-size: 0.8rem; display: flex; align-items: center; gap: 6px; cursor: pointer; transition: 0.2s; }
         .stat-item.active-like { background: rgba(34, 197, 94, 0.2); border-color: #22c55e; }
         .stat-item.active-dislike { background: rgba(239, 68, 68, 0.2); border-color: #ef4444; }
 
@@ -194,7 +205,7 @@
         }
 
         #premiumPage { display: none; text-align: center; padding-top: 2rem; }
-        .premium-card { background: var(--card-bg); border: 1px solid rgba(245, 158, 11, 0.3); border-radius: 24px; padding: 2.5rem 1.5rem; max-width: 500px; margin: 0 auto; backdrop-filter: blur(10px); }
+        .premium-card { background: rgba(20, 20, 35, 0.7); border: 1px solid rgba(245, 158, 11, 0.3); border-radius: 24px; padding: 2.5rem 1.5rem; max-width: 500px; margin: 0 auto; backdrop-filter: blur(10px); }
         .prem-input { width: 100%; background: rgba(0,0,0,0.2); border: 1px solid var(--border); padding: 0.8rem; border-radius: 12px; color: white; margin: 1.5rem 0; font-family: 'JetBrains Mono', monospace; text-align: center; outline: none; }
         .prem-btn { background: #f59e0b; color: white; border: none; padding: 0.8rem 2rem; border-radius: 50px; font-weight: 900; cursor: pointer; width: 100%; transition: 0.2s; }
         .prem-btn:active { transform: scale(0.95); }
