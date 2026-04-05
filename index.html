@@ -377,7 +377,6 @@
             if (document.getElementById('sidebar').classList.contains('active')) toggleMenu();
         };
 
-        // --- FAQ LOGIC ---
         window.openFaq = () => {
             document.getElementById('faqModalWindow').classList.add('active');
             document.getElementById('overlay').classList.add('active');
@@ -419,18 +418,12 @@
                         const isVpn = (type === 'vpn');
                         const isPaidMod = (type === 'mod_9mod' || type === 'clone_9mod' || type === 'mod_getmods' || type === 'clone_getmods');
 
-                        // Новая логика: сначала скрываем, потом включаем по условию
-                        btn.style.display = 'none';
+                        // Единая логика отображения:
+                        let shouldShow = false;
+                        if (inBase1 && (isPaidMod || isVpn || isFaq)) shouldShow = true;
+                        if (inBase2 && (isX100 || isVpn || isFaq)) shouldShow = true;
 
-                        if (inBase1) {
-                            // База 1 открывает обычный премиум, VPN и FAQ
-                            if (isPaidMod || isVpn || isFaq) btn.style.display = 'inline-flex';
-                        }
-                        
-                        if (inBase2) {
-                            // База 2 открывает x100, VPN и FAQ
-                            if (isX100 || isVpn || isFaq) btn.style.display = 'inline-flex';
-                        }
+                        btn.style.display = shouldShow ? 'inline-flex' : 'none';
                     });
 
                 } else {
@@ -504,12 +497,10 @@
             btn.onclick = (e) => {
                 const type = btn.getAttribute('data-type');
                 if (!type) return; 
-                
                 e.preventDefault();
                 btn.classList.add('btn-active-anim');
                 setTimeout(() => btn.classList.remove('btn-active-anim'), 400);
                 runTransaction(ref(db, 'stats/dl'), (v) => (v || 0) + 1);
-                
                 if (LINKS[type]) {
                     setTimeout(() => { window.location.href = LINKS[type]; }, 150);
                 }
@@ -522,23 +513,16 @@
         AOS.init({ duration: 800, once: true });
         function updateClock() { document.getElementById('clock').textContent = new Date().toLocaleTimeString(); }
         setInterval(updateClock, 1000); updateClock();
-
         const sidebar = document.getElementById('sidebar');
         const overlay = document.getElementById('overlay');
         function toggleMenu() { sidebar.classList.toggle('active'); overlay.classList.toggle('active'); }
         document.getElementById('openSidebar').onclick = toggleMenu;
         document.getElementById('closeSidebar').onclick = toggleMenu;
-        
-        overlay.onclick = () => {
-            if(sidebar.classList.contains('active')) toggleMenu();
-            closeFaq();
-        };
-
+        overlay.onclick = () => { if(sidebar.classList.contains('active')) toggleMenu(); closeFaq(); };
         document.getElementById('themeToggle').onclick = () => {
             const isLight = document.body.classList.toggle('light');
             document.getElementById('themeText').textContent = isLight ? 'Светлая' : 'Тёмная';
         };
-
         function animateIcon(card) {
             const icon = card.querySelector('i');
             icon.classList.remove('icon-jump');
