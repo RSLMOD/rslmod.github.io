@@ -35,7 +35,7 @@
             --bg: radial-gradient(circle at 10% 20%, #0a0a1a, #02020f);
             --text-main: #ffffff;
             --accent: #3b82f6;
-            --card-bg: #10101f; /* Фиксированный темный фон для блоков, чтобы скрыть ::after внутри */
+            --card-bg: #10101f;
             --border: rgba(255, 255, 255, 0.1);
             --live-text-color: rgba(255, 255, 255, 0.08);
             --sidebar-bg: rgba(10, 10, 26, 0.98);
@@ -156,7 +156,7 @@
             padding: 1.8rem; text-align: center; border-radius: 1.5rem; 
             background: var(--card-bg); border: 1px solid var(--border); 
             transition: border-color 0.3s, transform 0.3s; cursor: pointer; position: relative; 
-            overflow: hidden; /* Важно: скрываем ::after внутри, оставляем только на границе */
+            overflow: hidden; 
             z-index: 1; 
         }
         
@@ -181,9 +181,9 @@
         /* Маска для создания тонкого контура */
         .feature-item::before {
             content: ''; position: absolute;
-            top: 2px; left: 2px; right: 2px; bottom: 2px; /* Размер контура */
-            background: var(--card-bg); /* Цвет фона блока */
-            border-radius: calc(1.5rem - 2px);
+            top: 2px; left: 2px; right: 2px; bottom: 2px; 
+            background: var(--card-bg); 
+            border-radius: calc(1.5rem - 2px); /* ВОТ ТУТ ИСПРАВЛЕН ЗАОСТРИВШИЙСЯ УГОЛ */
             z-index: 0;
         }
 
