@@ -171,22 +171,30 @@
             btnDislike: document.getElementById('btnDislike')
         };
 
+        // Загрузка данных
         onValue(statsRef, (snapshot) => {
-            const data = snapshot.val() || { dl: 74, like: 12, dislike: 0 };
-            UI.dl.textContent = data.dl || 74;
-            UI.like.textContent = data.like || 12;
-            UI.dislike.textContent = data.dislike || 0;
+            const data = snapshot.val();
+            if (data) {
+                UI.dl.textContent = data.dl !== undefined ? data.dl : 74;
+                UI.like.textContent = data.like !== undefined ? data.like : 13;
+                UI.dislike.textContent = data.dislike !== undefined ? data.dislike : 0;
+            } else {
+                UI.dl.textContent = 74;
+                UI.like.textContent = 13;
+                UI.dislike.textContent = 0;
+            }
             updateButtonColors();
         });
 
+        // Голосование
         window.handleVote = (type) => {
             let userVoted = localStorage.getItem('rsl_voted');
             if (userVoted === type) return;
 
             runTransaction(statsRef, (currentData) => {
-                if (!currentData) currentData = { dl: 74, like: 12, dislike: 0 };
-                if (userVoted) {
-                    currentData[userVoted] = Math.max(0, (currentData[userVoted] || 1) - 1);
+                if (!currentData) currentData = { dl: 74, like: 13, dislike: 0 };
+                if (userVoted && currentData[userVoted] > 0) {
+                    currentData[userVoted]--;
                 }
                 currentData[type] = (currentData[type] || 0) + 1;
                 return currentData;
@@ -196,10 +204,12 @@
             });
         };
 
+        // СЧЕТЧИК СКАЧИВАНИЙ (ИСПРАВЛЕННЫЙ)
         window.trackDownload = () => {
-            const dlRef = ref(db, 'stats/dl');
-            runTransaction(dlRef, (current) => {
-                return (current === null) ? 75 : current + 1;
+            const dlCountRef = ref(db, 'stats/dl');
+            runTransaction(dlCountRef, (currentValue) => {
+                // Если в базе пусто, начинаем с 75, иначе +1
+                return (currentValue === null) ? 75 : currentValue + 1;
             });
         };
 
@@ -217,8 +227,11 @@
                 e.preventDefault();
                 const type = btn.getAttribute('data-type');
                 if (LINKS[type]) {
-                    window.location.href = LINKS[type];
                     window.trackDownload();
+                    // Небольшая задержка перед переходом, чтобы транзакция успела уйти
+                    setTimeout(() => {
+                        window.location.href = LINKS[type];
+                    }, 100);
                 }
                 const icon = btn.querySelector('i');
                 if(icon) {
