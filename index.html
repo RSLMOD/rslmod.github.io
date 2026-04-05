@@ -144,7 +144,6 @@
     <div class="live-ticker-container">
         <div class="live-ticker">
             <span>FPS UNLOCKED</span> <span>LOW LATENCY</span> <span>BOOSTING ON</span> <span>STABLE FRAME</span>
-            <span>FPS UNLOCKED</span> <span>LOW LATENCY</span> <span>BOOSTING ON</span> <span>STABLE FRAME</span>
         </div>
     </div>
 
@@ -164,14 +163,10 @@
                     <div class="stat-item" id="btnDl"><i class="fas fa-download" style="color:#3b82f6"></i> <span id="countDl">...</span></div>
                     <div class="stat-item" id="btnLike"><i class="fas fa-thumbs-up" style="color:#22c55e"></i> <span id="countLike">...</span></div>
                     <div class="stat-item" id="btnDislike"><i class="fas fa-thumbs-down" style="color:#ef4444"></i> <span id="countDislike">...</span></div>
-                    <div class="stat-item"><i class="fas fa-user-clock" style="color:#f59e0b"></i> <span id="countToday">...</span></div>
-                    <div class="stat-item"><i class="fas fa-users" style="color:#a855f7"></i> <span id="countTotal">...</span></div>
                 </div>
                 
                 <h1>
-                    <b>R</b><b>S</b><b>L</b>&nbsp;
-                    <b>S</b><b>P</b><b>E</b><b>E</b><b>D</b>
-                    <span class="mod-text"><b>M</b><b>O</b><b>D</b></span>
+                    <b>R</b><b>S</b><b>L</b>&nbsp;<b>S</b><b>P</b><b>E</b><b>E</b><b>D</b>&nbsp;<span class="mod-text"><b>M</b><b>O</b><b>D</b></span>
                 </h1>
                 
                 <p class="hero-desc">Технология ускорения игрового процесса для Android. Стабильный FPS и минимальный инпут-лаг.</p>
@@ -182,45 +177,28 @@
                     <a href="#" class="download-btn outline dl-trigger" data-type="original"><i class="fas fa-box-open"></i> Оригинал</a>
                 </div>
             </main>
-
-            <section class="features">
-                <div class="feature-item" data-aos="fade-up">
-                    <i class="fas fa-bolt"></i>
-                    <h3>Скорость</h3>
-                    <p>Разблокировка лимитов и оптимизация ресурсов.</p>
-                </div>
-                <div class="feature-item" data-aos="fade-up">
-                    <i class="fas fa-lock"></i>
-                    <h3>Защита</h3>
-                    <p>Анти-чит обход и полная безопасность данных.</p>
-                </div>
-            </section>
         </div>
 
         <div id="premiumPage">
             <div class="premium-card">
                 <i class="fas fa-crown" style="font-size: 3rem; color: #f59e0b; margin-bottom: 1rem;"></i>
                 <h2>Проверка ID</h2>
-                <p style="opacity: 0.7; font-size: 0.9rem;">Введите ваш игровой ID для доступа к Premium версиям</p>
                 <input type="text" id="premInput" class="prem-input" placeholder="Введите ваш ID...">
                 <button id="premBtn" class="prem-btn">ПРОВЕРИТЬ ДОСТУП</button>
                 <div id="premStatus"></div>
                 
                 <div id="premiumDownloads">
                     <div class="premium-grid">
-                        <a href="#" class="download-btn premium-outline dl-trigger" data-type="mod_9mod"><i class="fas fa-crown"></i> Mod Paid "9mod"</a>
-                        <a href="#" class="download-btn premium-outline dl-trigger" data-type="clone_9mod"><i class="fas fa-crown"></i> Mod Paid Clone "9mod"</a>
-                        <a href="#" class="download-btn premium-outline dl-trigger" data-type="mod_getmods"><i class="fas fa-crown"></i> Mod Paid "Getmods"</a>
-                        <a href="#" class="download-btn premium-outline dl-trigger" data-type="clone_getmods"><i class="fas fa-crown"></i> Mod Paid Clone "Getmods"</a>
-                        <a href="#" class="download-btn premium-outline dl-trigger" data-type="speed_x100"><i class="fas fa-tachometer-alt"></i> RSL Speed x100</a>
-                        <a href="#" class="download-btn premium-outline dl-trigger" data-type="speed_x100_clone"><i class="fas fa-tachometer-alt"></i> RSL Speed x100 Clone</a>
-                        <a href="#" class="download-btn premium-outline dl-trigger" data-type="faq"><i class="fas fa-question-circle"></i> ЧаВо (FAQ)</a>
-                        <a href="#" class="download-btn premium-outline dl-trigger" data-type="vpn"><i class="fas fa-shield-alt"></i> Рабочий VPN</a>
+                        <a href="#" class="download-btn premium-outline dl-trigger" data-type="mod_9mod">Mod Paid "9mod"</a>
+                        <a href="#" class="download-btn premium-outline dl-trigger" data-type="clone_9mod">Mod Paid Clone "9mod"</a>
+                        <a href="#" class="download-btn premium-outline dl-trigger" data-type="mod_getmods">Mod Paid "Getmods"</a>
+                        <a href="#" class="download-btn premium-outline dl-trigger" data-type="clone_getmods">Mod Paid Clone "Getmods"</a>
+                        <a href="#" class="download-btn premium-outline dl-trigger" data-type="speed_x100">RSL Speed x100</a>
+                        <a href="#" class="download-btn premium-outline dl-trigger" data-type="speed_x100_clone">RSL Speed x100 Clone</a>
                     </div>
                 </div>
             </div>
         </div>
-
         <footer>© 2026 RSL Speed Mod</footer>
     </div>
 
@@ -240,7 +218,6 @@
 
         const app = initializeApp(firebaseConfig);
         const db = getDatabase(app);
-        const todayDate = new Date().toISOString().split('T')[0];
 
         window.openPage = (page) => {
             document.getElementById('homePage').style.display = page === 'home' ? 'block' : 'none';
@@ -248,13 +225,12 @@
             if (document.getElementById('sidebar').classList.contains('active')) toggleMenu();
         };
 
-        const pBtn = document.getElementById('premBtn');
-        const pInput = document.getElementById('premInput');
-        const pStatus = document.getElementById('premStatus');
-        const pDownloads = document.getElementById('premiumDownloads');
-
         async function checkPremium(id) {
             if(!id) return;
+            const pBtn = document.getElementById('premBtn');
+            const pStatus = document.getElementById('premStatus');
+            const pDownloads = document.getElementById('premiumDownloads');
+            
             pBtn.textContent = "ПОИСК...";
             try {
                 const snap1 = await get(child(ref(db), `premium_ids/${id}`));
@@ -265,13 +241,11 @@
                 }
 
                 if (isVip) {
-                    pStatus.innerHTML = "<span style='color:#22c55e'><i class='fas fa-check-circle'></i> Лицензия активна!</span>";
+                    pStatus.innerHTML = "<span style='color:#22c55e'>Лицензия активна!</span>";
                     pDownloads.style.display = 'block';
-                    localStorage.setItem('rsl_id', id);
                 } else {
                     pStatus.innerHTML = "<span style='color:#ef4444'>Данного ID нет в базе, доступ запрещен</span>";
                     pDownloads.style.display = 'none';
-                    localStorage.removeItem('rsl_id');
                 }
             } catch (e) { 
                 pStatus.innerHTML = "<span style='color:#ef4444'>Ошибка связи</span>";
@@ -280,69 +254,33 @@
             pBtn.textContent = "ПРОВЕРИТЬ ДОСТУП";
         }
 
-        pBtn.onclick = () => checkPremium(pInput.value.trim());
-        if(localStorage.getItem('rsl_id')) {
-            pInput.value = localStorage.getItem('rsl_id');
-            checkPremium(pInput.value);
-        }
+        document.getElementById('premBtn').onclick = () => checkPremium(document.getElementById('premInput').value.trim());
 
-        const UI = {
-            dl: document.getElementById('countDl'), like: document.getElementById('countLike'),
-            dislike: document.getElementById('countDislike'), today: document.getElementById('countToday'),
-            total: document.getElementById('countTotal'), btnLike: document.getElementById('btnLike'),
-            btnDislike: document.getElementById('btnDislike')
-        };
-
-        onValue(ref(db, 'stats'), (snapshot) => {
-            const data = snapshot.val() || {};
-            UI.dl.textContent = data.dl || 0;
-            UI.like.textContent = data.like || 0;
-            UI.dislike.textContent = data.dislike || 0;
-            UI.total.textContent = data.totalViews || 0;
-            UI.today.textContent = (data.daily && data.daily[todayDate]) ? data.daily[todayDate] : 0;
+        onValue(ref(db, 'stats'), (snap) => {
+            const data = snap.val() || {};
+            document.getElementById('countDl').textContent = data.dl || 0;
+            document.getElementById('countLike').textContent = data.like || 0;
+            document.getElementById('countDislike').textContent = data.dislike || 0;
         });
-
-        window.handleVote = (type) => {
-            let voted = localStorage.getItem('rsl_voted');
-            if (voted === type) return;
-            runTransaction(ref(db, 'stats'), (cur) => {
-                if (!cur) return cur;
-                if (voted && cur[voted] > 0) cur[voted]--;
-                cur[type] = (cur[type] || 0) + 1;
-                return cur;
-            }).then(() => { localStorage.setItem('rsl_voted', type); });
-        };
-
-        UI.btnLike.onclick = () => window.handleVote('like');
-        UI.btnDislike.onclick = () => window.handleVote('dislike');
 
         document.querySelectorAll('.dl-trigger').forEach(btn => {
             btn.onclick = (e) => {
                 e.preventDefault();
                 runTransaction(ref(db, 'stats/dl'), (v) => (v || 0) + 1);
-                const type = btn.getAttribute('data-type');
-                if (LINKS[type]) window.location.href = LINKS[type];
+                window.location.href = LINKS[btn.getAttribute('data-type')];
             };
         });
     </script>
 
-    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>
-        AOS.init({ duration: 800, once: true });
         function updateClock() { document.getElementById('clock').textContent = new Date().toLocaleTimeString(); }
         setInterval(updateClock, 1000); updateClock();
-
         const sidebar = document.getElementById('sidebar');
         const overlay = document.getElementById('overlay');
         function toggleMenu() { sidebar.classList.toggle('active'); overlay.classList.toggle('active'); }
         document.getElementById('openSidebar').onclick = toggleMenu;
         document.getElementById('closeSidebar').onclick = toggleMenu;
         overlay.onclick = toggleMenu;
-
-        document.getElementById('themeToggle').onclick = () => {
-            const isLight = document.body.classList.toggle('light');
-            document.getElementById('themeText').textContent = isLight ? 'Светлая' : 'Тёмная';
-        };
     </script>
 </body>
 </html>
