@@ -38,7 +38,7 @@
             --border: rgba(255, 255, 255, 0.1);
             --live-text-color: rgba(255, 255, 255, 0.08);
             --sidebar-bg: rgba(10, 10, 26, 0.98);
-            --premium-gold: #f59e0b; /* Добавил переменную для золотого */
+            --premium-gold: #f59e0b;
         }
 
         body.light {
@@ -113,7 +113,7 @@
         .download-btn.secondary { background: #1e293b; color: white; border: none; }
         .download-btn.outline { border: 2px solid var(--accent); color: var(--accent); background: transparent; }
 
-        /* === ИСПРАВЛЕННЫЙ СТИЛЬ: Темный фон, золотая обводка === */
+        /* === ЕДИНЫЙ СТИЛЬ: Темный фон, золотая обводка === */
         .download-btn.premium-outline { 
             background: rgba(30, 41, 59, 0.5); /* Темный, полупрозрачный фон */
             color: #fff; 
@@ -245,9 +245,10 @@
                     <h2 style="font-weight: 900; font-size: 1.5rem; margin-bottom: 0.5rem; text-transform: uppercase; letter-spacing: 1px;">Наше комьюнити</h2>
                     <p style="max-width: 400px; margin: 0 auto 2rem; opacity: 0.7; font-size: 0.9rem; line-height: 1.5; font-weight: 600;">Обсуждай тактики, получай помощь по моду и узнавай о новых версиях первым в нашем Telegram.</p>
                     <div style="display: flex; flex-direction: column; align-items: center; gap: 1rem;">
-                        <a href="https://t.me/RSLMOD" target="_blank" class="download-btn primary" style="background: #24A1DE; padding: 1rem 2.5rem; font-size: 1rem; box-shadow: 0 15px 30px rgba(36, 161, 222, 0.3);">
+                        <a href="https://t.me/RSLMOD" target="_blank" class="download-btn primary" style="background: #24A1DE; padding: 1rem 2.5rem; font-size: 1rem; box-shadow: 0 15px 30px rgba(36, 161, 222, 0.3); border: none;">
                             <i class="fas fa-external-link-alt"></i> Войти в группу
                         </a>
+                        <span style="font-size: 0.7rem; font-weight: 800; opacity: 0.5; text-transform: uppercase;"><i class="fas fa-users"></i> Присоединяйся к нам</span>
                     </div>
                 </div>
             </section>
@@ -269,10 +270,10 @@
                         <a href="#" class="download-btn premium-outline dl-trigger" data-type="mod_getmods"><i class="fas fa-crown"></i> Mod Paid "Getmods"</a>
                         <a href="#" class="download-btn premium-outline dl-trigger" data-type="clone_getmods"><i class="fas fa-crown"></i> Mod Paid Clone "Getmods"</a>
                         
-                        <a href="#" class="download-btn primary dl-trigger" data-type="speed_x100"><i class="fas fa-tachometer-alt"></i> RSL Speed x100</a>
-                        <a href="#" class="download-btn primary dl-trigger" data-type="speed_x100_clone"><i class="fas fa-tachometer-alt"></i> RSL Speed x100 Clone</a>
-                        <a href="#" class="download-btn secondary dl-trigger" data-type="faq"><i class="fas fa-question-circle"></i> ЧаВо (FAQ)</a>
-                        <a href="#" class="download-btn secondary dl-trigger" data-type="vpn"><i class="fas fa-shield-alt"></i> Рабочий VPN</a>
+                        <a href="#" class="download-btn premium-outline dl-trigger" data-type="speed_x100"><i class="fas fa-tachometer-alt"></i> RSL Speed x100</a>
+                        <a href="#" class="download-btn premium-outline dl-trigger" data-type="speed_x100_clone"><i class="fas fa-tachometer-alt"></i> RSL Speed x100 Clone</a>
+                        <a href="#" class="download-btn premium-outline dl-trigger" data-type="faq"><i class="fas fa-question-circle"></i> ЧаВо (FAQ)</a>
+                        <a href="#" class="download-btn premium-outline dl-trigger" data-type="vpn"><i class="fas fa-shield-alt"></i> Рабочий VPN</a>
                     </div>
                 </div>
             </div>
@@ -318,11 +319,11 @@
             try {
                 const snap = await get(child(ref(db), `premium_ids/${id}`));
                 if (snap.exists() && snap.val() === true) {
-                    pStatus.innerHTML = "<span style='color:#22c55e'>Лицензия активна!</span>";
+                    pStatus.innerHTML = "<span style='color:#22c55e'><i class='fas fa-check-circle'></i> Лицензия активна!</span>";
                     pDownloads.style.display = 'block';
                     localStorage.setItem('rsl_id', id);
                 } else {
-                    pStatus.innerHTML = "<span style='color:#ef4444'>ID не найден</span>";
+                    pStatus.innerHTML = "<span style='color:#ef4444'><i class='fas fa-times-circle'></i> ID не найден в базе</span>";
                     pDownloads.style.display = 'none';
                 }
             } catch (e) { pStatus.textContent = "Ошибка связи"; }
