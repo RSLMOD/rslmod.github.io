@@ -347,7 +347,6 @@
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
         import { getDatabase, ref, onValue, runTransaction } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
 
-        // Firebase нужен ТОЛЬКО для статистики (лайки, посещения)
         const firebaseConfig = {
             apiKey: "AIzaSyAP6KsJ3mMPY1DU4ehoo_HSs_T_PhqkzHg",
             authDomain: "rslmod-4634c.firebaseapp.com",
@@ -362,10 +361,9 @@
         const db = getDatabase(app);
         const todayDate = new Date().toISOString().split('T')[0];
 
-        // --- БЛОК PASTEBIN (Проверка ID) ---
+        // --- БЛОК PASTEBIN (Проверка ID БЕЗ ПРОКСИ) ---
         const BASE_1 = "https://pastebin.com/raw/Kk4UfZ4C";
         const BASE_2 = "https://pastebin.com/raw/CJAhRshe";
-        const PROXY = "https://api.allorigins.win/get?url=";
 
         window.openPage = (page) => {
             document.getElementById('homePage').style.display = page === 'home' ? 'block' : 'none';
@@ -387,19 +385,20 @@
             pDownloads.style.display = 'none';
 
             try {
+                // Прямые запросы без использования прокси
                 const [res1, res2] = await Promise.all([
-                    fetch(`${PROXY}${encodeURIComponent(BASE_1)}`),
-                    fetch(`${PROXY}${encodeURIComponent(BASE_2)}`)
+                    fetch(BASE_1),
+                    fetch(BASE_2)
                 ]);
 
-                const data1 = await res1.json();
-                const data2 = await res2.json();
+                if (!res1.ok || !res2.ok) throw new Error("Ошибка доступа к базе");
 
-                // Обработка базы через запятую
-                const ids1 = data1.contents.split(',').map(item => item.trim().toLowerCase());
+                const text1 = await res1.text();
+                const text2 = await res2.text();
 
-                // Обработка базы ID:ДАТА
-                const ids2 = data2.contents.split('\n').map(line => line.split(':')[0].trim().toLowerCase());
+                // Обработка данных
+                const ids1 = text1.split(',').map(item => item.trim().toLowerCase());
+                const ids2 = text2.split('\n').map(line => line.split(':')[0].trim().toLowerCase());
 
                 const isVip = ids1.includes(searchId) || ids2.includes(searchId);
 
@@ -412,7 +411,7 @@
                 }
             } catch (e) {
                 console.error(e);
-                pStatus.innerHTML = "<span style='color:#f59e0b'>Ошибка загрузки баз Pastebin</span>";
+                pStatus.innerHTML = "<span style='color:#f59e0b'>Ошибка загрузки баз (CORS или Сеть)</span>";
             }
             pBtn.textContent = "ПРОВЕРИТЬ ДОСТУП";
         }
