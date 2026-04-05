@@ -397,41 +397,42 @@
             if(!id) return;
             pBtn.textContent = "ПОИСК...";
             try {
-                const [snap1, snap2] = await Promise.all([
-                    get(child(ref(db), `premium_ids/${id}`)),
-                    get(child(ref(db), `premium_ids_v2/${id}`))
-                ]);
+                // Прямой запрос к узлам по ID
+                const snap1 = await get(child(ref(db), `premium_ids/${id}`));
+                const snap2 = await get(child(ref(db), `premium_ids_v2/${id}`));
 
-                const inBase1 = (snap1.exists() && snap1.val() === true);
-                const inBase2 = (snap2.exists() && snap2.val() === true);
+                // Проверка на существование данных (любого значения, отличного от null)
+                const inBase1 = snap1.exists() && snap1.val() !== null;
+                const inBase2 = snap2.exists() && snap2.val() !== null;
 
                 if (inBase1 || inBase2) {
                     pStatus.innerHTML = "<span style='color:#22c55e'><i class='fas fa-check-circle'></i> Лицензия активна!</span>";
                     pDownloads.style.display = 'block';
                     localStorage.setItem('rsl_id', id);
 
-                    const allTriggers = pDownloads.querySelectorAll('.download-btn');
-                    allTriggers.forEach(btn => {
+                    const allButtons = pDownloads.querySelectorAll('.download-btn');
+                    allButtons.forEach(btn => {
                         const type = btn.getAttribute('data-type');
                         const isX100 = (type === 'speed_x100' || type === 'speed_x100_clone');
                         const isFaq = btn.classList.contains('faq-btn-trigger');
                         const isVpn = (type === 'vpn');
                         const isPaidMod = (type === 'mod_9mod' || type === 'clone_9mod' || type === 'mod_getmods' || type === 'clone_getmods');
 
-                        // Единая логика отображения:
-                        let shouldShow = false;
-                        if (inBase1 && (isPaidMod || isVpn || isFaq)) shouldShow = true;
-                        if (inBase2 && (isX100 || isVpn || isFaq)) shouldShow = true;
+                        let show = false;
+                        // База 1 видит обычные моды, VPN, FAQ
+                        if (inBase1 && (isPaidMod || isVpn || isFaq)) show = true;
+                        // База 2 видит x100, VPN, FAQ (и обычные, если нужно, но тут строго по логике)
+                        if (inBase2 && (isX100 || isVpn || isFaq)) show = true;
 
-                        btn.style.display = shouldShow ? 'inline-flex' : 'none';
+                        btn.style.setProperty('display', show ? 'inline-flex' : 'none', 'important');
                     });
 
                 } else {
-                    pStatus.innerHTML = "<span style='color:#ef4444'>Данного ID нет в базе, доступ запрещен</span>";
+                    pStatus.innerHTML = "<span style='color:#ef4444'>ID не найден в базе</span>";
                     pDownloads.style.display = 'none';
                 }
             } catch (e) { 
-                pStatus.innerHTML = "<span style='color:#ef4444'>Ошибка доступа к базе</span>";
+                pStatus.innerHTML = "<span style='color:#ef4444'>Ошибка сети</span>";
                 pDownloads.style.display = 'none';
             }
             pBtn.textContent = "ПРОВЕРИТЬ ДОСТУП";
