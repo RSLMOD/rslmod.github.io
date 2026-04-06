@@ -151,6 +151,32 @@
         }
         .download-btn.premium-outline i { color: var(--premium-gold); }
 
+        /* PREMIUM PROMO BANNER STYLES */
+        .premium-promo { margin: 2rem auto; max-width: 600px; }
+        .prem-banner {
+            background: linear-gradient(135deg, rgba(245, 158, 11, 0.15), rgba(245, 158, 11, 0.05));
+            border: 2px solid rgba(245, 158, 11, 0.4);
+            border-radius: 20px;
+            padding: 1.2rem;
+            cursor: pointer;
+            transition: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+            display: block;
+            text-decoration: none;
+            color: inherit;
+        }
+        .prem-banner:hover { transform: translateY(-3px); border-color: #f59e0b; box-shadow: 0 10px 30px rgba(245, 158, 11, 0.25); }
+        .prem-banner::before { content: ''; position: absolute; top: 0; left: -100%; width: 50%; height: 100%; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent); transition: 0.5s; }
+        .prem-banner:hover::before { left: 150%; }
+        .prem-banner-content { display: flex; align-items: center; gap: 15px; text-align: left; }
+        .prem-icon-wrapper { background: #f59e0b; width: 50px; height: 50px; border-radius: 12px; display: flex; align-items: center; justify-content: center; box-shadow: 0 0 15px rgba(245, 158, 11, 0.4); }
+        .prem-icon-wrapper i { color: white; font-size: 1.5rem; }
+        .prem-text h3 { font-size: 1.1rem; font-weight: 900; color: #f59e0b; margin-bottom: 2px; letter-spacing: 0.5px; }
+        .prem-text p { font-size: 0.8rem; opacity: 0.8; font-weight: 600; line-height: 1.2; }
+        .prem-arrow { margin-left: auto; opacity: 0.5; }
+        @media (max-width: 480px) { .prem-text p { display: none; } .prem-banner { padding: 1rem; } }
+
         .features { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1rem; margin: 2rem 0; }
         .feature-item { padding: 1.8rem; text-align: center; border-radius: 1.5rem; background: var(--card-bg); border: 1px solid var(--border); transition: 0.3s; cursor: pointer; position: relative; }
         .feature-item i { font-size: 2rem; color: var(--accent); margin-bottom: 0.8rem; transition: 0.3s; display: inline-block; }
@@ -289,6 +315,23 @@
                     <a href="#" class="download-btn outline dl-trigger" data-type="original"><i class="fas fa-box-open"></i> Оригинал</a>
                 </div>
             </main>
+
+            <section class="premium-promo" data-aos="zoom-in">
+                <div class="prem-banner" onclick="openPage('premium')">
+                    <div class="prem-banner-content">
+                        <div class="prem-icon-wrapper">
+                            <i class="fas fa-crown"></i>
+                        </div>
+                        <div class="prem-text">
+                            <h3>RSL PREMIUM ACCESS</h3>
+                            <p>Разблокируй Speed x100, уникальные клоны и доступ к VIP-базе</p>
+                        </div>
+                        <div class="prem-arrow">
+                            <i class="fas fa-chevron-right"></i>
+                        </div>
+                    </div>
+                </div>
+            </section>
 
             <section class="features">
                 <div class="feature-item" data-aos="fade-up" onclick="animateIcon(this)">
