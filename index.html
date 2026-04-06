@@ -233,10 +233,11 @@
         .contacts-grid { display: flex; flex-wrap: wrap; justify-content: center; gap: 1rem; }
         .contact-btn { padding: 0.8rem 1.5rem; border-radius: 16px; background: var(--card-bg); border: 1px solid var(--border); color: var(--text-main); text-decoration: none; font-weight: 800; font-size: 0.85rem; display: inline-flex; align-items: center; gap: 10px; transition: 0.3s; }
         .contact-btn:hover { border-color: var(--accent); transform: translateY(-3px); background: rgba(59, 130, 246, 0.1); }
-        .contact-btn i { font-size: 1.2rem; }
-        .contact-btn.tg i { color: #24A1DE; }
-        .contact-btn.rossi i { color: #f59e0b; }
-        .contact-btn.pda i { color: #57791a; }
+        .contact-btn i { font-size: 1.2rem; display: flex; align-items: center; justify-content: center; width: 20px; height: 20px; }
+
+        /* Custom Icons for Rossi and 4PDA */
+        .contact-btn.rossi .icon-circle { background-color: #8c1a1a; border-radius: 50%; width: 20px; height: 20px; display: flex; align-items: center; justify-content: center; color: white; font-family: 'Inter', sans-serif; font-weight: 900; font-size: 14px; }
+        .contact-btn.pda .icon-ring { border: 2px solid white; background-color: #24A1DE; border-radius: 50%; width: 22px; height: 22px; display: flex; align-items: center; justify-content: center; color: white; font-family: 'JetBrains Mono', monospace; font-weight: 900; font-size: 14px; margin-left: -1px; }
 
         footer { text-align: center; padding: 2rem; opacity: 0.5; font-size: 0.75rem; font-weight: 800; }
     </style>
@@ -408,13 +409,13 @@
             <h2 class="contacts-title">Связаться со мной</h2>
             <div class="contacts-grid">
                 <a href="https://t.me/Rossi_32" target="_blank" class="contact-btn tg">
-                    <i class="fab fa-telegram"></i> Telegram
+                    <i class="fab fa-telegram" style="color: #24A1DE;"></i> Telegram
                 </a>
                 <a href="https://t.me/Rossi_32" target="_blank" class="contact-btn rossi">
-                    <i class="fas fa-user-circle"></i> Rossi
+                    <i><span class="icon-circle">R</span></i> Rossi
                 </a>
                 <a href="https://4pda.to/forum/index.php?showuser=6110996" target="_blank" class="contact-btn pda">
-                    <i class="fas fa-robot"></i> 4PDA
+                    <i><span class="icon-ring">4</span></i> 4PDA
                 </a>
             </div>
         </section>
