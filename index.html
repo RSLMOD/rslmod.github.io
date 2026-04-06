@@ -227,6 +227,17 @@
         #premiumDownloads { display: none; margin-top: 1.5rem; border-top: 1px solid var(--border); padding-top: 1.5rem; }
         .premium-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 10px; margin-top: 10px; }
 
+        /* CONTACTS SECTION */
+        .contacts-section { margin: 4rem 0 2rem; text-align: center; }
+        .contacts-title { font-weight: 900; font-size: 1.3rem; margin-bottom: 1.5rem; text-transform: uppercase; letter-spacing: 1px; color: var(--accent); }
+        .contacts-grid { display: flex; flex-wrap: wrap; justify-content: center; gap: 1rem; }
+        .contact-btn { padding: 0.8rem 1.5rem; border-radius: 16px; background: var(--card-bg); border: 1px solid var(--border); color: var(--text-main); text-decoration: none; font-weight: 800; font-size: 0.85rem; display: inline-flex; align-items: center; gap: 10px; transition: 0.3s; }
+        .contact-btn:hover { border-color: var(--accent); transform: translateY(-3px); background: rgba(59, 130, 246, 0.1); }
+        .contact-btn i { font-size: 1.2rem; }
+        .contact-btn.tg i { color: #24A1DE; }
+        .contact-btn.rossi i { color: #f59e0b; }
+        .contact-btn.pda i { color: #57791a; }
+
         footer { text-align: center; padding: 2rem; opacity: 0.5; font-size: 0.75rem; font-weight: 800; }
     </style>
 </head>
@@ -392,6 +403,21 @@
                 </div>
             </div>
         </div>
+
+        <section class="contacts-section" data-aos="fade-up">
+            <h2 class="contacts-title">Связаться со мной</h2>
+            <div class="contacts-grid">
+                <a href="https://t.me/Rossi_32" target="_blank" class="contact-btn tg">
+                    <i class="fab fa-telegram"></i> Telegram
+                </a>
+                <a href="https://t.me/Rossi_32" target="_blank" class="contact-btn rossi">
+                    <i class="fas fa-user-circle"></i> Rossi
+                </a>
+                <a href="https://4pda.to/forum/index.php?showuser=6110996" target="_blank" class="contact-btn pda">
+                    <i class="fas fa-robot"></i> 4PDA
+                </a>
+            </div>
+        </section>
 
         <footer>© 2026 RSL Speed Mod</footer>
     </div>
