@@ -5,12 +5,9 @@
     <script>
         // === НАСТРОЙКА ПРЯМЫХ ССЫЛОК (МЕНЯТЬ ТУТ) ===
         const LINKS = {
-            // Бесплатный раздел
             mod: "https://github.com/RSLMOD/rslmod.github.io/releases/download/rsl/RSL.Speed_v11.40.0.122893.apk",
             clone: "https://github.com/RSLMOD/rslmod.github.io/releases/download/rsl/RSL.Speed.Clone_v11.40.0.122893.apk",
             original: "https://github.com/Trykath158/rslmod-site/releases/download/rsl/Raid_v11.40.0.142984.apk",
-            
-            // Платный раздел (Premium)
             mod_9mod: "https://github.com/RSLMOD/rslmod.github.io/releases/download/rsl_paid_9mod/RSL.Speed.Paid_v11.40.0.122893.apk",
             clone_9mod: "https://github.com/RSLMOD/rslmod.github.io/releases/download/rsl_paid_9mod/RSL.Speed.Paid.Clone_v11.40.0.122893.apk",
             mod_getmods: "https://github.com/RSLMOD/rslmod.github.io/releases/download/rsl_paid_getmod/RSL.Speed.Paid_v11.40.0.122893.apk",
@@ -276,6 +273,35 @@
         </div>
     </div>
 
+    <div class="faq-modal" id="speedX100Modal">
+        <div class="close-faq" onclick="closeSpeedX100()"><i class="fas fa-times"></i></div>
+        <h2 class="faq-title" style="color:#ec4899"><i class="fas fa-tachometer-alt"></i> МОД X100</h2>
+        <div class="faq-content">
+            <p style="font-weight: 800; font-size: 1.1rem; margin-bottom: 1rem;">Доступен новый мод «С ускорением до x100»! 🚀✨</p>
+            <p style="margin-bottom: 1.5rem;">По многочисленным просьбам теперь доступен Премиум-мод, который ускоряет игровой процесс в 100 раз! 🔥💨</p>
+            
+            <div class="faq-block">
+                <span class="faq-q">Что это дает? 🤩</span>
+                <span class="faq-a">•⚡ Мгновенное выполнение длительных действий!</span>
+                <span class="faq-a">•📈 Максимальная эффективность и прогресс!</span>
+                <span class="faq-a">•🎯 Никаких лишних ожиданий — только чистый экшен! 💥</span>
+            </div>
+
+            <div class="faq-block">
+                <span class="faq-q">Условия доступа:</span>
+                <span class="faq-a">•💰 Подписка: 300 рублей в месяц.</span>
+                <span class="faq-a">•📱 1 подписка = 1 устройство.</span>
+            </div>
+
+            <div class="faq-block" style="border: none;">
+                <span class="faq-q">Как подключить? 🛠️</span>
+                <p style="font-weight: 700;">Напишите мне в личные сообщения: <a href="https://t.me/Trykath" target="_blank" style="color:var(--accent); text-decoration: none;">👉 @Trykath 👈</a></p>
+            </div>
+
+            <p style="text-align: center; font-weight: 900; color: #ec4899; font-size: 1.1rem; margin-top: 1rem;">Успейте испытать невероятную скорость первыми! 🏎️💨</p>
+        </div>
+    </div>
+
     <div class="faq-modal" id="premiumInfoModal">
         <div class="close-faq" onclick="closePremiumInfo()"><i class="fas fa-times"></i></div>
         <h2 class="faq-title" style="color:var(--premium-gold)"><i class="fas fa-crown"></i> ПРЕМИУМ ВОЗМОЖНОСТИ</h2>
@@ -375,7 +401,7 @@
 
             <div style="background: rgba(59,130,246,0.1); padding: 1.5rem; border-radius: 16px; border-left: 4px solid var(--accent); margin: 2rem 0;">
                 <p style="font-weight: 800; font-size: 0.9rem;">Также существует отдельная сборка игры с реализованной функцией увеличения скорости (множитель до x100) для ускоренного геймплея.</p>
-                <p style="margin-top: 10px; font-weight: 900; color: var(--accent); cursor: pointer;" onclick="closePremiumInfo(); openPage('premium')">Подробнее ---> ТУТ</p>
+                <p style="margin-top: 10px; font-weight: 800;">Подробнее <span style="color: var(--accent); cursor: pointer; font-weight: 900; text-decoration: underline;" onclick="openSpeedX100()">ТУТ</span></p>
             </div>
 
             <div style="padding: 1.5rem; background: var(--card-bg); border-radius: 20px; border: 1px dashed var(--premium-gold);">
@@ -583,7 +609,6 @@
             }
         }
 
-        // Логика нового модального окна
         window.openPremiumInfo = () => {
             document.getElementById('premiumInfoModal').classList.add('active');
             document.getElementById('overlay').classList.add('active');
@@ -591,6 +616,19 @@
         window.closePremiumInfo = () => {
             document.getElementById('premiumInfoModal').classList.remove('active');
             document.getElementById('overlay').classList.remove('active');
+        }
+
+        // Логика нового мода x100
+        window.openSpeedX100 = () => {
+            document.getElementById('speedX100Modal').classList.add('active');
+            // Overlay уже активен, так как вызывается из премиум-инфо
+        }
+        window.closeSpeedX100 = () => {
+            document.getElementById('speedX100Modal').classList.remove('active');
+            // Если мы закрыли x100, но премиум-инфо еще открыто, не убираем overlay
+            if (!document.getElementById('premiumInfoModal').classList.contains('active')) {
+                document.getElementById('overlay').classList.remove('active');
+            }
         }
 
         const pBtn = document.getElementById('premBtn');
@@ -719,6 +757,7 @@
             sidebar.classList.remove('active');
             document.getElementById('faqModalWindow').classList.remove('active');
             document.getElementById('premiumInfoModal').classList.remove('active');
+            document.getElementById('speedX100Modal').classList.remove('active');
             overlay.classList.remove('active');
         };
 
