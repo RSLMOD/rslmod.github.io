@@ -618,17 +618,14 @@
             document.getElementById('overlay').classList.remove('active');
         }
 
-        // Логика нового мода x100
+        // Логика нового мода x100 (закрывает старое окно)
         window.openSpeedX100 = () => {
+            document.getElementById('premiumInfoModal').classList.remove('active');
             document.getElementById('speedX100Modal').classList.add('active');
-            // Overlay уже активен, так как вызывается из премиум-инфо
         }
         window.closeSpeedX100 = () => {
             document.getElementById('speedX100Modal').classList.remove('active');
-            // Если мы закрыли x100, но премиум-инфо еще открыто, не убираем overlay
-            if (!document.getElementById('premiumInfoModal').classList.contains('active')) {
-                document.getElementById('overlay').classList.remove('active');
-            }
+            document.getElementById('overlay').classList.remove('active');
         }
 
         const pBtn = document.getElementById('premBtn');
