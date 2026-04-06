@@ -46,6 +46,31 @@
             --sidebar-bg: rgba(255, 255, 255, 0.98);
         }
 
+        /* LIVE SPACE BACKGROUND STYLES */
+        .stars-container {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            z-index: -1; overflow: hidden; background: #02020f;
+        }
+        .stars, .stars2, .stars3 {
+            position: absolute; top: 0; left: 0; width: 1px; height: 1px; background: transparent;
+        }
+        .stars {
+            box-shadow: 443px 1957px #FFF, 422px 1438px #FFF, 1851px 1990px #FFF, 1243px 1845px #FFF, 108px 123px #FFF, 354px 1450px #FFF, 1342px 145px #FFF, 1024px 234px #FFF, 500px 500px #FFF, 800px 1200px #FFF, 1600px 300px #FFF;
+            animation: animStar 60s linear infinite;
+        }
+        .stars2 {
+            width: 2px; height: 2px;
+            box-shadow: 143px 957px #FFF, 922px 438px #FFF, 551px 990px #FFF, 243px 845px #FFF, 808px 523px #FFF, 1500px 1000px #FFF, 300px 1800px #FFF;
+            animation: animStar 100s linear infinite;
+        }
+        .stars3 {
+            width: 3px; height: 3px;
+            box-shadow: 243px 157px #FFF, 122px 238px #FFF, 951px 190px #FFF, 1800px 1500px #FFF, 400px 600px #FFF;
+            animation: animStar 150s linear infinite;
+        }
+        @keyframes animStar { from { transform: translateY(0px); } to { transform: translateY(-2000px); } }
+        body.light .stars-container { opacity: 0.15; background: #ffffff; }
+
         * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
         body { font-family: 'Inter', sans-serif; transition: 0.3s; min-height: 100vh; background: var(--bg) !important; color: var(--text-main); overflow-x: hidden; }
         .container { max-width: 1280px; margin: 0 auto; padding: 0 1.5rem; }
@@ -244,6 +269,12 @@
     </style>
 </head>
 <body class="dark">
+
+    <div class="stars-container">
+        <div class="stars"></div>
+        <div class="stars2"></div>
+        <div class="stars3"></div>
+    </div>
 
     <div class="overlay" id="overlay"></div>
 
