@@ -46,7 +46,7 @@
             --sidebar-bg: rgba(255, 255, 255, 0.98);
         }
 
-        /* LIVE SPACE BACKGROUND STYLES */
+        /* LIVE SPACE BACKGROUND STYLES (WARP SPEED EFFECT - HIGH DENSITY) */
         .stars-container {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             z-index: -1; overflow: hidden; background: #02020f;
@@ -204,7 +204,6 @@
         .prem-text h3 { font-size: 1.1rem; font-weight: 900; color: #f59e0b; margin-bottom: 2px; letter-spacing: 0.5px; }
         .prem-text p { font-size: 0.8rem; opacity: 0.8; font-weight: 600; line-height: 1.2; }
         .prem-arrow { margin-left: auto; opacity: 0.5; }
-        @media (max-width: 480px) { .prem-text p { display: none; } .prem-banner { padding: 1rem; } }
 
         .features { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1rem; margin: 2rem 0; }
         .feature-item { padding: 1.8rem; text-align: center; border-radius: 1.5rem; background: var(--card-bg); border: 1px solid var(--border); transition: 0.3s; cursor: pointer; position: relative; }
@@ -221,6 +220,20 @@
         .stat-item { background: var(--card-bg); border: 1px solid var(--border); padding: 0.5rem 1rem; border-radius: 12px; font-weight: 800; font-size: 0.8rem; display: flex; align-items: center; gap: 6px; cursor: pointer; transition: 0.2s; }
         .stat-item.active-like { background: rgba(34, 197, 94, 0.2); border-color: #22c55e; }
         .stat-item.active-dislike { background: rgba(239, 68, 68, 0.2); border-color: #ef4444; }
+
+        /* ОТЗЫВЫ СТИЛИ */
+        .reviews-section { margin: 4rem 0; text-align: center; }
+        .review-card { background: var(--card-bg); border: 1px solid var(--border); padding: 1.5rem; border-radius: 20px; text-align: left; margin-bottom: 1rem; transition: 0.3s; backdrop-filter: blur(10px); }
+        .review-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.8rem; }
+        .review-name { font-weight: 800; color: var(--accent); font-size: 1rem; }
+        .review-date { font-size: 0.7rem; opacity: 0.5; font-weight: 700; }
+        .review-text { font-size: 0.9rem; line-height: 1.5; font-weight: 600; opacity: 0.9; }
+        
+        .add-review-form { background: var(--card-bg); border: 1px solid var(--border); padding: 2rem; border-radius: 24px; max-width: 600px; margin: 0 auto 3rem; }
+        .review-input { width: 100%; background: rgba(0,0,0,0.2); border: 1px solid var(--border); padding: 1rem; border-radius: 12px; color: white; margin-bottom: 1rem; outline: none; font-family: inherit; font-weight: 600; }
+        .review-textarea { height: 100px; resize: none; }
+        .review-submit { background: var(--accent); color: white; border: none; padding: 0.8rem 2rem; border-radius: 50px; font-weight: 900; cursor: pointer; transition: 0.2s; }
+        .review-submit:disabled { opacity: 0.5; cursor: not-allowed; }
 
         /* MODAL STYLES */
         .faq-modal {
@@ -272,19 +285,6 @@
         /* Custom Icon for 4PDA */
         .contact-btn.pda .icon-ring { border: 2px solid white; background-color: #24A1DE; border-radius: 50%; width: 22px; height: 22px; display: flex; align-items: center; justify-content: center; color: white; font-family: 'JetBrains Mono', monospace; font-weight: 900; font-size: 14px; margin-left: -1px; }
 
-        /* --- НОВЫЕ СТИЛИ ДЛЯ ОТЗЫВОВ --- */
-        .reviews-section { margin-top: 4rem; text-align: center; }
-        .review-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 20px; padding: 1.5rem; margin-bottom: 1rem; text-align: left; animation: fadeIn 0.5s ease; }
-        .review-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.8rem; font-size: 0.8rem; opacity: 0.6; font-weight: 800; }
-        .review-user { color: var(--accent); display: flex; align-items: center; gap: 6px; }
-        .review-text { font-size: 0.95rem; font-weight: 600; line-height: 1.5; }
-        .review-form { background: var(--card-bg); border: 1px solid var(--border); border-radius: 24px; padding: 2rem; margin-bottom: 2rem; display: none; }
-        .review-textarea { width: 100%; background: rgba(0,0,0,0.2); border: 1px solid var(--border); padding: 1rem; border-radius: 12px; color: white; font-family: inherit; margin-bottom: 1rem; resize: none; outline: none; }
-        .review-submit { background: var(--accent); color: white; border: none; padding: 0.8rem 2rem; border-radius: 50px; font-weight: 900; cursor: pointer; transition: 0.2s; }
-        .review-submit:disabled { opacity: 0.5; cursor: not-allowed; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-        /* ------------------------------- */
-
         footer { text-align: center; padding: 2rem; opacity: 0.5; font-size: 0.75rem; font-weight: 800; }
     </style>
 </head>
@@ -312,14 +312,14 @@
             </div>
             <div class="faq-block">
                 <span class="faq-q">1.2) Вопрос: Я обновил мод, и теперь не могу войти в игру — выходит диалог "Кажется данного устройства нет в базе"</span>
-                <span class="faq-a">Ответ: Это новая мера защиты от распространения платной версии. Нажмите кнопку "Копировать ID" и пришлите скопированный ID мне в личные сообщения. Либо нажмите "Написать Автору" и вас перекинет сразу в диалог со мной и автоматически вставится сообщение с вашим ID.</span>
+                <span class="faq-a">Ответ: Нажмите кнопку "Копировать ID" и пришлите скопированный ID мне в личные сообщения.</span>
             </div>
             <div class="faq-block">
                 <span class="faq-q">1.3) Вопрос: В модификации 9Mod/Getmods не работает скорость.</span>
-                <span class="faq-a">Ответ: Это известная проблема модификации 9Mod/Getmods. У некоторых пользователей всё работает, у других — нет. Попробуйте перезагрузить устройство.</span>
+                <span class="faq-a">Ответ: Это известная проблема. Попробуйте перезагрузить устройство.</span>
             </div>
             <div class="faq-warning">
-                <strong>1.4) НЕ СБРАСЫВАЙТЕ НАСТРОЙКИ ТЕЛЕФОНА ДО ЗАВОДСКИХ</strong> Т.К ID УСТРОЙСТВА ИЗМЕНИТСЯ И ВАС НЕ ПУСТИТ В ИГРУ!! В этом случае вам придётся перепривязывать ID согласно пункту 1.1
+                <strong>1.4) НЕ СБРАСЫВАЙТЕ НАСТРОЙКИ ТЕЛЕФОНА ДО ЗАВОДСКИХ</strong> Т.К ID УСТРОЙСТВА ИЗМЕНИТСЯ!
             </div>
         </div>
     </div>
@@ -328,28 +328,13 @@
         <div class="close-faq" onclick="closeSpeedX100()"><i class="fas fa-times"></i></div>
         <h2 class="faq-title" style="color:#ec4899"><i class="fas fa-tachometer-alt"></i> МОД X100</h2>
         <div class="faq-content">
-            <p style="font-weight: 800; font-size: 1.1rem; margin-bottom: 1rem;">Доступен новый мод «С ускорением до x100»! 🚀✨</p>
-            <p style="margin-bottom: 1.5rem;">По многочисленным просьбам теперь доступен Премиум-мод, который ускоряет игровой процесс в 100 раз! 🔥💨</p>
-            
-            <div class="faq-block">
-                <span class="faq-q">Что это дает? 🤩</span>
-                <span class="faq-a">•⚡ Мгновенное выполнение длительных действий!</span>
-                <span class="faq-a">•📈 Максимальная эффективность и прогресс!</span>
-                <span class="faq-a">•🎯 Никаких лишних ожиданий — только чистый экшен! 💥</span>
-            </div>
-
+            <p style="font-weight: 800; font-size: 1.1rem; margin-bottom: 1rem;">Доступен новый мод «С ускорением до x100»! 🚀</p>
             <div class="faq-block">
                 <span class="faq-q">Условия доступа:</span>
                 <span class="faq-a">•💰 Подписка: 300 рублей в месяц.</span>
                 <span class="faq-a">•📱 1 подписка = 1 устройство.</span>
             </div>
-
-            <div class="faq-block" style="border: none;">
-                <span class="faq-q">Как подключить? 🛠️</span>
-                <p style="font-weight: 700;">Напишите мне в личные сообщения: <a href="https://t.me/Trykath" target="_blank" style="color:var(--accent); text-decoration: none;">👉 @Trykath 👈</a></p>
-            </div>
-
-            <p style="text-align: center; font-weight: 900; color: #ec4899; font-size: 1.1rem; margin-top: 1rem;">Успейте испытать невероятную скорость первыми! 🏎️💨</p>
+            <p style="text-align: center; font-weight: 900; color: #ec4899;">Успейте испытать первым! 🏎️💨</p>
         </div>
     </div>
 
@@ -359,20 +344,14 @@
         <div class="faq-content">
             <div class="prem-info-point">
                 <span class="prem-info-title">• Устанавливается рядом с оригинальной версией</span>
-                <span class="prem-info-body">Это дополнительная копия игры...</span>
+                <span class="prem-info-body">Это дополнительная копия игры. Она не удаляет вашу основную игру.</span>
             </div>
-            <div style="background: rgba(59,130,246,0.1); padding: 1.5rem; border-radius: 16px; border-left: 4px solid var(--accent); margin: 2rem 0;">
-                <p style="font-weight: 800; font-size: 0.9rem;">Также существует отдельная сборка игры с реализованной функцией увеличения скорости (множитель до x100) для ускоренного геймплея.</p>
-                <p style="margin-top: 10px; font-weight: 800;">Подробнее <span style="color: var(--accent); cursor: pointer; font-weight: 900; text-decoration: underline;" onclick="openSpeedX100()">ТУТ</span></p>
+            <div class="prem-info-point">
+                <span class="prem-info-title">• Оптимизация и скорость</span>
+                <span class="prem-info-body">Удалена аналитика, лишние языки, оптимизирован код для плавного FPS.</span>
             </div>
-
             <div style="padding: 1.5rem; background: var(--card-bg); border-radius: 20px; border: 1px dashed var(--premium-gold);">
-                <p style="font-weight: 900; margin-bottom: 1rem;">Если вы хотите приобрести платную версию:</p>
-                <ol style="margin-left: 1.2rem; font-size: 0.9rem; font-weight: 600;">
-                    <li>Напишите мне в личные сообщения: <a href="https://t.me/trykath" target="_blank" style="color:var(--accent)">Trykath</a></li>
-                    <li>Я отправлю вам реквизиты для оплаты.</li>
-                </ol>
-                <p style="margin-top: 1rem; font-size: 0.85rem; font-weight: 600;">Если у вас нет возможности переводить на карты российских банков, доступна оплата через <a href="https://funpay.com/lots/offer?id=29851012" target="_blank" style="color:var(--accent); font-weight: 800; text-decoration: underline;">FynPay</a></p>
+                <p style="font-weight: 900; margin-bottom: 1rem;">Для приобретения пишите: <a href="https://t.me/trykath" target="_blank" style="color:var(--accent)">Trykath</a></p>
             </div>
         </div>
     </div>
@@ -385,7 +364,6 @@
         <nav class="sidebar-nav">
             <div onclick="openPage('home')" class="sidebar-link"><i class="fas fa-home"></i> Главная</div>
             <div onclick="openPage('premium')" class="sidebar-link" style="color:#f59e0b;"><i class="fas fa-crown"></i> Премиум версия</div>
-            <div onclick="openPage('reviews')" class="sidebar-link"><i class="fas fa-star"></i> Отзывы</div>
             <a href="https://t.me/rsl_chats" target="_blank" class="sidebar-link"><i class="fas fa-comments"></i> Наш чат</a>
             <a href="https://telegra.ph/FAQ-po-RSL-Speed-Mod-06-12" target="_blank" class="sidebar-link"><i class="fas fa-question-circle"></i> FAQ</a>
         </nav>
@@ -415,7 +393,6 @@
                     <div class="stat-item" id="btnLike"><i class="fas fa-thumbs-up" style="color:#22c55e"></i> <span id="countLike">...</span></div>
                     <div class="stat-item" id="btnDislike"><i class="fas fa-thumbs-down" style="color:#ef4444"></i> <span id="countDislike">...</span></div>
                     <div class="stat-item" title="Посещений за сегодня"><i class="fas fa-user-clock" style="color:#f59e0b"></i> <span id="countToday">...</span></div>
-                    <div class="stat-item" title="Всего посещений"><i class="fas fa-users" style="color:#a855f7"></i> <span id="countTotal">...</span></div>
                 </div>
                 
                 <h1>
@@ -436,14 +413,44 @@
             <section class="premium-promo" data-aos="zoom-in">
                 <div class="prem-banner" onclick="openPremiumInfo()">
                     <div class="prem-banner-content">
-                        <div class="prem-icon-wrapper"><i class="fas fa-crown"></i></div>
+                        <div class="prem-icon-wrapper">
+                            <i class="fas fa-crown"></i>
+                        </div>
                         <div class="prem-text">
                             <h3>RSL ПРЕМИУМ ДОСТУП</h3>
                             <p>Разблокируй Скорость x100, уникальные клоны и доступ к VIP-базе</p>
                         </div>
-                        <div class="prem-arrow"><i class="fas fa-chevron-right"></i></div>
+                        <div class="prem-arrow">
+                            <i class="fas fa-chevron-right"></i>
+                        </div>
                     </div>
                 </div>
+            </section>
+
+            <section class="features">
+                <div class="feature-item" data-aos="fade-up" onclick="animateIcon(this)">
+                    <i class="fas fa-bolt"></i>
+                    <h3>Скорость</h3>
+                    <p>Разблокировка лимитов и оптимизация ресурсов.</p>
+                </div>
+                <div class="feature-item" data-aos="fade-up" onclick="animateIcon(this)">
+                    <i class="fas fa-lock"></i>
+                    <h3>Защита</h3>
+                    <p>Анти-чит обход и полная безопасность данных.</p>
+                </div>
+            </section>
+
+            <section class="reviews-section" data-aos="fade-up">
+                <h2 class="contacts-title" style="margin-bottom: 2rem;">Отзывы пользователей</h2>
+                
+                <div class="add-review-form">
+                    <input type="text" id="revName" class="review-input" placeholder="Ваше имя...">
+                    <textarea id="revText" class="review-input review-textarea" placeholder="Ваш отзыв о моде..."></textarea>
+                    <button id="revSubmit" class="review-submit">ОТПРАВИТЬ ОТЗЫВ</button>
+                </div>
+
+                <div id="reviewsList" style="max-width: 800px; margin: 0 auto;">
+                    </div>
             </section>
         </div>
 
@@ -451,7 +458,6 @@
             <div class="premium-card">
                 <i class="fas fa-crown" style="font-size: 3rem; color: #f59e0b; margin-bottom: 1rem;"></i>
                 <h2>Проверка ID</h2>
-                <p style="opacity: 0.7; font-size: 0.9rem;">Введите ваш ID-устройства для доступа к Premium версиям</p>
                 <input type="text" id="premInput" class="prem-input" placeholder="Введите ваш ID...">
                 <button id="premBtn" class="prem-btn">ПРОВЕРИТЬ ДОСТУП</button>
                 <div id="premStatus"></div>
@@ -460,45 +466,17 @@
                     <div class="premium-grid">
                         <a href="#" class="download-btn premium-outline dl-trigger" data-type="mod_9mod"><i class="fas fa-crown"></i> Mod Paid "9mod"</a>
                         <a href="#" class="download-btn premium-outline dl-trigger" data-type="clone_9mod"><i class="fas fa-crown"></i> Mod Paid Clone "9mod"</a>
-                        <a href="#" class="download-btn premium-outline dl-trigger" data-type="mod_getmods"><i class="fas fa-crown"></i> Mod Paid "Getmods"</a>
-                        <a href="#" class="download-btn premium-outline dl-trigger" data-type="clone_getmods"><i class="fas fa-crown"></i> Mod Paid Clone "Getmods"</a>
                         <a href="#" class="download-btn premium-outline dl-trigger" data-type="speed_x100"><i class="fas fa-tachometer-alt"></i> RSL Speed x100</a>
-                        <a href="#" class="download-btn premium-outline dl-trigger" data-type="speed_x100_clone"><i class="fas fa-tachometer-alt"></i> RSL Speed x100 Clone</a>
-                        <div class="download-btn premium-outline" onclick="openFaq()"><i class="fas fa-question-circle"></i> ЧаВо (FAQ)</div>
-                        <a href="#" class="download-btn premium-outline dl-trigger" data-type="vpn"><i class="fas fa-shield-alt"></i> Рабочий VPN</a>
                     </div>
                 </div>
             </div>
         </div>
 
-        <div id="reviewsPage" style="display:none;">
-            <section class="reviews-section">
-                <h2 class="contacts-title">Отзывы пользователей</h2>
-                
-                <div id="reviewForm" class="review-form">
-                    <h3 style="margin-bottom: 1rem; color: var(--premium-gold);">Оставить отзыв</h3>
-                    <textarea id="reviewText" class="review-textarea" rows="4" placeholder="Напишите ваше мнение о моде..."></textarea>
-                    <button id="sendReviewBtn" class="review-submit">ОТПРАВИТЬ ОТЗЫВ</button>
-                </div>
-                
-                <div id="reviewNotice" style="margin-bottom: 2rem; opacity: 0.7; font-weight: 700;">
-                    Отзывы могут оставлять только владельцы Premium-лицензии. <br>
-                    <span style="color:var(--accent); cursor:pointer" onclick="openPage('premium')">Авторизуйтесь через ID</span>
-                </div>
-
-                <div id="reviewsList">
-                    <div style="opacity:0.5; padding: 2rem;">Загрузка отзывов...</div>
-                </div>
-            </section>
-        </div>
         <section class="contacts-section" data-aos="fade-up">
             <h2 class="contacts-title">Связаться со мной</h2>
             <div class="contacts-grid">
                 <a href="https://t.me/trykath" target="_blank" class="contact-btn tg">
                     <i class="fab fa-telegram" style="color: #24A1DE;"></i> Telegram
-                </a>
-                <a href="https://4pda.to/forum/index.php?showuser=5594067" target="_blank" class="contact-btn pda">
-                    <i><span class="icon-ring">4</span></i> 4PDA
                 </a>
             </div>
         </section>
@@ -508,7 +486,7 @@
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-        import { getDatabase, ref, onValue, runTransaction, get, child, push, serverTimestamp, query, limitToLast } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+        import { getDatabase, ref, onValue, runTransaction, get, child, push, set, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyAP6KsJ3mMPY1DU4ehoo_HSs_T_PhqkzHg",
@@ -524,29 +502,85 @@
         const db = getDatabase(app);
         const todayDate = new Date().toISOString().split('T')[0];
 
-        // Глобальные переменные для доступа
-        let isUserPremium = false;
-        let currentUserId = "";
+        // --- СИСТЕМА ОТЗЫВОВ ---
+        const revName = document.getElementById('revName');
+        const revText = document.getElementById('revText');
+        const revSubmit = document.getElementById('revSubmit');
+        const reviewsList = document.getElementById('reviewsList');
+
+        revSubmit.onclick = async () => {
+            const name = revName.value.trim();
+            const text = revText.value.trim();
+            
+            if (!name || !text) return alert("Заполните все поля!");
+            
+            revSubmit.disabled = true;
+            revSubmit.textContent = "ОТПРАВКА...";
+            
+            try {
+                const newReviewRef = push(ref(db, 'reviews'));
+                await set(newReviewRef, {
+                    name: name,
+                    text: text,
+                    timestamp: serverTimestamp()
+                });
+                revName.value = "";
+                revText.value = "";
+                alert("Отзыв успешно добавлен!");
+            } catch (e) {
+                alert("Ошибка при отправке");
+            }
+            revSubmit.disabled = false;
+            revSubmit.textContent = "ОТПРАВИТЬ ОТЗЫВ";
+        };
+
+        onValue(ref(db, 'reviews'), (snapshot) => {
+            reviewsList.innerHTML = "";
+            const data = snapshot.val();
+            if (data) {
+                const items = Object.values(data).reverse();
+                items.forEach(item => {
+                    const date = item.timestamp ? new Date(item.timestamp).toLocaleDateString() : "";
+                    const html = `
+                        <div class="review-card" data-aos="fade-up">
+                            <div class="review-header">
+                                <span class="review-name">${item.name}</span>
+                                <span class="review-date">${date}</span>
+                            </div>
+                            <div class="review-text">${item.text}</div>
+                        </div>
+                    `;
+                    reviewsList.innerHTML += html;
+                });
+            }
+        });
+        // -----------------------
 
         window.openPage = (page) => {
             document.getElementById('homePage').style.display = page === 'home' ? 'block' : 'none';
             document.getElementById('premiumPage').style.display = page === 'premium' ? 'block' : 'none';
-            document.getElementById('reviewsPage').style.display = page === 'reviews' ? 'block' : 'none';
             if (document.getElementById('sidebar').classList.contains('active')) toggleMenu();
-            
-            if(page === 'reviews') {
-                updateReviewFormVisibility();
-                loadReviews();
-            }
         };
 
-        // Твои функции модалок (без изменений)
-        window.openFaq = () => { document.getElementById('faqModalWindow').classList.add('active'); document.getElementById('overlay').classList.add('active'); }
-        window.closeFaq = () => { document.getElementById('faqModalWindow').classList.remove('active'); if (!document.getElementById('sidebar').classList.contains('active')) document.getElementById('overlay').classList.remove('active'); }
-        window.openPremiumInfo = () => { document.getElementById('premiumInfoModal').classList.add('active'); document.getElementById('overlay').classList.add('active'); }
-        window.closePremiumInfo = () => { document.getElementById('premiumInfoModal').classList.remove('active'); document.getElementById('overlay').classList.remove('active'); }
-        window.openSpeedX100 = () => { document.getElementById('premiumInfoModal').classList.remove('active'); document.getElementById('speedX100Modal').classList.add('active'); }
-        window.closeSpeedX100 = () => { document.getElementById('speedX100Modal').classList.remove('active'); document.getElementById('overlay').classList.remove('active'); }
+        window.openFaq = () => {
+            document.getElementById('faqModalWindow').classList.add('active');
+            document.getElementById('overlay').classList.add('active');
+        }
+        window.closeFaq = () => {
+            document.getElementById('faqModalWindow').classList.remove('active');
+            if (!document.getElementById('sidebar').classList.contains('active')) {
+                document.getElementById('overlay').classList.remove('active');
+            }
+        }
+
+        window.openPremiumInfo = () => {
+            document.getElementById('premiumInfoModal').classList.add('active');
+            document.getElementById('overlay').classList.add('active');
+        }
+        window.closePremiumInfo = () => {
+            document.getElementById('premiumInfoModal').classList.remove('active');
+            document.getElementById('overlay').classList.remove('active');
+        }
 
         const pBtn = document.getElementById('premBtn');
         const pInput = document.getElementById('premInput');
@@ -561,33 +595,14 @@
                     get(child(ref(db), `premium_ids/${id}`)),
                     get(child(ref(db), `premium_ids_v2/${id}`))
                 ]);
-
                 const inBase1 = snap1.exists() && snap1.val() === true;
                 const inBase2 = snap2.exists() && snap2.val() === true;
 
                 if (inBase1 || inBase2) {
-                    isUserPremium = true;
-                    currentUserId = id;
                     pStatus.innerHTML = "<span style='color:#22c55e'><i class='fas fa-check-circle'></i> Лицензия активна!</span>";
                     pDownloads.style.display = 'block';
                     localStorage.setItem('rsl_id', id);
-                    updateReviewFormVisibility();
-
-                    const btns = document.querySelectorAll('#premiumDownloads .download-btn');
-                    btns.forEach(btn => {
-                        const type = btn.getAttribute('data-type');
-                        if (inBase1 && inBase2) btn.style.display = 'inline-flex';
-                        else if (inBase1 && !inBase2) {
-                            if (type === 'speed_x100' || type === 'speed_x100_clone') btn.style.display = 'none';
-                            else btn.style.display = 'inline-flex';
-                        } else if (inBase2 && !inBase1) {
-                            const allowed = ['speed_x100', 'speed_x100_clone', 'vpn'];
-                            if (allowed.includes(type) || btn.getAttribute('onclick') === 'openFaq()') btn.style.display = 'inline-flex';
-                            else btn.style.display = 'none';
-                        }
-                    });
                 } else {
-                    isUserPremium = false;
                     pStatus.innerHTML = "<span style='color:#ef4444'>Данного ID нет в базе</span>";
                     pDownloads.style.display = 'none';
                 }
@@ -601,83 +616,10 @@
             checkPremium(pInput.value);
         }
 
-        // --- ЛОГИКА ОТЗЫВОВ ---
-        function updateReviewFormVisibility() {
-            const form = document.getElementById('reviewForm');
-            const notice = document.getElementById('reviewNotice');
-            if (isUserPremium) {
-                form.style.display = 'block';
-                notice.style.display = 'none';
-            } else {
-                form.style.display = 'none';
-                notice.style.display = 'block';
-            }
-        }
-
-        function loadReviews() {
-            const reviewsList = document.getElementById('reviewsList');
-            const reviewsRef = query(ref(db, 'reviews'), limitToLast(50));
-            
-            onValue(reviewsRef, (snapshot) => {
-                reviewsList.innerHTML = "";
-                const data = snapshot.val();
-                if (!data) {
-                    reviewsList.innerHTML = "<div style='opacity:0.5; padding: 2rem;'>Пока нет ни одного отзыва. Будьте первым!</div>";
-                    return;
-                }
-                
-                // Сортировка по времени (новые сверху)
-                const sortedKeys = Object.keys(data).reverse();
-                sortedKeys.forEach(key => {
-                    const rev = data[key];
-                    if(!rev.text) return;
-                    const date = rev.timestamp ? new Date(rev.timestamp).toLocaleDateString() : 'Неизвестно';
-                    const userId = rev.userId ? `ID: ${rev.userId.substring(0, 4)}***` : 'Аноним';
-                    
-                    reviewsList.innerHTML += `
-                        <div class="review-card">
-                            <div class="review-header">
-                                <span class="review-user"><i class="fas fa-user-shield"></i> ${userId}</span>
-                                <span>${date}</span>
-                            </div>
-                            <div class="review-text">${rev.text.replace(/</g, "&lt;")}</div>
-                        </div>
-                    `;
-                });
-            });
-        }
-
-        document.getElementById('sendReviewBtn').onclick = async function() {
-            const textInput = document.getElementById('reviewText');
-            const text = textInput.value.trim();
-            if(!text) return;
-            if(!isUserPremium) return alert("Только для Premium");
-
-            this.disabled = true;
-            this.textContent = "ОТПРАВКА...";
-            
-            try {
-                await push(ref(db, 'reviews'), {
-                    userId: currentUserId,
-                    text: text,
-                    timestamp: serverTimestamp()
-                });
-                textInput.value = "";
-                alert("Отзыв успешно опубликован!");
-            } catch (e) {
-                alert("Ошибка при отправке: " + e.message);
-            }
-            this.disabled = false;
-            this.textContent = "ОТПРАВИТЬ ОТЗЫВ";
-        };
-        // -----------------------
-
-        // Статистика (без изменений)
         const UI = {
             dl: document.getElementById('countDl'), like: document.getElementById('countLike'),
             dislike: document.getElementById('countDislike'), today: document.getElementById('countToday'),
-            total: document.getElementById('countTotal'), btnLike: document.getElementById('btnLike'),
-            btnDislike: document.getElementById('btnDislike')
+            btnLike: document.getElementById('btnLike'), btnDislike: document.getElementById('btnDislike')
         };
 
         onValue(ref(db, 'stats'), (snapshot) => {
@@ -685,7 +627,6 @@
             UI.dl.textContent = data.dl || 0;
             UI.like.textContent = data.like || 0;
             UI.dislike.textContent = data.dislike || 0;
-            UI.total.textContent = data.totalViews || 0;
             UI.today.textContent = (data.daily && data.daily[todayDate]) ? data.daily[todayDate] : 0;
             updateVoteStyles();
         });
@@ -747,9 +688,7 @@
         
         overlay.onclick = () => {
             sidebar.classList.remove('active');
-            document.getElementById('faqModalWindow').classList.remove('active');
-            document.getElementById('premiumInfoModal').classList.remove('active');
-            document.getElementById('speedX100Modal').classList.remove('active');
+            document.querySelectorAll('.faq-modal').forEach(m => m.classList.remove('active'));
             overlay.classList.remove('active');
         };
 
