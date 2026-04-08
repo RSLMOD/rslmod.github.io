@@ -46,6 +46,19 @@
             --sidebar-bg: rgba(255, 255, 255, 0.98);
         }
 
+        /* REVIEWS STYLES */
+        #reviewsPage { display: none; padding-bottom: 3rem; }
+        .reviews-container { max-width: 800px; margin: 0 auto; }
+        .review-form { background: var(--card-bg); border: 1px solid var(--border); padding: 1.5rem; border-radius: 20px; margin-bottom: 2rem; }
+        .review-input { width: 100%; background: rgba(0,0,0,0.2); border: 1px solid var(--border); padding: 1rem; border-radius: 12px; color: white; margin-bottom: 1rem; font-family: inherit; resize: vertical; outline: none; }
+        body.light .review-input { background: #fff; color: #000; }
+        .review-item { background: var(--card-bg); border: 1px solid var(--border); padding: 1.2rem; border-radius: 18px; margin-bottom: 1rem; text-align: left; position: relative; }
+        .review-header { display: flex; justify-content: space-between; margin-bottom: 0.5rem; font-size: 0.8rem; font-weight: 800; }
+        .review-id { color: var(--accent); }
+        .review-date { opacity: 0.5; }
+        .review-text { line-height: 1.5; font-size: 0.95rem; }
+        .no-access-msg { background: rgba(239, 68, 68, 0.1); border: 1px solid #ef4444; color: #ef4444; padding: 1rem; border-radius: 12px; font-weight: 700; margin-bottom: 2rem; font-size: 0.9rem; }
+
         /* LIVE SPACE BACKGROUND STYLES (WARP SPEED EFFECT - HIGH DENSITY) */
         .stars-container {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
@@ -57,6 +70,7 @@
             background: transparent; border-radius: 50%;
             transform-origin: center;
         }
+        /* Increased star density using more box-shadows */
         .stars {
             box-shadow: 150px 200px #FFF, -300px -150px #FFF, 400px -300px #FFF, -250px 400px #FFF, 500px 100px #FFF, -450px -400px #FFF, 200px -500px #FFF, -100px 350px #FFF, 600px -200px #FFF, -550px 250px #FFF, 700px 300px #FFF, -650px -200px #FFF, 100px -600px #FFF, -300px 550px #FFF, 250px 650px #FFF, -700px 100px #FFF, 50px 750px #FFF, -150px -700px #FFF, 750px -450px #FFF, -50px -750px #FFF, 800px 600px #FFF, -800px -600px #FFF, 300px 700px #FFF, -700px -700px #FFF, 600px 700px #FFF;
             animation: warpStar 4s linear infinite;
@@ -204,6 +218,7 @@
         .prem-text h3 { font-size: 1.1rem; font-weight: 900; color: #f59e0b; margin-bottom: 2px; letter-spacing: 0.5px; }
         .prem-text p { font-size: 0.8rem; opacity: 0.8; font-weight: 600; line-height: 1.2; }
         .prem-arrow { margin-left: auto; opacity: 0.5; }
+        @media (max-width: 480px) { .prem-text p { display: none; } .prem-banner { padding: 1rem; } }
 
         .features { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1rem; margin: 2rem 0; }
         .feature-item { padding: 1.8rem; text-align: center; border-radius: 1.5rem; background: var(--card-bg); border: 1px solid var(--border); transition: 0.3s; cursor: pointer; position: relative; }
@@ -220,20 +235,6 @@
         .stat-item { background: var(--card-bg); border: 1px solid var(--border); padding: 0.5rem 1rem; border-radius: 12px; font-weight: 800; font-size: 0.8rem; display: flex; align-items: center; gap: 6px; cursor: pointer; transition: 0.2s; }
         .stat-item.active-like { background: rgba(34, 197, 94, 0.2); border-color: #22c55e; }
         .stat-item.active-dislike { background: rgba(239, 68, 68, 0.2); border-color: #ef4444; }
-
-        /* ОТЗЫВЫ СТИЛИ */
-        .reviews-section { margin: 4rem 0; text-align: center; }
-        .review-card { background: var(--card-bg); border: 1px solid var(--border); padding: 1.5rem; border-radius: 20px; text-align: left; margin-bottom: 1rem; transition: 0.3s; backdrop-filter: blur(10px); }
-        .review-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.8rem; }
-        .review-name { font-weight: 800; color: var(--accent); font-size: 1rem; }
-        .review-date { font-size: 0.7rem; opacity: 0.5; font-weight: 700; }
-        .review-text { font-size: 0.9rem; line-height: 1.5; font-weight: 600; opacity: 0.9; }
-        
-        .add-review-form { background: var(--card-bg); border: 1px solid var(--border); padding: 2rem; border-radius: 24px; max-width: 600px; margin: 0 auto 3rem; }
-        .review-input { width: 100%; background: rgba(0,0,0,0.2); border: 1px solid var(--border); padding: 1rem; border-radius: 12px; color: white; margin-bottom: 1rem; outline: none; font-family: inherit; font-weight: 600; }
-        .review-textarea { height: 100px; resize: none; }
-        .review-submit { background: var(--accent); color: white; border: none; padding: 0.8rem 2rem; border-radius: 50px; font-weight: 900; cursor: pointer; transition: 0.2s; }
-        .review-submit:disabled { opacity: 0.5; cursor: not-allowed; }
 
         /* MODAL STYLES */
         .faq-modal {
@@ -312,14 +313,14 @@
             </div>
             <div class="faq-block">
                 <span class="faq-q">1.2) Вопрос: Я обновил мод, и теперь не могу войти в игру — выходит диалог "Кажется данного устройства нет в базе"</span>
-                <span class="faq-a">Ответ: Нажмите кнопку "Копировать ID" и пришлите скопированный ID мне в личные сообщения.</span>
+                <span class="faq-a">Ответ: Это новая мера защиты от распространения платной версии. Нажмите кнопку "Копировать ID" и пришлите скопированный ID мне в личные сообщения. Либо нажмите "Написать Автору" и вас перекинет сразу в диалог со мной и автоматически вставится сообщение с вашим ID.</span>
             </div>
             <div class="faq-block">
                 <span class="faq-q">1.3) Вопрос: В модификации 9Mod/Getmods не работает скорость.</span>
-                <span class="faq-a">Ответ: Это известная проблема. Попробуйте перезагрузить устройство.</span>
+                <span class="faq-a">Ответ: Это известная проблема модификации 9Mod/Getmods. У некоторых пользователей всё работает, у других — нет. Попробуйте перезагрузить устройство.</span>
             </div>
             <div class="faq-warning">
-                <strong>1.4) НЕ СБРАСЫВАЙТЕ НАСТРОЙКИ ТЕЛЕФОНА ДО ЗАВОДСКИХ</strong> Т.К ID УСТРОЙСТВА ИЗМЕНИТСЯ!
+                <strong>1.4) НЕ СБРАСЫВАЙТЕ НАСТРОЙКИ ТЕЛЕФОНА ДО ЗАВОДСКИХ</strong> Т.К ID УСТРОЙСТВА ИЗМЕНИТСЯ И ВАС НЕ ПУСТИТ В ИГРУ!! В этом случае вам придётся перепривязывать ID согласно пункту 1.1
             </div>
         </div>
     </div>
@@ -328,13 +329,28 @@
         <div class="close-faq" onclick="closeSpeedX100()"><i class="fas fa-times"></i></div>
         <h2 class="faq-title" style="color:#ec4899"><i class="fas fa-tachometer-alt"></i> МОД X100</h2>
         <div class="faq-content">
-            <p style="font-weight: 800; font-size: 1.1rem; margin-bottom: 1rem;">Доступен новый мод «С ускорением до x100»! 🚀</p>
+            <p style="font-weight: 800; font-size: 1.1rem; margin-bottom: 1rem;">Доступен новый мод «С ускорением до x100»! 🚀✨</p>
+            <p style="margin-bottom: 1.5rem;">По многочисленным просьбам теперь доступен Премиум-мод, который ускоряет игровой процесс в 100 раз! 🔥💨</p>
+            
+            <div class="faq-block">
+                <span class="faq-q">Что это дает? 🤩</span>
+                <span class="faq-a">•⚡ Мгновенное выполнение длительных действий!</span>
+                <span class="faq-a">•📈 Максимальная эффективность и прогресс!</span>
+                <span class="faq-a">•🎯 Никаких лишних ожиданий — только чистый экшен! 💥</span>
+            </div>
+
             <div class="faq-block">
                 <span class="faq-q">Условия доступа:</span>
                 <span class="faq-a">•💰 Подписка: 300 рублей в месяц.</span>
                 <span class="faq-a">•📱 1 подписка = 1 устройство.</span>
             </div>
-            <p style="text-align: center; font-weight: 900; color: #ec4899;">Успейте испытать первым! 🏎️💨</p>
+
+            <div class="faq-block" style="border: none;">
+                <span class="faq-q">Как подключить? 🛠️</span>
+                <p style="font-weight: 700;">Напишите мне в личные сообщения: <a href="https://t.me/Trykath" target="_blank" style="color:var(--accent); text-decoration: none;">👉 @Trykath 👈</a></p>
+            </div>
+
+            <p style="text-align: center; font-weight: 900; color: #ec4899; font-size: 1.1rem; margin-top: 1rem;">Успейте испытать невероятную скорость первыми! 🏎️💨</p>
         </div>
     </div>
 
@@ -344,14 +360,122 @@
         <div class="faq-content">
             <div class="prem-info-point">
                 <span class="prem-info-title">• Устанавливается рядом с оригинальной версией</span>
-                <span class="prem-info-body">Это дополнительная копия игры. Она не удаляет вашу основную игру.</span>
+                <span class="prem-info-body">Это дополнительная копия игры. Она устанавливается как отдельное приложение и не трогает, не удаляет и не сбрасывает вашу основную игру с вашим аккаунтом. Можно запускать любую.</span>
             </div>
             <div class="prem-info-point">
-                <span class="prem-info-title">• Оптимизация и скорость</span>
-                <span class="prem-info-body">Удалена аналитика, лишние языки, оптимизирован код для плавного FPS.</span>
+                <span class="prem-info-title">• Удалена проверка лицензии</span>
+                <span class="prem-info-body">Игра больше не будет спрашивать: "А легальная ли эта копия?". Это убирает возможные ошибки и блокировки.</span>
             </div>
+            <div class="prem-info-point">
+                <span class="prem-info-title">• Переименовано в RSL Speed</span>
+                <span class="prem-info-body">У этой копии другое название ("RSL Speed"), чтобы на телефоне вы чётко видели разницу и не запутались, какую версию открываете.</span>
+            </div>
+            <div class="prem-info-point">
+                <span class="prem-info-title">• Изменена иконка приложения</span>
+                <span class="prem-info-body">У этой копии другая картинка (иконка) на экране телефона. Так её проще найти и отличить от обычного "Рейда".</span>
+            </div>
+            <div class="prem-info-point">
+                <span class="prem-info-title">• Отключены метрики и аналитика</span>
+                <span class="prem-info-body">Игра перестала "шпионить". Она больше не собирает и не отправляет данные о том, сколько вы играете, что делаете в игре и как используете телефон. Ваша приватность выше.</span>
+            </div>
+            <div class="prem-info-point">
+                <span class="prem-info-title">• Удалены все языки, кроме Русского</span>
+                <span class="prem-info-body">Вырезаны файлы для английского, немецкого, китайского и всех остальных языков. Остался только русский. За счёт этого приложение стало весить меньше и работать чуть шустрее.</span>
+            </div>
+            <div class="prem-info-point">
+                <span class="prem-info-title">• Удалена отладочная информация</span>
+                <span class="prem-info-body">Убраны скрытые служебные записи, которые ведёт игра для поиска своих же ошибок. Для вас они бесполезны, но могут тормозить работу. Теперь их нет.</span>
+            </div>
+            <div class="prem-info-point">
+                <span class="prem-info-title">• Удален BillingService</span>
+                <span class="prem-info-body">Отключена встроенная "касса" для покупок серебра, самоцветов и наборов. Это нужно для стабильности работы мода и чтобы убрать лишние процессы.</span>
+            </div>
+            <div class="prem-info-point">
+                <span class="prem-info-title">• Удалена зависимость от Google Play игр</span>
+                <span class="prem-info-body">Игре больше не нужен сервис Google "Игры" (который отвечает за достижения, сохранения в облаке). Она запустится даже если этот сервис глючит или не работает.</span>
+            </div>
+            <div class="prem-info-point">
+                <span class="prem-info-title">• Удалена зависимость от Google Play Services</span>
+                <span class="prem-info-body">Это очень важно. Игра полностью отвязана от сервисов Google. Теперь она будет стабильно работать на любых телефонах (особенно старых или китайских), где эти сервисы часто сбоят или отсутствуют.</span>
+            </div>
+            <div class="prem-info-point">
+                <span class="prem-info-title">• Удалены идентификаторы отсутствующих ресурсов</span>
+                <span class="prem-info-body">Внутри игры было много "ссылок в никуда" (как битые ярлыки). Они могли вызывать мелкие ошибки. Мы почистили эти "битые ссылки", чтобы всё работало ровно.</span>
+            </div>
+            <div class="prem-info-point">
+                <span class="prem-info-title">• Оптимизирован файл .apk (платная версия)</span>
+                <span class="prem-info-body">Установочный файл игры упакован максимально компактно и правильно. Это ускоряет его установку на телефон и первоначальный запуск.</span>
+            </div>
+            <div class="prem-info-point">
+                <span class="prem-info-title">• Выполнен ZipAlign (платная версия)</span>
+                <span class="prem-info-body">Внутренности игры аккуратно разложены "по полочкам" в памяти телефона. Это позволяет системе быстрее находить нужные данные, что делает игру более отзывчивой и плавной.</span>
+            </div>
+            <div class="prem-info-point">
+                <span class="prem-info-title">• Добавлена функция автоматической очистки кэша при закрытии игры (платная версия)</span>
+                <span class="prem-info-body">Когда вы выходите из игры, она самостоятельно удаляет временные файлы (кэш), которые накопились за сессию. Телефон не захламляется, всегда есть свободная память.</span>
+            </div>
+            <div class="prem-info-point">
+                <span class="prem-info-title">• Реализовано отключение вейлоков (платная версия)</span>
+                <span class="prem-info-body">"Вейлоки" — это сигналы, которые не дают телефону уснуть. Игра больше не будет будить и держать телефон в напряжении, когда вы её свернули или закрыли. Это сильно экономит заряд батареи.</span>
+            </div>
+            <div class="prem-info-point">
+                <span class="prem-info-title">• Добавлена "Поддержка больших объектов в динамической памяти" (платная версия)</span>
+                <span class="prem-info-body">Если у вас современный телефон с большим количеством оперативной памяти (ОЗУ 6-8 ГБ и больше), игра сможет использовать эту память более эффективно для ещё большей плавности и скорости загрузки.</span>
+            </div>
+            <div class="prem-info-point">
+                <span class="prem-info-title">• Убраны лишние разрешения и сервисы (платная версия)</span>
+                <span class="prem-info-body">Игра лишилась "лишних ртов". Мы отключили её запросы на доступ к вашим контактам, микрофону, местоположению и другим данным, которые ей не нужны для работы. Теперь она просит только минимум.</span>
+            </div>
+            <div class="prem-info-point">
+                <span class="prem-info-title">• Улучшена производительность игры (платная версия)</span>
+                <span class="prem-info-body">Проведена дополнительная "настройка двигателя" игры на уровне кода. Это даёт прирост к плавности (FPS), ускоряет загрузку локаций и уменьшает вероятность подтормаживаний.</span>
+            </div>
+            <div class="prem-info-point">
+                <span class="prem-info-title">• Реализована функция авто-удаления из недавних (платная версия)</span>
+                <span class="prem-info-body">Когда вы выходите из игры, она автоматически стирается из списка недавно использованных приложений. Это для вашего удобства и скрытности.</span>
+            </div>
+            <div class="prem-info-point">
+                <span class="prem-info-title">• Отключен автозапуск в фоновом режиме (платная версия)</span>
+                <span class="prem-info-body">Игра не будет самопроизвольно запускаться после включения телефона или в фоне без вашего ведома.</span>
+            </div>
+            <div class="prem-info-point">
+                <span class="prem-info-title">• Добавлена автоостановка фоновых служб (платная версия)</span>
+                <span class="prem-info-body">Пока вы играете, игра временно приглушает работу некоторых фоновых процессов и служб на телефоне, чтобы они не отбирали ресурсы.</span>
+            </div>
+            <div class="prem-info-point">
+                <span class="prem-info-title">• Добавлена плитка быстрого запуска через шторку (платная версия)</span>
+                <span class="prem-info-body">В панели уведомлений появится удобная отдельная кнопка-плитка для мгновенного запуска игры.</span>
+            </div>
+            <div class="prem-info-point">
+                <span class="prem-info-title">• Отключена отправка отчетов о скорости отрисовки кадров (платная версия)</span>
+                <span class="prem-info-body">Игра больше не тратит ресурсы и интернет на отправку технических отчётов.</span>
+            </div>
+
+            <div style="background: rgba(59,130,246,0.1); padding: 1.5rem; border-radius: 16px; border-left: 4px solid var(--accent); margin: 2rem 0;">
+                <p style="font-weight: 800; font-size: 0.9rem;">Также существует отдельная сборка игры с реализованной функцией увеличения скорости (множитель до x100) для ускоренного геймплея.</p>
+                <p style="margin-top: 10px; font-weight: 800;">Подробнее <span style="color: var(--accent); cursor: pointer; font-weight: 900; text-decoration: underline;" onclick="openSpeedX100()">ТУТ</span></p>
+            </div>
+
             <div style="padding: 1.5rem; background: var(--card-bg); border-radius: 20px; border: 1px dashed var(--premium-gold);">
-                <p style="font-weight: 900; margin-bottom: 1rem;">Для приобретения пишите: <a href="https://t.me/trykath" target="_blank" style="color:var(--accent)">Trykath</a></p>
+                <p style="font-weight: 900; margin-bottom: 1rem;">Если вы хотите приобрести платную версию:</p>
+                <ol style="margin-left: 1.2rem; font-size: 0.9rem; font-weight: 600;">
+                    <li>Напишите мне в личные сообщения: <a href="https://t.me/trykath" target="_blank" style="color:var(--accent)">Trykath</a></li>
+                    <li>Я отправлю вам реквизиты для оплаты.</li>
+                    <li>Вы производите оплату и делаете скриншот подтверждения.</li>
+                    <li>Отправляете мне скриншот в личные сообщения.</li>
+                    <li>Ждете моего ответа.</li>
+                </ol>
+                
+                <p style="margin-top: 1rem; font-size: 0.85rem; font-weight: 600;">Если у вас нет возможности переводить на карты российских банков, доступна оплата через <a href="https://funpay.com/lots/offer?id=29851012" target="_blank" style="color:var(--accent); font-weight: 800; text-decoration: underline;">FynPay</a> (Ссылка кликабельна)</p>
+                
+                <div style="margin-top: 1.5rem; border-top: 1px solid var(--border); padding-top: 1rem;">
+                    <p style="color: var(--premium-gold); font-weight: 900;">Стоимость:</p>
+                    <ul style="list-style: none; font-size: 0.9rem; font-weight: 700; margin-top: 5px;">
+                        <li>• Цена основной модификации х30 — 800₽ (единоразово)</li>
+                        <li>• Стоимость мода x100 — 300₽ / месяц</li>
+                        <li>• Персональная сборка (VIP) — 500₽ / месяц</li>
+                    </ul>
+                </div>
             </div>
         </div>
     </div>
@@ -364,8 +488,10 @@
         <nav class="sidebar-nav">
             <div onclick="openPage('home')" class="sidebar-link"><i class="fas fa-home"></i> Главная</div>
             <div onclick="openPage('premium')" class="sidebar-link" style="color:#f59e0b;"><i class="fas fa-crown"></i> Премиум версия</div>
+            <div onclick="openPage('reviews')" class="sidebar-link"><i class="fas fa-star"></i> Отзывы</div>
             <a href="https://t.me/rsl_chats" target="_blank" class="sidebar-link"><i class="fas fa-comments"></i> Наш чат</a>
             <a href="https://telegra.ph/FAQ-po-RSL-Speed-Mod-06-12" target="_blank" class="sidebar-link"><i class="fas fa-question-circle"></i> FAQ</a>
+            <a href="https://telegra.ph/Referalnaya-programma-03-16" target="_blank" class="sidebar-link"><i class="fas fa-users"></i> Реферальная программа</a>
         </nav>
     </div>
 
@@ -393,6 +519,7 @@
                     <div class="stat-item" id="btnLike"><i class="fas fa-thumbs-up" style="color:#22c55e"></i> <span id="countLike">...</span></div>
                     <div class="stat-item" id="btnDislike"><i class="fas fa-thumbs-down" style="color:#ef4444"></i> <span id="countDislike">...</span></div>
                     <div class="stat-item" title="Посещений за сегодня"><i class="fas fa-user-clock" style="color:#f59e0b"></i> <span id="countToday">...</span></div>
+                    <div class="stat-item" title="Всего посещений"><i class="fas fa-users" style="color:#a855f7"></i> <span id="countTotal">...</span></div>
                 </div>
                 
                 <h1>
@@ -438,19 +565,27 @@
                     <h3>Защита</h3>
                     <p>Анти-чит обход и полная безопасность данных.</p>
                 </div>
+                <div class="feature-item" data-aos="fade-up" onclick="animateIcon(this)">
+                    <i class="fas fa-mobile-alt"></i>
+                    <h3>Android</h3>
+                    <p>Нативная поддержка Android и работа на ПК.</p>
+                </div>
             </section>
 
-            <section class="reviews-section" data-aos="fade-up">
-                <h2 class="contacts-title" style="margin-bottom: 2rem;">Отзывы пользователей</h2>
-                
-                <div class="add-review-form">
-                    <input type="text" id="revName" class="review-input" placeholder="Ваше имя...">
-                    <textarea id="revText" class="review-input review-textarea" placeholder="Ваш отзыв о моде..."></textarea>
-                    <button id="revSubmit" class="review-submit">ОТПРАВИТЬ ОТЗЫВ</button>
-                </div>
-
-                <div id="reviewsList" style="max-width: 800px; margin: 0 auto;">
+            <section data-aos="zoom-in" style="margin: 4rem 0 2rem; position: relative;">
+                <div style="background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(36, 161, 222, 0.05)); border: 1px solid var(--border); border-radius: 24px; padding: 2.5rem 1.5rem; text-align: center; backdrop-filter: blur(10px);">
+                    <div style="display: inline-block; position: relative; margin-bottom: 1.5rem;">
+                        <i class="fab fa-telegram" style="font-size: 4rem; color: #24A1DE; filter: drop-shadow(0 0 15px rgba(36, 161, 222, 0.4));"></i>
+                        <span style="position: absolute; bottom: 5px; right: 5px; width: 12px; height: 12px; background: #22c55e; border: 2px solid #0a0a1a; border-radius: 50%; box-shadow: 0 0 10px #22c55e; animation: pulse-green 2s infinite;"></span>
                     </div>
+                    <h2 style="font-weight: 900; font-size: 1.5rem; margin-bottom: 0.5rem; text-transform: uppercase; letter-spacing: 1px;">Наше комьюнити</h2>
+                    <p style="max-width: 400px; margin: 0 auto 2rem; opacity: 0.7; font-size: 0.9rem; line-height: 1.5; font-weight: 600;">Обсуждай тактики, получай помощь по моду и узнавай о новых версиях первым в нашем Telegram.</p>
+                    <div style="display: flex; flex-direction: column; align-items: center; gap: 1rem;">
+                        <a href="https://t.me/RSLMOD" target="_blank" class="download-btn primary" style="background: #24A1DE; border: none;">
+                            <i class="fas fa-external-link-alt"></i> Войти в группу
+                        </a>
+                    </div>
+                </div>
             </section>
         </div>
 
@@ -458,6 +593,7 @@
             <div class="premium-card">
                 <i class="fas fa-crown" style="font-size: 3rem; color: #f59e0b; margin-bottom: 1rem;"></i>
                 <h2>Проверка ID</h2>
+                <p style="opacity: 0.7; font-size: 0.9rem;">Введите ваш ID-устройства для доступа к Premium версиям</p>
                 <input type="text" id="premInput" class="prem-input" placeholder="Введите ваш ID...">
                 <button id="premBtn" class="prem-btn">ПРОВЕРИТЬ ДОСТУП</button>
                 <div id="premStatus"></div>
@@ -466,8 +602,33 @@
                     <div class="premium-grid">
                         <a href="#" class="download-btn premium-outline dl-trigger" data-type="mod_9mod"><i class="fas fa-crown"></i> Mod Paid "9mod"</a>
                         <a href="#" class="download-btn premium-outline dl-trigger" data-type="clone_9mod"><i class="fas fa-crown"></i> Mod Paid Clone "9mod"</a>
+                        <a href="#" class="download-btn premium-outline dl-trigger" data-type="mod_getmods"><i class="fas fa-crown"></i> Mod Paid "Getmods"</a>
+                        <a href="#" class="download-btn premium-outline dl-trigger" data-type="clone_getmods"><i class="fas fa-crown"></i> Mod Paid Clone "Getmods"</a>
                         <a href="#" class="download-btn premium-outline dl-trigger" data-type="speed_x100"><i class="fas fa-tachometer-alt"></i> RSL Speed x100</a>
+                        <a href="#" class="download-btn premium-outline dl-trigger" data-type="speed_x100_clone"><i class="fas fa-tachometer-alt"></i> RSL Speed x100 Clone</a>
+                        <div class="download-btn premium-outline" onclick="openFaq()"><i class="fas fa-question-circle"></i> ЧаВо (FAQ)</div>
+                        <a href="#" class="download-btn premium-outline dl-trigger" data-type="vpn"><i class="fas fa-shield-alt"></i> Рабочий VPN</a>
                     </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="reviewsPage">
+            <div class="reviews-container">
+                <h2 style="font-weight: 900; margin-bottom: 1.5rem; text-align: center;"><i class="fas fa-comments" style="color:var(--accent)"></i> ОТЗЫВЫ ПОЛЬЗОВАТЕЛЕЙ</h2>
+                
+                <div id="reviewFormContainer">
+                    <div class="no-access-msg" id="reviewLockMsg">
+                        Писать отзывы могут только владельцы платной версии мода (ID должен быть в базе).
+                    </div>
+                    <div class="review-form" id="reviewActualForm" style="display: none;">
+                        <textarea id="reviewText" class="review-input" rows="3" placeholder="Напишите ваш отзыв о моде..."></textarea>
+                        <button id="sendReviewBtn" class="prem-btn" style="width: auto; padding: 0.6rem 2.5rem;">ОТПРАВИТЬ</button>
+                    </div>
+                </div>
+
+                <div id="reviewsList">
+                    <p style="opacity: 0.5; text-align: center;">Загрузка отзывов...</p>
                 </div>
             </div>
         </div>
@@ -478,6 +639,9 @@
                 <a href="https://t.me/trykath" target="_blank" class="contact-btn tg">
                     <i class="fab fa-telegram" style="color: #24A1DE;"></i> Telegram
                 </a>
+                <a href="https://4pda.to/forum/index.php?showuser=5594067" target="_blank" class="contact-btn pda">
+                    <i><span class="icon-ring">4</span></i> 4PDA
+                </a>
             </div>
         </section>
 
@@ -486,7 +650,7 @@
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-        import { getDatabase, ref, onValue, runTransaction, get, child, push, set, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+        import { getDatabase, ref, onValue, runTransaction, get, child, push, set, serverTimestamp, query, limitToLast } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyAP6KsJ3mMPY1DU4ehoo_HSs_T_PhqkzHg",
@@ -502,63 +666,12 @@
         const db = getDatabase(app);
         const todayDate = new Date().toISOString().split('T')[0];
 
-        // --- СИСТЕМА ОТЗЫВОВ ---
-        const revName = document.getElementById('revName');
-        const revText = document.getElementById('revText');
-        const revSubmit = document.getElementById('revSubmit');
-        const reviewsList = document.getElementById('reviewsList');
-
-        revSubmit.onclick = async () => {
-            const name = revName.value.trim();
-            const text = revText.value.trim();
-            
-            if (!name || !text) return alert("Заполните все поля!");
-            
-            revSubmit.disabled = true;
-            revSubmit.textContent = "ОТПРАВКА...";
-            
-            try {
-                const newReviewRef = push(ref(db, 'reviews'));
-                await set(newReviewRef, {
-                    name: name,
-                    text: text,
-                    timestamp: serverTimestamp()
-                });
-                revName.value = "";
-                revText.value = "";
-                alert("Отзыв успешно добавлен!");
-            } catch (e) {
-                alert("Ошибка при отправке");
-            }
-            revSubmit.disabled = false;
-            revSubmit.textContent = "ОТПРАВИТЬ ОТЗЫВ";
-        };
-
-        onValue(ref(db, 'reviews'), (snapshot) => {
-            reviewsList.innerHTML = "";
-            const data = snapshot.val();
-            if (data) {
-                const items = Object.values(data).reverse();
-                items.forEach(item => {
-                    const date = item.timestamp ? new Date(item.timestamp).toLocaleDateString() : "";
-                    const html = `
-                        <div class="review-card" data-aos="fade-up">
-                            <div class="review-header">
-                                <span class="review-name">${item.name}</span>
-                                <span class="review-date">${date}</span>
-                            </div>
-                            <div class="review-text">${item.text}</div>
-                        </div>
-                    `;
-                    reviewsList.innerHTML += html;
-                });
-            }
-        });
-        // -----------------------
-
         window.openPage = (page) => {
             document.getElementById('homePage').style.display = page === 'home' ? 'block' : 'none';
             document.getElementById('premiumPage').style.display = page === 'premium' ? 'block' : 'none';
+            document.getElementById('reviewsPage').style.display = page === 'reviews' ? 'block' : 'none';
+            
+            if (page === 'reviews') loadReviews();
             if (document.getElementById('sidebar').classList.contains('active')) toggleMenu();
         };
 
@@ -582,6 +695,15 @@
             document.getElementById('overlay').classList.remove('active');
         }
 
+        window.openSpeedX100 = () => {
+            document.getElementById('premiumInfoModal').classList.remove('active');
+            document.getElementById('speedX100Modal').classList.add('active');
+        }
+        window.closeSpeedX100 = () => {
+            document.getElementById('speedX100Modal').classList.remove('active');
+            document.getElementById('overlay').classList.remove('active');
+        }
+
         const pBtn = document.getElementById('premBtn');
         const pInput = document.getElementById('premInput');
         const pStatus = document.getElementById('premStatus');
@@ -595,6 +717,7 @@
                     get(child(ref(db), `premium_ids/${id}`)),
                     get(child(ref(db), `premium_ids_v2/${id}`))
                 ]);
+
                 const inBase1 = snap1.exists() && snap1.val() === true;
                 const inBase2 = snap2.exists() && snap2.val() === true;
 
@@ -602,6 +725,21 @@
                     pStatus.innerHTML = "<span style='color:#22c55e'><i class='fas fa-check-circle'></i> Лицензия активна!</span>";
                     pDownloads.style.display = 'block';
                     localStorage.setItem('rsl_id', id);
+
+                    const btns = document.querySelectorAll('#premiumDownloads .download-btn');
+                    btns.forEach(btn => {
+                        const type = btn.getAttribute('data-type');
+                        if (inBase1 && inBase2) {
+                            btn.style.display = 'inline-flex';
+                        } else if (inBase1 && !inBase2) {
+                            if (type === 'speed_x100' || type === 'speed_x100_clone') btn.style.display = 'none';
+                            else btn.style.display = 'inline-flex';
+                        } else if (inBase2 && !inBase1) {
+                            const allowed = ['speed_x100', 'speed_x100_clone', 'vpn'];
+                            if (allowed.includes(type) || btn.getAttribute('onclick') === 'openFaq()') btn.style.display = 'inline-flex';
+                            else btn.style.display = 'none';
+                        }
+                    });
                 } else {
                     pStatus.innerHTML = "<span style='color:#ef4444'>Данного ID нет в базе</span>";
                     pDownloads.style.display = 'none';
@@ -616,10 +754,75 @@
             checkPremium(pInput.value);
         }
 
+        // Функция загрузки отзывов
+        async function loadReviews() {
+            const reviewsList = document.getElementById('reviewsList');
+            const reviewsRef = ref(db, 'reviews');
+            const latestReviews = query(reviewsRef, limitToLast(50));
+
+            onValue(latestReviews, (snapshot) => {
+                reviewsList.innerHTML = '';
+                const data = snapshot.val();
+                if (data) {
+                    Object.keys(data).reverse().forEach(key => {
+                        const r = data[key];
+                        const date = r.timestamp ? new Date(r.timestamp).toLocaleDateString() : '';
+                        reviewsList.innerHTML += `
+                            <div class="review-item" data-aos="fade-up">
+                                <div class="review-header">
+                                    <span class="review-id"><i class="fas fa-user-shield"></i> ID: ${r.userId.substring(0, 4)}***${r.userId.slice(-3)}</span>
+                                    <span class="review-date">${date}</span>
+                                </div>
+                                <div class="review-text">${r.text.replace(/</g, "&lt;")}</div>
+                            </div>
+                        `;
+                    });
+                } else {
+                    reviewsList.innerHTML = '<p style="opacity: 0.5; text-align: center;">Отзывов пока нет. Будьте первыми!</p>';
+                }
+            });
+
+            const currentId = localStorage.getItem('rsl_id');
+            if (currentId) {
+                const [snap1, snap2] = await Promise.all([
+                    get(child(ref(db), `premium_ids/${currentId}`)),
+                    get(child(ref(db), `premium_ids_v2/${currentId}`))
+                ]);
+                if ((snap1.exists() && snap1.val() === true) || (snap2.exists() && snap2.val() === true)) {
+                    document.getElementById('reviewLockMsg').style.display = 'none';
+                    document.getElementById('reviewActualForm').style.display = 'block';
+                }
+            }
+        }
+
+        document.getElementById('sendReviewBtn').onclick = async () => {
+            const text = document.getElementById('reviewText').value.trim();
+            const userId = localStorage.getItem('rsl_id');
+            if (!text) return;
+            if (!userId) {
+                alert('Необходим авторизованный ID!');
+                return;
+            }
+
+            try {
+                const newReviewRef = push(ref(db, 'reviews'));
+                await set(newReviewRef, {
+                    userId: userId,
+                    text: text,
+                    timestamp: serverTimestamp()
+                });
+                document.getElementById('reviewText').value = '';
+                alert('Отзыв успешно опубликован!');
+            } catch (e) {
+                alert('Ошибка при отправке');
+            }
+        };
+
         const UI = {
             dl: document.getElementById('countDl'), like: document.getElementById('countLike'),
             dislike: document.getElementById('countDislike'), today: document.getElementById('countToday'),
-            btnLike: document.getElementById('btnLike'), btnDislike: document.getElementById('btnDislike')
+            total: document.getElementById('countTotal'), btnLike: document.getElementById('btnLike'),
+            btnDislike: document.getElementById('btnDislike')
         };
 
         onValue(ref(db, 'stats'), (snapshot) => {
@@ -627,6 +830,7 @@
             UI.dl.textContent = data.dl || 0;
             UI.like.textContent = data.like || 0;
             UI.dislike.textContent = data.dislike || 0;
+            UI.total.textContent = data.totalViews || 0;
             UI.today.textContent = (data.daily && data.daily[todayDate]) ? data.daily[todayDate] : 0;
             updateVoteStyles();
         });
@@ -688,7 +892,9 @@
         
         overlay.onclick = () => {
             sidebar.classList.remove('active');
-            document.querySelectorAll('.faq-modal').forEach(m => m.classList.remove('active'));
+            document.getElementById('faqModalWindow').classList.remove('active');
+            document.getElementById('premiumInfoModal').classList.remove('active');
+            document.getElementById('speedX100Modal').classList.remove('active');
             overlay.classList.remove('active');
         };
 
