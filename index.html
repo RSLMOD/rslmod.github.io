@@ -3,10 +3,28 @@
 <head>
     <meta charset="UTF-8">
     <script>
-        // Теперь данные подгружаются автоматически из Firebase.
-        // Ручное редактирование ссылок здесь больше не требуется.
-        let LINKS = {};
-        let VERSIONS = {};
+        // === НАСТРОЙКА ПРЯМЫХ ССЫЛОК (МЕНЯТЬ ТУТ) ===
+        const LINKS = {
+            mod: "https://github.com/RSLMOD/rslmod.github.io/releases/download/rsl/RSL.Speed_v11.40.0.122893.apk",
+            clone: "https://github.com/RSLMOD/rslmod.github.io/releases/download/rsl/RSL.Speed.Clone_v11.40.0.122893.apk",
+            original: "https://github.com/Trykath158/rslmod-site/releases/download/rsl/Raid_v11.40.0.142984.apk",
+            mod_9mod: "https://github.com/RSLMOD/rslmod.github.io/releases/download/rsl_paid_9mod/RSL.Speed.Paid_v11.40.0.122893.apk",
+            clone_9mod: "https://github.com/RSLMOD/rslmod.github.io/releases/download/rsl_paid_9mod/RSL.Speed.Paid.Clone_v11.40.0.122893.apk",
+            mod_getmods: "https://github.com/RSLMOD/rslmod.github.io/releases/download/rsl_paid_getmod/RSL.Speed.Paid_v11.40.0.122893.apk",
+            clone_getmods: "https://github.com/RSLMOD/rslmod.github.io/releases/download/rsl_paid_getmod/RSL.Speed.Paid.Clone_v11.40.0.122893.apk",
+            speed_x100: "https://github.com/RSLMOD/rslmod.github.io/releases/download/rslx100/RSL.Speed.Paid_v11.40.0.122893.apk",
+            speed_x100_clone: "https://github.com/RSLMOD/rslmod.github.io/releases/download/rslx100/RSL.Speed.Paid.Clone_v11.40.0.122893.apk",
+            faq: "https://telegra.ph/FAQ-po-RSL-Speed-Mod-06-12",
+            vpn: "https://sourceforge.net/projects/cyberportal/files/"
+        };
+
+        // === НАСТРОЙКА ОТОБРАЖЕНИЯ ВЕРСИЙ В КНОПКАХ ===
+        const VERSIONS = {
+            v9mod: "v11.40.0",
+            vGetmods: "v11.40.0",
+            vSpeedX100: "v11.40.0"
+        };
+        // =============================================
     </script>
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
@@ -295,13 +313,6 @@
         .contact-btn.pda .icon-ring { border: 2px solid white; background-color: #24A1DE; border-radius: 50%; width: 22px; height: 22px; display: flex; align-items: center; justify-content: center; color: white; font-family: 'JetBrains Mono', monospace; font-weight: 900; font-size: 14px; margin-left: -1px; }
 
         footer { text-align: center; padding: 2rem; opacity: 0.5; font-size: 0.75rem; font-weight: 800; }
-        
-        /* КЛАСС ДЛЯ ВЕРСИЙ В СКОБКАХ */
-        .v-label {
-            opacity: 0.6;
-            font-weight: 400;
-            margin-left: 4px;
-        }
     </style>
 </head>
 <body class="dark">
@@ -374,21 +385,124 @@
         <h2 class="faq-title" style="color:var(--premium-gold)"><i class="fas fa-crown"></i> ПРЕМИУМ ВОЗМОЖНОСТИ</h2>
         <div class="faq-content">
             <div class="prem-info-point">
-                <span class="prem-info-title">🚀 СКОРОСТЬ X100</span>
-                <span class="prem-info-body">Эксклюзивная версия с возможностью ускорения игры до 100 раз. Проходите контент мгновенно.</span>
+                <span class="prem-info-title">• Устанавливается рядом с оригинальной версией</span>
+                <span class="prem-info-body">Это дополнительная копия игры. Она устанавливается как отдельное приложение и не трогает, не удаляет и не сбрасывает вашу основную игру с вашим аккаунтом. Можно запускать любую.</span>
             </div>
             <div class="prem-info-point">
-                <span class="prem-info-title">👥 УНИКАЛЬНЫЕ КЛОНЫ</span>
-                <span class="prem-info-body">Доступ к стабильным платным модификациям от 9mod и Getmods с расширенным функционалом.</span>
+                <span class="prem-info-title">• Удалена проверка лицензии</span>
+                <span class="prem-info-body">Игра больше не будет спрашивать: "А легальная ли эта копия?". Это убирает возможные ошибки и блокировки.</span>
             </div>
             <div class="prem-info-point">
-                <span class="prem-info-title">🛡️ VIP ПОДДЕРЖКА</span>
-                <span class="prem-info-body">Приоритетное обновление под новые версии игры и помощь в настройке.</span>
+                <span class="prem-info-title">• Переименовано в RSL Speed</span>
+                <span class="prem-info-body">У этой копии другое название ("RSL Speed"), чтобы на телефоне вы чётко видели разницу и не запутались, какую версию открываете.</span>
             </div>
-            <div class="faq-warning" style="border-color: var(--premium-gold); color: var(--premium-gold); background: rgba(245, 158, 11, 0.1);">
-                Чтобы получить доступ, необходимо написать администратору и предоставить свой Device ID.
+            <div class="prem-info-point">
+                <span class="prem-info-title">• Изменена иконка приложения</span>
+                <span class="prem-info-body">У этой копии другая картинка (иконка) на экране телефона. Так её проще найти и отличить от обычного "Рейда".</span>
             </div>
-            <a href="https://t.me/Trykath" target="_blank" class="prem-btn" style="display: block; text-align: center; text-decoration: none; margin-top: 1.5rem;">КУПИТЬ ПРЕМИУМ</a>
+            <div class="prem-info-point">
+                <span class="prem-info-title">• Отключены метрики и аналитика</span>
+                <span class="prem-info-body">Игра перестала "шпионить". Она больше не собирает и не отправляет данные о том, сколько вы играете, что делаете в игре и как используете телефон. Ваша приватность выше.</span>
+            </div>
+            <div class="prem-info-point">
+                <span class="prem-info-title">• Удалены все языки, кроме Русского</span>
+                <span class="prem-info-body">Вырезаны файлы для английского, немецкого, китайского и всех остальных языков. Остался только русский. За счёт этого приложение стало весить меньше и работать чуть шустрее.</span>
+            </div>
+            <div class="prem-info-point">
+                <span class="prem-info-title">• Удалена отладочная информация</span>
+                <span class="prem-info-body">Убраны скрытые служебные записи, которые ведёт игра для поиска своих же ошибок. Для вас они бесполезны, но могут тормозить работу. Теперь их нет.</span>
+            </div>
+            <div class="prem-info-point">
+                <span class="prem-info-title">• Удален BillingService</span>
+                <span class="prem-info-body">Отключена встроенная "касса" для покупок серебра, самоцветов и наборов. Это нужно для стабильности работы мода и чтобы убрать лишние процессы.</span>
+            </div>
+            <div class="prem-info-point">
+                <span class="prem-info-title">• Удалена зависимость от Google Play игр</span>
+                <span class="prem-info-body">Игре больше не нужен сервис Google "Игры" (который отвечает за достижения, сохранения в облаке). Она запустится даже если этот сервис глючит или не работает.</span>
+            </div>
+            <div class="prem-info-point">
+                <span class="prem-info-title">• Удалена зависимость от Google Play Services</span>
+                <span class="prem-info-body">Это очень важно. Игра полностью отвязана от сервисов Google. Теперь она будет стабильно работать на любых телефонах (особенно старых или китайских), где эти сервисы часто сбоят или отсутствуют.</span>
+            </div>
+            <div class="prem-info-point">
+                <span class="prem-info-title">• Удалены идентификаторы отсутствующих ресурсов</span>
+                <span class="prem-info-body">Внутри игры было много "ссылок в никуда" (как битые ярлыки). Они могли вызывать мелкие ошибки. Мы почистили эти "битые ссылки", чтобы всё работало ровно.</span>
+            </div>
+            <div class="prem-info-point">
+                <span class="prem-info-title">• Оптимизирован файл .apk (платная версия)</span>
+                <span class="prem-info-body">Установочный файл игры упакован максимально компактно и правильно. Это ускоряет его установку на телефон и первоначальный запуск.</span>
+            </div>
+            <div class="prem-info-point">
+                <span class="prem-info-title">• Выполнен ZipAlign (платная версия)</span>
+                <span class="prem-info-body">Внутренности игры аккуратно разложены "по полочкам" в памяти телефона. Это позволяет системе быстрее находить нужные данные, что делает игру более отзывчивой и плавной.</span>
+            </div>
+            <div class="prem-info-point">
+                <span class="prem-info-title">• Добавлена функция автоматической очистки кэша при закрытии игры (платная версия)</span>
+                <span class="prem-info-body">Когда вы выходите из игры, она самостоятельно удаляет временные файлы (кэш), которые накопились за сессию. Телефон не захламляется, всегда есть свободная память.</span>
+            </div>
+            <div class="prem-info-point">
+                <span class="prem-info-title">• Реализовано отключение вейлоков (платная версия)</span>
+                <span class="prem-info-body">"Вейлоки" — это сигналы, которые не дают телефону уснуть. Игра больше не будет будить и держать телефон в напряжении, когда вы её свернули или закрыли. Это сильно экономит заряд батареи.</span>
+            </div>
+            <div class="prem-info-point">
+                <span class="prem-info-title">• Добавлена "Поддержка больших объектов в динамической памяти" (платная версия)</span>
+                <span class="prem-info-body">Если у вас современный телефон с большим количеством оперативной памяти (ОЗУ 6-8 ГБ и больше), игра сможет использовать эту память более эффективно для ещё большей плавности и скорости загрузки.</span>
+            </div>
+            <div class="prem-info-point">
+                <span class="prem-info-title">• Убраны лишние разрешения и сервисы (платная версия)</span>
+                <span class="prem-info-body">Игра лишилась "лишних ртов". Мы отключили её запросы на доступ к вашим контактам, микрофону, местоположению и другим данным, которые ей не нужны для работы. Теперь она просит только минимум.</span>
+            </div>
+            <div class="prem-info-point">
+                <span class="prem-info-title">• Улучшена производительность игры (платная версия)</span>
+                <span class="prem-info-body">Проведена дополнительная "настройка двигателя" игры на уровне кода. Это даёт прирост к плавности (FPS), ускоряет загрузку локаций и уменьшает вероятность подтормаживаний.</span>
+            </div>
+            <div class="prem-info-point">
+                <span class="prem-info-title">• Реализована функция авто-удаления из недавних (платная версия)</span>
+                <span class="prem-info-body">Когда вы выходите из игры, она автоматически стирается из списка недавно использованных приложений. Это для вашего удобства и скрытности.</span>
+            </div>
+            <div class="prem-info-point">
+                <span class="prem-info-title">• Отключен автозапуск в фоновом режиме (платная версия)</span>
+                <span class="prem-info-body">Игра не будет самопроизвольно запускаться после включения телефона или в фоне без вашего ведома.</span>
+            </div>
+            <div class="prem-info-point">
+                <span class="prem-info-title">• Добавлена автоостановка фоновых служб (платная версия)</span>
+                <span class="prem-info-body">Пока вы играете, игра временно приглушает работу некоторых фоновых процессов и служб на телефоне, чтобы они не отбирали ресурсы.</span>
+            </div>
+            <div class="prem-info-point">
+                <span class="prem-info-title">• Добавлена плитка быстрого запуска через шторку (платная версия)</span>
+                <span class="prem-info-body">В панели уведомлений появится удобная отдельная кнопка-плитка для мгновенного запуска игры.</span>
+            </div>
+            <div class="prem-info-point">
+                <span class="prem-info-title">• Отключена отправка отчетов о скорости отрисовки кадров (платная версия)</span>
+                <span class="prem-info-body">Игра больше не тратит ресурсы и интернет на отправку технических отчётов.</span>
+            </div>
+
+            <div style="background: rgba(59,130,246,0.1); padding: 1.5rem; border-radius: 16px; border-left: 4px solid var(--accent); margin: 2rem 0;">
+                <p style="font-weight: 800; font-size: 0.9rem;">Также существует отдельная сборка игры с реализованной функцией увеличения скорости (множитель до x100) для ускоренного геймплея.</p>
+                <p style="margin-top: 10px; font-weight: 800;">Подробнее <span style="color: var(--accent); cursor: pointer; font-weight: 900; text-decoration: underline;" onclick="openSpeedX100()">ТУТ</span></p>
+            </div>
+
+            <div style="padding: 1.5rem; background: var(--card-bg); border-radius: 20px; border: 1px dashed var(--premium-gold);">
+                <p style="font-weight: 900; margin-bottom: 1rem;">Если вы хотите приобрести платную версию:</p>
+                <ol style="margin-left: 1.2rem; font-size: 0.9rem; font-weight: 600;">
+                    <li>Напишите мне в личные сообщения: <a href="https://t.me/trykath" target="_blank" style="color:var(--accent)">Trykath</a></li>
+                    <li>Я отправлю вам реквизиты для оплаты.</li>
+                    <li>Вы производите оплату и делаете скриншот подтверждения.</li>
+                    <li>Отправляете мне скриншот в личные сообщения.</li>
+                    <li>Ждете моего ответа.</li>
+                </ol>
+                
+                <p style="margin-top: 1rem; font-size: 0.85rem; font-weight: 600;">Если у вас нет возможности переводить на карты российских банков, доступна оплата через <a href="https://funpay.com/lots/offer?id=29851012" target="_blank" style="color:var(--accent); font-weight: 800; text-decoration: underline;">FynPay</a> (Ссылка кликабельна)</p>
+                
+                <div style="margin-top: 1.5rem; border-top: 1px solid var(--border); padding-top: 1rem;">
+                    <p style="color: var(--premium-gold); font-weight: 900;">Стоимость:</p>
+                    <ul style="list-style: none; font-size: 0.9rem; font-weight: 700; margin-top: 5px;">
+                        <li>• Цена основной модификации х30 — 800₽ (единоразово)</li>
+                        <li>• Стоимость мода x100 — 300₽ / месяц</li>
+                        <li>• Персональная сборка (VIP) — 500₽ / месяц</li>
+                    </ul>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -424,7 +538,7 @@
             <main class="hero">
                 <div class="digital-clock" id="clock">00:00:00</div>
                 <div class="badge"><i class="fas fa-bolt"></i>НОВЫЙ РЕЛИЗ</div>
-                <span class="version-text">Актуальная версия: <span id="mainVersionDisplay">...</span></span>
+                <span class="version-text">Актуальная версия: 11.40.0</span>
 
                 <div class="stats-container">
                     <div class="stat-item" id="btnDl"><i class="fas fa-download" style="color:#3b82f6"></i> <span id="countDl">...</span></div>
@@ -483,6 +597,22 @@
                     <p>Нативная поддержка Android и работа на ПК.</p>
                 </div>
             </section>
+
+            <section data-aos="zoom-in" style="margin: 4rem 0 2rem; position: relative;">
+                <div style="background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(36, 161, 222, 0.05)); border: 1px solid var(--border); border-radius: 24px; padding: 2.5rem 1.5rem; text-align: center; backdrop-filter: blur(10px);">
+                    <div style="display: inline-block; position: relative; margin-bottom: 1.5rem;">
+                        <i class="fab fa-telegram" style="font-size: 4rem; color: #24A1DE; filter: drop-shadow(0 0 15px rgba(36, 161, 222, 0.4));"></i>
+                        <span style="position: absolute; bottom: 5px; right: 5px; width: 12px; height: 12px; background: #22c55e; border: 2px solid #0a0a1a; border-radius: 50%; box-shadow: 0 0 10px #22c55e; animation: pulse-green 2s infinite;"></span>
+                    </div>
+                    <h2 style="font-weight: 900; font-size: 1.5rem; margin-bottom: 0.5rem; text-transform: uppercase; letter-spacing: 1px;">Наше комьюнити</h2>
+                    <p style="max-width: 400px; margin: 0 auto 2rem; opacity: 0.7; font-size: 0.9rem; line-height: 1.5; font-weight: 600;">Обсуждай тактики, получай помощь по моду и узнавай о новых версиях первым в нашем Telegram.</p>
+                    <div style="display: flex; flex-direction: column; align-items: center; gap: 1rem;">
+                        <a href="https://t.me/RSLMOD" target="_blank" class="download-btn primary" style="background: #24A1DE; border: none;">
+                            <i class="fas fa-external-link-alt"></i> Войти в группу
+                        </a>
+                    </div>
+                </div>
+            </section>
         </div>
 
         <div id="premiumPage">
@@ -496,12 +626,12 @@
                 
                 <div id="premiumDownloads">
                     <div class="premium-grid">
-                        <a href="#" class="download-btn premium-outline dl-trigger" data-type="mod_9mod"><i class="fas fa-crown"></i> Mod Paid "9mod" <span class="v-label" id="v9mod">...</span></a>
-                        <a href="#" class="download-btn premium-outline dl-trigger" data-type="clone_9mod"><i class="fas fa-crown"></i> Mod Paid Clone "9mod" <span class="v-label" id="v9mod_c">...</span></a>
-                        <a href="#" class="download-btn premium-outline dl-trigger" data-type="mod_getmods"><i class="fas fa-crown"></i> Mod Paid "Getmods" <span class="v-label" id="vGetmods">...</span></a>
-                        <a href="#" class="download-btn premium-outline dl-trigger" data-type="clone_getmods"><i class="fas fa-crown"></i> Mod Paid Clone "Getmods" <span class="v-label" id="vGetmods_c">...</span></a>
-                        <a href="#" class="download-btn premium-outline dl-trigger" data-type="speed_x100"><i class="fas fa-tachometer-alt"></i> RSL Speed x100 <span class="v-label" id="vSpeedX100">...</span></a>
-                        <a href="#" class="download-btn premium-outline dl-trigger" data-type="speed_x100_clone"><i class="fas fa-tachometer-alt"></i> RSL Speed x100 Clone <span class="v-label" id="vSpeedX100_c">...</span></a>
+                        <a href="#" class="download-btn premium-outline dl-trigger" data-type="mod_9mod"><i class="fas fa-crown"></i> Mod Paid "9mod" <span style="opacity:0.6; font-size:0.7rem; margin-left:5px;">v11.40.0</span></a>
+                        <a href="#" class="download-btn premium-outline dl-trigger" data-type="clone_9mod"><i class="fas fa-crown"></i> Mod Paid Clone "9mod" <span style="opacity:0.6; font-size:0.7rem; margin-left:5px;">v11.40.0</span></a>
+                        <a href="#" class="download-btn premium-outline dl-trigger" data-type="mod_getmods"><i class="fas fa-crown"></i> Mod Paid "Getmods" <span style="opacity:0.6; font-size:0.7rem; margin-left:5px;">v11.40.0</span></a>
+                        <a href="#" class="download-btn premium-outline dl-trigger" data-type="clone_getmods"><i class="fas fa-crown"></i> Mod Paid Clone "Getmods" <span style="opacity:0.6; font-size:0.7rem; margin-left:5px;">v11.40.0</span></a>
+                        <a href="#" class="download-btn premium-outline dl-trigger" data-type="speed_x100"><i class="fas fa-tachometer-alt"></i> RSL Speed x100 <span style="opacity:0.6; font-size:0.7rem; margin-left:5px;">v11.40.0</span></a>
+                        <a href="#" class="download-btn premium-outline dl-trigger" data-type="speed_x100_clone"><i class="fas fa-tachometer-alt"></i> RSL Speed x100 Clone <span style="opacity:0.6; font-size:0.7rem; margin-left:5px;">v11.40.0</span></a>
                         <div class="download-btn premium-outline" onclick="openFaq()"><i class="fas fa-question-circle"></i> ЧаВо (FAQ)</div>
                         <a href="#" class="download-btn premium-outline dl-trigger" data-type="vpn"><i class="fas fa-shield-alt"></i> Рабочий VPN</a>
                     </div>
@@ -510,8 +640,36 @@
         </div>
 
         <div id="reviewsPage">
-            <p>...</p>
+            <div class="reviews-container">
+                <h2 style="font-weight: 900; margin-bottom: 1.5rem; text-align: center;"><i class="fas fa-comments" style="color:var(--accent)"></i> ОТЗЫВЫ ПОЛЬЗОВАТЕЛЕЙ</h2>
+                
+                <div id="reviewFormContainer">
+                    <div class="no-access-msg" id="reviewLockMsg">
+                        Писать отзывы могут только владельцы платной версии мода (ID должен быть в базе).
+                    </div>
+                    <div class="review-form" id="reviewActualForm" style="display: none;">
+                        <textarea id="reviewText" class="review-input" rows="3" placeholder="Напишите ваш отзыв о моде..."></textarea>
+                        <button id="sendReviewBtn" class="prem-btn" style="width: auto; padding: 0.6rem 2.5rem;">ОТПРАВИТЬ</button>
+                    </div>
+                </div>
+
+                <div id="reviewsList">
+                    <p style="opacity: 0.5; text-align: center;">Загрузка отзывов...</p>
+                </div>
+            </div>
         </div>
+
+        <section class="contacts-section" data-aos="fade-up">
+            <h2 class="contacts-title">Связаться со мной</h2>
+            <div class="contacts-grid">
+                <a href="https://t.me/trykath" target="_blank" class="contact-btn tg">
+                    <i class="fab fa-telegram" style="color: #24A1DE;"></i> Telegram
+                </a>
+                <a href="https://4pda.to/forum/index.php?showuser=5594067" target="_blank" class="contact-btn pda">
+                    <i><span class="icon-ring">4</span></i> 4PDA
+                </a>
+            </div>
+        </section>
 
         <footer>© 2026 RSL Speed Mod</footer>
     </div>
@@ -534,53 +692,43 @@
         const db = getDatabase(app);
         const todayDate = new Date().toISOString().split('T')[0];
 
-        // ФУНКЦИИ УПРАВЛЕНИЯ МОДАЛЬНЫМИ ОКНАМИ
-        window.openFaq = () => {
-            document.getElementById('faqModalWindow').classList.add('active');
-            document.getElementById('overlay').classList.add('active');
-        };
-        window.closeFaq = () => {
-            document.getElementById('faqModalWindow').classList.remove('active');
-            document.getElementById('overlay').classList.remove('active');
-        };
-        window.openPremiumInfo = () => {
-            document.getElementById('premiumInfoModal').classList.add('active');
-            document.getElementById('overlay').classList.add('active');
-        };
-        window.closePremiumInfo = () => {
-            document.getElementById('premiumInfoModal').classList.remove('active');
-            document.getElementById('overlay').classList.remove('active');
-        };
-
-        // ПОДКЛЮЧЕНИЕ КОНФИГУРАЦИИ ИЗ БАЗЫ
-        onValue(ref(db, 'config'), (snapshot) => {
-            const config = snapshot.val();
-            if (config) {
-                if (config.links) LINKS = config.links;
-                if (config.versions) {
-                    VERSIONS = config.versions;
-                    const mainDisp = document.getElementById('mainVersionDisplay');
-                    if (mainDisp) mainDisp.textContent = VERSIONS.mod || 'v11.40.0'; 
-                    const formatV = (id, v) => {
-                        const el = document.getElementById(id);
-                        if (el && v) el.textContent = `(${v})`; 
-                    };
-                    formatV('v9mod', VERSIONS.v9mod);
-                    formatV('v9mod_c', VERSIONS.v9mod);
-                    formatV('vGetmods', VERSIONS.vGetmods);
-                    formatV('vGetmods_c', VERSIONS.vGetmods);
-                    formatV('vSpeedX100', VERSIONS.vSpeedX100);
-                    formatV('vSpeedX100_c', VERSIONS.vSpeedX100);
-                }
-            }
-        });
-
         window.openPage = (page) => {
             document.getElementById('homePage').style.display = page === 'home' ? 'block' : 'none';
             document.getElementById('premiumPage').style.display = page === 'premium' ? 'block' : 'none';
             document.getElementById('reviewsPage').style.display = page === 'reviews' ? 'block' : 'none';
+            
+            if (page === 'reviews') loadReviews();
             if (document.getElementById('sidebar').classList.contains('active')) toggleMenu();
         };
+
+        window.openFaq = () => {
+            document.getElementById('faqModalWindow').classList.add('active');
+            document.getElementById('overlay').classList.add('active');
+        }
+        window.closeFaq = () => {
+            document.getElementById('faqModalWindow').classList.remove('active');
+            if (!document.getElementById('sidebar').classList.contains('active')) {
+                document.getElementById('overlay').classList.remove('active');
+            }
+        }
+
+        window.openPremiumInfo = () => {
+            document.getElementById('premiumInfoModal').classList.add('active');
+            document.getElementById('overlay').classList.add('active');
+        }
+        window.closePremiumInfo = () => {
+            document.getElementById('premiumInfoModal').classList.remove('active');
+            document.getElementById('overlay').classList.remove('active');
+        }
+
+        window.openSpeedX100 = () => {
+            document.getElementById('premiumInfoModal').classList.remove('active');
+            document.getElementById('speedX100Modal').classList.add('active');
+        }
+        window.closeSpeedX100 = () => {
+            document.getElementById('speedX100Modal').classList.remove('active');
+            document.getElementById('overlay').classList.remove('active');
+        }
 
         const pBtn = document.getElementById('premBtn');
         const pInput = document.getElementById('premInput');
@@ -595,21 +743,24 @@
                     get(child(ref(db), `premium_ids/${id}`)),
                     get(child(ref(db), `premium_ids_v2/${id}`))
                 ]);
+
                 const inBase1 = snap1.exists() && snap1.val() === true;
                 const inBase2 = snap2.exists() && snap2.val() === true;
+
                 if (inBase1 || inBase2) {
                     pStatus.innerHTML = "<span style='color:#22c55e'><i class='fas fa-check-circle'></i> Лицензия активна!</span>";
                     pDownloads.style.display = 'block';
                     localStorage.setItem('rsl_id', id);
+
                     const btns = document.querySelectorAll('#premiumDownloads .download-btn');
                     btns.forEach(btn => {
                         const type = btn.getAttribute('data-type');
-                        if (inBase1 && inBase2) { btn.style.display = 'inline-flex'; }
-                        else if (inBase1 && !inBase2) {
+                        if (inBase1 && inBase2) {
+                            btn.style.display = 'inline-flex';
+                        } else if (inBase1 && !inBase2) {
                             if (type === 'speed_x100' || type === 'speed_x100_clone') btn.style.display = 'none';
                             else btn.style.display = 'inline-flex';
-                        }
-                        else if (inBase2 && !inBase1) {
+                        } else if (inBase2 && !inBase1) {
                             const allowed = ['speed_x100', 'speed_x100_clone', 'vpn'];
                             if (allowed.includes(type) || btn.getAttribute('onclick') === 'openFaq()') btn.style.display = 'inline-flex';
                             else btn.style.display = 'none';
@@ -629,6 +780,70 @@
             checkPremium(pInput.value);
         }
 
+        // Функция загрузки отзывов
+        async function loadReviews() {
+            const reviewsList = document.getElementById('reviewsList');
+            const reviewsRef = ref(db, 'reviews');
+            const latestReviews = query(reviewsRef, limitToLast(50));
+
+            onValue(latestReviews, (snapshot) => {
+                reviewsList.innerHTML = '';
+                const data = snapshot.val();
+                if (data) {
+                    Object.keys(data).reverse().forEach(key => {
+                        const r = data[key];
+                        const date = r.timestamp ? new Date(r.timestamp).toLocaleDateString() : '';
+                        reviewsList.innerHTML += `
+                            <div class="review-item" data-aos="fade-up">
+                                <div class="review-header">
+                                    <span class="review-id"><i class="fas fa-user-shield"></i> ID: ${r.userId.substring(0, 4)}***${r.userId.slice(-3)}</span>
+                                    <span class="review-date">${date}</span>
+                                </div>
+                                <div class="review-text">${r.text.replace(/</g, "&lt;")}</div>
+                            </div>
+                        `;
+                    });
+                } else {
+                    reviewsList.innerHTML = '<p style="opacity: 0.5; text-align: center;">Отзывов пока нет. Будьте первыми!</p>';
+                }
+            });
+
+            const currentId = localStorage.getItem('rsl_id');
+            if (currentId) {
+                const [snap1, snap2] = await Promise.all([
+                    get(child(ref(db), `premium_ids/${currentId}`)),
+                    get(child(ref(db), `premium_ids_v2/${currentId}`))
+                ]);
+                if ((snap1.exists() && snap1.val() === true) || (snap2.exists() && snap2.val() === true)) {
+                    document.getElementById('reviewLockMsg').style.display = 'none';
+                    document.getElementById('reviewActualForm').style.display = 'block';
+                }
+            }
+        }
+
+        document.getElementById('sendReviewBtn').onclick = async () => {
+            const text = document.getElementById('reviewText').value.trim();
+            const userId = localStorage.getItem('rsl_id');
+            if (!text) return;
+            if (!userId) {
+                alert('Необходим авторизованный ID!');
+                return;
+            }
+
+            try {
+                const newReviewRef = push(ref(db, 'reviews'));
+                await set(newReviewRef, {
+                    userId: userId,
+                    text: text,
+                    timestamp: serverTimestamp()
+                });
+                document.getElementById('reviewText').value = '';
+                alert('Отзыв успешно опубликован!');
+            } catch (e) {
+                alert('Ошибка при отправке');
+            }
+        };
+
         const UI = {
             dl: document.getElementById('countDl'), like: document.getElementById('countLike'),
             dislike: document.getElementById('countDislike'), today: document.getElementById('countToday'),
@@ -641,16 +856,50 @@
             UI.dl.textContent = data.dl || 0;
             UI.like.textContent = data.like || 0;
             UI.dislike.textContent = data.dislike || 0;
-            UI.total.textContent = data.totalViews || data.total || 0;
+            UI.total.textContent = data.totalViews || 0;
             UI.today.textContent = (data.daily && data.daily[todayDate]) ? data.daily[todayDate] : 0;
+            updateVoteStyles();
         });
+
+        window.trackVisit = () => {
+            if (!sessionStorage.getItem('rsl_v3_visited')) {
+                runTransaction(ref(db, 'stats'), (cur) => {
+                    if (!cur) cur = { dl: 0, like: 0, dislike: 0, totalViews: 0, daily: {} };
+                    cur.totalViews = (cur.totalViews || 0) + 1;
+                    if (!cur.daily) cur.daily = {};
+                    cur.daily[todayDate] = (cur.daily[todayDate] || 0) + 1;
+                    return cur;
+                }).then(() => { sessionStorage.setItem('rsl_v3_visited', 'true'); });
+            }
+        };
+        window.trackVisit();
+
+        window.handleVote = (type) => {
+            let voted = localStorage.getItem('rsl_voted');
+            if (voted === type) return;
+            runTransaction(ref(db, 'stats'), (cur) => {
+                if (!cur) return cur;
+                if (voted && cur[voted] > 0) cur[voted]--;
+                cur[type] = (cur[type] || 0) + 1;
+                return cur;
+            }).then(() => { localStorage.setItem('rsl_voted', type); });
+        };
+
+        function updateVoteStyles() {
+            const voted = localStorage.getItem('rsl_voted');
+            if(UI.btnLike) UI.btnLike.classList.toggle('active-like', voted === 'like');
+            if(UI.btnDislike) UI.btnDislike.classList.toggle('active-dislike', voted === 'dislike');
+        }
+
+        UI.btnLike.onclick = () => window.handleVote('like');
+        UI.btnDislike.onclick = () => window.handleVote('dislike');
 
         document.querySelectorAll('.dl-trigger').forEach(btn => {
             btn.onclick = (e) => {
                 const type = btn.getAttribute('data-type');
                 e.preventDefault();
                 runTransaction(ref(db, 'stats/dl'), (v) => (v || 0) + 1);
-                if (LINKS[type]) { setTimeout(() => { window.location.href = LINKS[type]; }, 150); }
+                if (LINKS[type]) setTimeout(() => { window.location.href = LINKS[type]; }, 150);
             };
         });
     </script>
@@ -669,11 +918,15 @@
         
         overlay.onclick = () => {
             sidebar.classList.remove('active');
-            document.querySelectorAll('.faq-modal').forEach(m => m.classList.remove('active'));
+            document.getElementById('faqModalWindow').classList.remove('active');
+            document.getElementById('premiumInfoModal').classList.remove('active');
+            document.getElementById('speedX100Modal').classList.remove('active');
             overlay.classList.remove('active');
         };
 
-        document.getElementById('themeToggle').onclick = () => { document.body.classList.toggle('light'); };
+        document.getElementById('themeToggle').onclick = () => {
+            document.body.classList.toggle('light');
+        };
 
         function animateIcon(card) {
             const icon = card.querySelector('i');
