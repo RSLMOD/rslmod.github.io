@@ -674,29 +674,39 @@
         const db = getDatabase(app);
         const todayDate = new Date().toISOString().split('T')[0];
 
-                // ПОДКЛЮЧЕНИЕ КОНФИГУРАЦИИ ИЗ БАЗЫ
+                        // ПОДКЛЮЧЕНИЕ КОНФИГУРАЦИИ ИЗ БАЗЫ
         onValue(ref(db, 'config'), (snapshot) => {
             const config = snapshot.val();
             if (config) {
                 if (config.links) LINKS = config.links;
                 if (config.versions) {
                     VERSIONS = config.versions;
-                    // Исправленные ключи в соответствии с базой данных:
-                    document.getElementById('mainVersionDisplay').textContent = VERSIONS.mod || '...';
                     
-                    // Обновляем версии в модальных окнах и кнопках
+                    // 1. Главная версия (На твоём скриншоте 97710.png в папке versions был ключ mod)
+                    // Если его там сейчас нет, он будет показывать "..."
+                    const mainDisp = document.getElementById('mainVersionDisplay');
+                    if (mainDisp) mainDisp.textContent = VERSIONS.mod || '11.40.0'; 
+
+                    // 2. Обновляем версии строго по твоим ключам из базы:
+                    // Ключи в базе: v9mod, vGetmods, vSpeedX100
+                    
                     if (document.getElementById('v9mod')) 
-                        document.getElementById('v9mod').textContent = VERSIONS.mod_9mod || '';
+                        document.getElementById('v9mod').textContent = VERSIONS.v9mod || '';
+                    
                     if (document.getElementById('v9mod_c')) 
-                        document.getElementById('v9mod_c').textContent = VERSIONS.clone_9mod || '';
+                        document.getElementById('v9mod_c').textContent = VERSIONS.v9mod || ''; // Клон обычно той же версии
+                        
                     if (document.getElementById('vGetmods')) 
-                        document.getElementById('vGetmods').textContent = VERSIONS.mod_getmods || '';
+                        document.getElementById('vGetmods').textContent = VERSIONS.vGetmods || '';
+                        
                     if (document.getElementById('vGetmods_c')) 
-                        document.getElementById('vGetmods_c').textContent = VERSIONS.clone_getmods || '';
+                        document.getElementById('vGetmods_c').textContent = VERSIONS.vGetmods || '';
+                        
                     if (document.getElementById('vSpeedX100')) 
-                        document.getElementById('vSpeedX100').textContent = VERSIONS.speed_x100 || '';
+                        document.getElementById('vSpeedX100').textContent = VERSIONS.vSpeedX100 || '';
+                        
                     if (document.getElementById('vSpeedX100_c')) 
-                        document.getElementById('vSpeedX100_c').textContent = VERSIONS.speed_x100_clone || '';
+                        document.getElementById('vSpeedX100_c').textContent = VERSIONS.vSpeedX100 || '';
                 }
             }
         });
