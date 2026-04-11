@@ -107,7 +107,22 @@
         .navbar { display: flex; justify-content: space-between; align-items: center; padding: 3.5rem 0 0.5rem; position: relative; z-index: 10; }
         .menu-btn { background: var(--card-bg); border: 1px solid var(--border); width: 42px; height: 42px; border-radius: 12px; color: var(--text-main); display: flex; align-items: center; justify-content: center; cursor: pointer; backdrop-filter: blur(10px); transition: 0.2s; }
         .menu-btn:active { transform: scale(0.9); }
-        .theme-toggle { background: var(--card-bg); border: 1px solid var(--border); width: 42px; height: 42px; border-radius: 12px; color: var(--text-main); display: flex; align-items: center; justify-content: center; cursor: pointer; backdrop-filter: blur(10px); transition: 0.3s; }
+                .theme-toggle { 
+            background: var(--card-bg); 
+            border: 1px solid var(--border); 
+            width: 42px; 
+            height: 42px; 
+            border-radius: 12px; 
+            color: var(--text-main); 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            cursor: pointer; 
+            backdrop-filter: blur(10px); 
+            transition: 0.3s; 
+            box-sizing: border-box; /* Гарантирует одинаковый размер с кнопкой меню */
+        }
+        .theme-toggle i { font-size: 1.1rem; } /* Выравнивание размера иконки */
         .theme-toggle:active { transform: scale(0.9); }
 
         .sidebar { position: fixed; top: 0; left: -300px; width: 280px; height: 100%; background: var(--sidebar-bg); z-index: 1000; transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1); border-right: 1px solid var(--border); padding: 2.5rem 1.5rem; display: flex; flex-direction: column; backdrop-filter: blur(25px); }
