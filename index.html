@@ -373,7 +373,22 @@
         <div class="close-faq" onclick="closePremiumInfo()"><i class="fas fa-times"></i></div>
         <h2 class="faq-title" style="color:var(--premium-gold)"><i class="fas fa-crown"></i> ПРЕМИУМ ВОЗМОЖНОСТИ</h2>
         <div class="faq-content">
-            <p>...</p>
+            <div class="prem-info-point">
+                <span class="prem-info-title">🚀 СКОРОСТЬ X100</span>
+                <span class="prem-info-body">Эксклюзивная версия с возможностью ускорения игры до 100 раз. Проходите контент мгновенно.</span>
+            </div>
+            <div class="prem-info-point">
+                <span class="prem-info-title">👥 УНИКАЛЬНЫЕ КЛОНЫ</span>
+                <span class="prem-info-body">Доступ к стабильным платным модификациям от 9mod и Getmods с расширенным функционалом.</span>
+            </div>
+            <div class="prem-info-point">
+                <span class="prem-info-title">🛡️ VIP ПОДДЕРЖКА</span>
+                <span class="prem-info-body">Приоритетное обновление под новые версии игры и помощь в настройке.</span>
+            </div>
+            <div class="faq-warning" style="border-color: var(--premium-gold); color: var(--premium-gold); background: rgba(245, 158, 11, 0.1);">
+                Чтобы получить доступ, необходимо написать администратору и предоставить свой Device ID.
+            </div>
+            <a href="https://t.me/Trykath" target="_blank" class="prem-btn" style="display: block; text-align: center; text-decoration: none; margin-top: 1.5rem;">КУПИТЬ ПРЕМИУМ</a>
         </div>
     </div>
 
@@ -519,6 +534,24 @@
         const db = getDatabase(app);
         const todayDate = new Date().toISOString().split('T')[0];
 
+        // ФУНКЦИИ УПРАВЛЕНИЯ МОДАЛЬНЫМИ ОКНАМИ
+        window.openFaq = () => {
+            document.getElementById('faqModalWindow').classList.add('active');
+            document.getElementById('overlay').classList.add('active');
+        };
+        window.closeFaq = () => {
+            document.getElementById('faqModalWindow').classList.remove('active');
+            document.getElementById('overlay').classList.remove('active');
+        };
+        window.openPremiumInfo = () => {
+            document.getElementById('premiumInfoModal').classList.add('active');
+            document.getElementById('overlay').classList.add('active');
+        };
+        window.closePremiumInfo = () => {
+            document.getElementById('premiumInfoModal').classList.remove('active');
+            document.getElementById('overlay').classList.remove('active');
+        };
+
         // ПОДКЛЮЧЕНИЕ КОНФИГУРАЦИИ ИЗ БАЗЫ
         onValue(ref(db, 'config'), (snapshot) => {
             const config = snapshot.val();
@@ -526,37 +559,26 @@
                 if (config.links) LINKS = config.links;
                 if (config.versions) {
                     VERSIONS = config.versions;
-                    
-                    // 1. Главная версия (крупно в шапке)
                     const mainDisp = document.getElementById('mainVersionDisplay');
                     if (mainDisp) mainDisp.textContent = VERSIONS.mod || 'v11.40.0'; 
-
-                    // Вспомогательная функция для вставки версии в скобках
                     const formatV = (id, v) => {
                         const el = document.getElementById(id);
                         if (el && v) el.textContent = `(${v})`; 
                     };
-
-                    // 2. Обновляем версии на кнопках согласно твоей базе:
-                    // Ключи в базе: v9mod, vGetmods, vSpeedX100
                     formatV('v9mod', VERSIONS.v9mod);
                     formatV('v9mod_c', VERSIONS.v9mod);
-                    
                     formatV('vGetmods', VERSIONS.vGetmods);
                     formatV('vGetmods_c', VERSIONS.vGetmods);
-                    
                     formatV('vSpeedX100', VERSIONS.vSpeedX100);
                     formatV('vSpeedX100_c', VERSIONS.vSpeedX100);
                 }
             }
         });
 
-        // Остальная логика кнопок, проверок и статистики
         window.openPage = (page) => {
             document.getElementById('homePage').style.display = page === 'home' ? 'block' : 'none';
             document.getElementById('premiumPage').style.display = page === 'premium' ? 'block' : 'none';
             document.getElementById('reviewsPage').style.display = page === 'reviews' ? 'block' : 'none';
-            if (page === 'reviews') loadReviews();
             if (document.getElementById('sidebar').classList.contains('active')) toggleMenu();
         };
 
