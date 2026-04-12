@@ -11,7 +11,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>RSL Speed Mod — Ускорение реальности</title>
     
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+    <!-- Оптимизированная загрузка шрифтов -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
 
@@ -57,6 +60,9 @@
             position: absolute; top: 50%; left: 50%; width: 2px; height: 2px;
             background: transparent; border-radius: 50%;
             transform-origin: center;
+            will-change: transform, opacity;
+            backface-visibility: hidden;
+            transform: translateZ(0);
         }
         /* Increased star density using more box-shadows */
         .stars {
@@ -93,9 +99,7 @@
         @keyframes tickerFlow { 0% { transform: translate3d(0, 0, 0); } 100% { transform: translate3d(-50%, 0, 0); } }
 
         .navbar { display: flex; justify-content: space-between; align-items: center; padding: 3.5rem 0 0.5rem; position: relative; z-index: 10; }
-        .menu-btn { background: var(--card-bg); border: 1px solid var(--border); width: 42px; height: 42px; border-radius: 12px; color: var(--text-main); display: flex; align-items: center; justify-content: center; cursor: pointer; backdrop-filter: blur(10px); transition: 0.2s; }
-        .menu-btn:active { transform: scale(0.9); }
-                .theme-toggle { 
+        .menu-btn, .theme-toggle { 
             background: var(--card-bg); 
             border: 1px solid var(--border); 
             width: 42px; 
@@ -107,11 +111,13 @@
             justify-content: center; 
             cursor: pointer; 
             backdrop-filter: blur(10px); 
-            transition: 0.3s; 
-            box-sizing: border-box; /* Гарантирует одинаковый размер с кнопкой меню */
+            transition: 0.2s; 
+            touch-action: manipulation;
+            min-height: 48px;
+            user-select: none;
         }
-        .theme-toggle i { font-size: 1.1rem; } /* Выравнивание размера иконки */
-        .theme-toggle:active { transform: scale(0.9); }
+        .theme-toggle i { font-size: 1.1rem; }
+        .menu-btn:active, .theme-toggle:active { transform: scale(0.9); }
 
         .sidebar { position: fixed; top: 0; left: -300px; width: 280px; height: 100%; background: var(--sidebar-bg); z-index: 1000; transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1); border-right: 1px solid var(--border); padding: 2.5rem 1.5rem; display: flex; flex-direction: column; backdrop-filter: blur(25px); }
         .sidebar.active { transform: translateX(300px); }
@@ -177,7 +183,22 @@
         
         .download-grid { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.8rem; margin-bottom: 1.5rem; }
         
-        .download-btn { padding: 0.9rem 1.8rem; border-radius: 50px; font-weight: 900; text-decoration: none; display: inline-flex; align-items: center; justify-content: center; gap: 10px; transition: 0.2s cubic-bezier(0.4, 0, 0.2, 1); font-size: 0.9rem; cursor: pointer; }
+        .download-btn { 
+            padding: 0.9rem 1.8rem; 
+            border-radius: 50px; 
+            font-weight: 900; 
+            text-decoration: none; 
+            display: inline-flex; 
+            align-items: center; 
+            justify-content: center; 
+            gap: 10px; 
+            transition: 0.2s cubic-bezier(0.4, 0, 0.2, 1); 
+            font-size: 0.9rem; 
+            cursor: pointer; 
+            touch-action: manipulation;
+            min-height: 48px;
+            user-select: none;
+        }
         .download-btn:active { transform: scale(0.92); filter: brightness(0.9); }
         .download-btn.primary { background: var(--accent); color: white; box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3); border: none; }
         .download-btn.secondary { background: #1e293b; color: white; border: none; }
@@ -275,8 +296,22 @@
         #premiumPage { display: none; text-align: center; padding-top: 2rem; }
         .premium-card { background: var(--card-bg); border: 1px solid rgba(245, 158, 11, 0.3); border-radius: 24px; padding: 2.5rem 1.5rem; max-width: 500px; margin: 0 auto; backdrop-filter: blur(10px); }
         .prem-input { width: 100%; background: rgba(0,0,0,0.2); border: 1px solid var(--border); padding: 0.8rem; border-radius: 12px; color: white; margin: 1.5rem 0; font-family: 'JetBrains Mono', monospace; text-align: center; outline: none; }
-        .prem-btn { background: #f59e0b; color: white; border: none; padding: 0.8rem 2rem; border-radius: 50px; font-weight: 900; cursor: pointer; width: 100%; transition: 0.2s; }
+        .prem-btn { 
+            background: #f59e0b; 
+            color: white; 
+            border: none; 
+            padding: 0.8rem 2rem; 
+            border-radius: 50px; 
+            font-weight: 900; 
+            cursor: pointer; 
+            width: 100%; 
+            transition: 0.2s; 
+            touch-action: manipulation;
+            min-height: 48px;
+            user-select: none;
+        }
         .prem-btn:active { transform: scale(0.95); }
+        .prem-btn:disabled { opacity: 0.6; cursor: not-allowed; }
         #premStatus { margin-top: 1rem; font-weight: 700; font-size: 0.85rem; min-height: 1.2rem; }
         
         #premiumDownloads { display: none; margin-top: 1.5rem; border-top: 1px solid var(--border); padding-top: 1.5rem; }
@@ -294,6 +329,14 @@
         .contact-btn.pda .icon-ring { border: 2px solid white; background-color: #24A1DE; border-radius: 50%; width: 22px; height: 22px; display: flex; align-items: center; justify-content: center; color: white; font-family: 'JetBrains Mono', monospace; font-weight: 900; font-size: 14px; margin-left: -1px; }
 
         footer { text-align: center; padding: 2rem; opacity: 0.5; font-size: 0.75rem; font-weight: 800; }
+
+        /* Адаптация для очень маленьких экранов */
+        @media (max-width: 360px) {
+            .download-btn {
+                padding: 0.7rem 1rem;
+                font-size: 0.8rem;
+            }
+        }
     </style>
 </head>
 <body class="dark">
@@ -629,7 +672,7 @@
                         Писать отзывы могут только владельцы платной версии мода (ID должен быть в базе).
                     </div>
                     <div class="review-form" id="reviewActualForm" style="display: none;">
-                        <textarea id="reviewText" class="review-input" rows="3" placeholder="Напишите ваш отзыв о моде..."></textarea>
+                        <textarea id="reviewText" class="review-input" rows="3" maxlength="1000" placeholder="Напишите ваш отзыв о моде..."></textarea>
                         <button id="sendReviewBtn" class="prem-btn" style="width: auto; padding: 0.6rem 2.5rem;">ОТПРАВИТЬ</button>
                     </div>
                 </div>
@@ -673,6 +716,25 @@
         const db = getDatabase(app);
         const todayDate = new Date().toISOString().split('T')[0];
 
+        // --- Управление интервалом часов (предотвращение утечки памяти) ---
+        let clockInterval = null;
+        
+        function startClock() {
+            if (clockInterval) clearInterval(clockInterval);
+            updateClock();
+            clockInterval = setInterval(updateClock, 1000);
+        }
+        
+        function stopClock() {
+            if (clockInterval) {
+                clearInterval(clockInterval);
+                clockInterval = null;
+            }
+        }
+        
+        window.addEventListener('beforeunload', stopClock);
+        startClock();
+
         // --- Загрузка конфигурации из БД ---
         onValue(ref(db, 'config'), (snapshot) => {
             const data = snapshot.val();
@@ -680,9 +742,7 @@
                 if (data.links) LINKS = data.links;
                 if (data.versions) {
                     VERSIONS = data.versions;
-                    // Обновляем главную версию в заголовке
                     if (VERSIONS.main) document.getElementById('mainVersion').textContent = VERSIONS.main;
-                    // Обновляем текст версий в кнопках
                     document.querySelectorAll('.v-span').forEach(span => {
                         const vKey = span.getAttribute('data-v');
                         if (VERSIONS[vKey]) {
@@ -701,7 +761,10 @@
             document.getElementById('premiumPage').style.display = page === 'premium' ? 'block' : 'none';
             document.getElementById('reviewsPage').style.display = page === 'reviews' ? 'block' : 'none';
             
-            if (page === 'reviews') loadReviews();
+            if (page === 'reviews') {
+                loadReviews();
+                setTimeout(() => AOS.refresh(), 100);
+            }
             if (document.getElementById('sidebar').classList.contains('active')) toggleMenu();
         };
 
@@ -709,6 +772,7 @@
             document.getElementById('faqModalWindow').classList.add('active');
             document.getElementById('overlay').classList.add('active');
         }
+        
         window.closeFaq = () => {
             document.getElementById('faqModalWindow').classList.remove('active');
             if (!document.getElementById('sidebar').classList.contains('active')) {
@@ -720,6 +784,7 @@
             document.getElementById('premiumInfoModal').classList.add('active');
             document.getElementById('overlay').classList.add('active');
         }
+        
         window.closePremiumInfo = () => {
             document.getElementById('premiumInfoModal').classList.remove('active');
             document.getElementById('overlay').classList.remove('active');
@@ -729,6 +794,7 @@
             document.getElementById('premiumInfoModal').classList.remove('active');
             document.getElementById('speedX100Modal').classList.add('active');
         }
+        
         window.closeSpeedX100 = () => {
             document.getElementById('speedX100Modal').classList.remove('active');
             document.getElementById('overlay').classList.remove('active');
@@ -739,9 +805,21 @@
         const pStatus = document.getElementById('premStatus');
         const pDownloads = document.getElementById('premiumDownloads');
 
+        // --- Дебаунс для проверки ID (экономия запросов) ---
+        let checkTimeout;
+        pInput.addEventListener('input', (e) => {
+            clearTimeout(checkTimeout);
+            const val = e.target.value.trim();
+            if (val.length >= 5) {
+                checkTimeout = setTimeout(() => checkPremium(val), 500);
+            }
+        });
+
         async function checkPremium(id) {
             if(!id) return;
             pBtn.textContent = "ПОИСК...";
+            pBtn.disabled = true;
+            
             try {
                 const [snap1, snap2] = await Promise.all([
                     get(child(ref(db), `premium_ids/${id}`)),
@@ -774,17 +852,22 @@
                     pStatus.innerHTML = "<span style='color:#ef4444'>Данного ID нет в базе</span>";
                     pDownloads.style.display = 'none';
                 }
-            } catch (e) { pStatus.innerHTML = "<span style='color:#ef4444'>Ошибка проверки</span>"; }
-            pBtn.textContent = "ПРОВЕРИТЬ ДОСТУП";
+            } catch (e) {
+                pStatus.innerHTML = "<span style='color:#ef4444'>Ошибка проверки</span>";
+            } finally {
+                pBtn.textContent = "ПРОВЕРИТЬ ДОСТУП";
+                pBtn.disabled = false;
+            }
         }
 
         pBtn.onclick = () => checkPremium(pInput.value.trim());
+        
         if(localStorage.getItem('rsl_id')) {
             pInput.value = localStorage.getItem('rsl_id');
             checkPremium(pInput.value);
         }
 
-        // Функция загрузки отзывов (БЕЗОПАСНАЯ ВЕРСИЯ)
+        // --- Загрузка отзывов (с кэшированием при ошибке) ---
         async function loadReviews() {
             const reviewsList = document.getElementById('reviewsList');
             const reviewsRef = ref(db, 'reviews');
@@ -793,12 +876,14 @@
             onValue(latestReviews, (snapshot) => {
                 reviewsList.innerHTML = '';
                 const data = snapshot.val();
+                
+                if (data) localStorage.setItem('reviews_cache', JSON.stringify(data));
+                
                 if (data) {
                     Object.keys(data).reverse().forEach(key => {
                         const r = data[key];
                         const date = r.timestamp ? new Date(r.timestamp).toLocaleDateString() : '';
                         
-                        // Создаем элементы программно для защиты от XSS
                         const reviewItem = document.createElement('div');
                         reviewItem.className = 'review-item';
                         reviewItem.setAttribute('data-aos', 'fade-up');
@@ -812,7 +897,7 @@
 
                         const textContent = document.createElement('div');
                         textContent.className = 'review-text';
-                        textContent.textContent = r.text; // Безопасная вставка текста
+                        textContent.textContent = r.text;
 
                         reviewItem.appendChild(header);
                         reviewItem.appendChild(textContent);
@@ -821,59 +906,122 @@
                 } else {
                     reviewsList.innerHTML = '<p style="opacity: 0.5; text-align: center;">Отзывов пока нет. Будьте первыми!</p>';
                 }
+            }, (error) => {
+                const cached = localStorage.getItem('reviews_cache');
+                if (cached) {
+                    const data = JSON.parse(cached);
+                    reviewsList.innerHTML = '';
+                    Object.keys(data).reverse().forEach(key => {
+                        const r = data[key];
+                        const date = r.timestamp ? new Date(r.timestamp).toLocaleDateString() : '';
+                        
+                        const reviewItem = document.createElement('div');
+                        reviewItem.className = 'review-item';
+                        reviewItem.innerHTML = `
+                            <div class="review-header">
+                                <span class="review-id"><i class="fas fa-user-shield"></i> Пользователь Premium</span>
+                                <span class="review-date">${date}</span>
+                            </div>
+                            <div class="review-text">${r.text.replace(/</g, '&lt;')}</div>
+                        `;
+                        reviewsList.appendChild(reviewItem);
+                    });
+                }
             });
 
             const currentId = localStorage.getItem('rsl_id');
             if (currentId) {
-                const [snap1, snap2] = await Promise.all([
-                    get(child(ref(db), `premium_ids/${currentId}`)),
-                    get(child(ref(db), `premium_ids_v2/${currentId}`))
-                ]);
-                if ((snap1.exists() && snap1.val() === true) || (snap2.exists() && snap2.val() === true)) {
-                    document.getElementById('reviewLockMsg').style.display = 'none';
-                    document.getElementById('reviewActualForm').style.display = 'block';
+                try {
+                    const [snap1, snap2] = await Promise.all([
+                        get(child(ref(db), `premium_ids/${currentId}`)),
+                        get(child(ref(db), `premium_ids_v2/${currentId}`))
+                    ]);
+                    if ((snap1.exists() && snap1.val() === true) || (snap2.exists() && snap2.val() === true)) {
+                        document.getElementById('reviewLockMsg').style.display = 'none';
+                        document.getElementById('reviewActualForm').style.display = 'block';
+                    }
+                } catch(e) {
+                    console.warn("Офлайн-режим: проверка прав на отзыв недоступна");
                 }
             }
         }
 
+        // --- Отправка отзыва (с защитой от двойного клика) ---
+        let isSubmitting = false;
+        
         document.getElementById('sendReviewBtn').onclick = async () => {
+            if (isSubmitting) return;
+            
             const text = document.getElementById('reviewText').value.trim();
             const userId = localStorage.getItem('rsl_id');
-            if (!text) return;
+            const btn = document.getElementById('sendReviewBtn');
+            const originalText = btn.textContent;
+            
+            if (!text) {
+                alert('Введите текст отзыва');
+                return;
+            }
+            
+            if (text.length > 1000) {
+                alert('Максимальная длина отзыва — 1000 символов');
+                return;
+            }
+            
             if (!userId) {
                 alert('Необходим авторизованный ID!');
                 return;
             }
 
             try {
+                isSubmitting = true;
+                btn.textContent = "ОТПРАВКА...";
+                btn.disabled = true;
+                
                 const newReviewRef = push(ref(db, 'reviews'));
                 await set(newReviewRef, {
                     userId: userId,
                     text: text,
                     timestamp: serverTimestamp()
                 });
+                
                 document.getElementById('reviewText').value = '';
                 alert('Отзыв успешно опубликован!');
             } catch (e) {
-                alert('Ошибка при отправке');
+                alert('Ошибка при отправке. Проверьте соединение.');
+            } finally {
+                isSubmitting = false;
+                btn.textContent = originalText;
+                btn.disabled = false;
             }
         };
 
+        // --- Статистика (с кэшированием) ---
         const UI = {
-            dl: document.getElementById('countDl'), like: document.getElementById('countLike'),
-            dislike: document.getElementById('countDislike'), today: document.getElementById('countToday'),
-            total: document.getElementById('countTotal'), btnLike: document.getElementById('btnLike'),
+            dl: document.getElementById('countDl'), 
+            like: document.getElementById('countLike'),
+            dislike: document.getElementById('countDislike'), 
+            today: document.getElementById('countToday'),
+            total: document.getElementById('countTotal'), 
+            btnLike: document.getElementById('btnLike'),
             btnDislike: document.getElementById('btnDislike')
         };
 
-        onValue(ref(db, 'stats'), (snapshot) => {
-            const data = snapshot.val() || {};
+        function updateUI(data) {
             UI.dl.textContent = data.dl || 0;
             UI.like.textContent = data.like || 0;
             UI.dislike.textContent = data.dislike || 0;
             UI.total.textContent = data.totalViews || 0;
             UI.today.textContent = (data.daily && data.daily[todayDate]) ? data.daily[todayDate] : 0;
             updateVoteStyles();
+        }
+
+        onValue(ref(db, 'stats'), (snapshot) => {
+            const data = snapshot.val() || {};
+            localStorage.setItem('stats_cache', JSON.stringify(data));
+            updateUI(data);
+        }, (error) => {
+            const cached = JSON.parse(localStorage.getItem('stats_cache') || '{}');
+            updateUI(cached);
         });
 
         window.trackVisit = () => {
@@ -884,7 +1032,9 @@
                     if (!cur.daily) cur.daily = {};
                     cur.daily[todayDate] = (cur.daily[todayDate] || 0) + 1;
                     return cur;
-                }).then(() => { sessionStorage.setItem('rsl_v3_visited', 'true'); });
+                }).then(() => { 
+                    sessionStorage.setItem('rsl_v3_visited', 'true'); 
+                }).catch(() => {});
             }
         };
         window.trackVisit();
@@ -892,12 +1042,17 @@
         window.handleVote = (type) => {
             let voted = localStorage.getItem('rsl_voted');
             if (voted === type) return;
+            
             runTransaction(ref(db, 'stats'), (cur) => {
                 if (!cur) return cur;
                 if (voted && cur[voted] > 0) cur[voted]--;
                 cur[type] = (cur[type] || 0) + 1;
                 return cur;
-            }).then(() => { localStorage.setItem('rsl_voted', type); });
+            }).then(() => { 
+                localStorage.setItem('rsl_voted', type); 
+            }).catch(() => {
+                alert('Голос не засчитан. Попробуйте позже.');
+            });
         };
 
         function updateVoteStyles() {
@@ -909,13 +1064,28 @@
         UI.btnLike.onclick = () => window.handleVote('like');
         UI.btnDislike.onclick = () => window.handleVote('dislike');
 
+        // --- Скачивание (с валидацией URL) ---
         document.querySelectorAll('.dl-trigger').forEach(btn => {
             btn.onclick = (e) => {
                 const type = btn.getAttribute('data-type');
                 e.preventDefault();
+                
                 runTransaction(ref(db, 'stats/dl'), (v) => (v || 0) + 1);
-                if (LINKS[type]) setTimeout(() => { window.location.href = LINKS[type]; }, 150);
-                else alert("Ссылка загружается из базы, подождите или обновите страницу.");
+                
+                if (LINKS[type]) {
+                    try {
+                        const url = new URL(LINKS[type]);
+                        if (url.protocol !== 'https:') {
+                            alert('Ошибка безопасности: небезопасный протокол');
+                            return;
+                        }
+                        setTimeout(() => { window.location.href = url.href; }, 150);
+                    } catch (e) {
+                        alert('Некорректная ссылка. Сообщите администратору.');
+                    }
+                } else {
+                    alert("Ссылка загружается из базы, подождите или обновите страницу.");
+                }
             };
         });
     </script>
@@ -923,12 +1093,20 @@
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>
         AOS.init({ duration: 800, once: true, offset: 0 });
-        function updateClock() { document.getElementById('clock').textContent = new Date().toLocaleTimeString(); }
-        setInterval(updateClock, 1000); updateClock();
+        
+        function updateClock() { 
+            const clockEl = document.getElementById('clock');
+            if (clockEl) clockEl.textContent = new Date().toLocaleTimeString(); 
+        }
 
         const sidebar = document.getElementById('sidebar');
         const overlay = document.getElementById('overlay');
-        function toggleMenu() { sidebar.classList.toggle('active'); overlay.classList.toggle('active'); }
+        
+        function toggleMenu() { 
+            sidebar.classList.toggle('active'); 
+            overlay.classList.toggle('active'); 
+        }
+        
         document.getElementById('openSidebar').onclick = toggleMenu;
         document.getElementById('closeSidebar').onclick = toggleMenu;
         
