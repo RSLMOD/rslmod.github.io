@@ -519,7 +519,7 @@
             <main class="hero">
                 <div class="digital-clock" id="clock">00:00:00</div>
                 <div class="badge"><i class="fas fa-bolt"></i>НОВЫЙ РЕЛИЗ</div>
-                <span class="version-text">Актуальная версия: 11.40.0</span>
+                <span class="version-text">Актуальная версия: <span id="mainVersion">...</span></span>
 
                 <div class="stats-container">
                     <div class="stat-item" id="btnDl"><i class="fas fa-download" style="color:#3b82f6"></i> <span id="countDl">...</span></div>
@@ -680,6 +680,8 @@
                 if (data.links) LINKS = data.links;
                 if (data.versions) {
                     VERSIONS = data.versions;
+                    // Обновляем главную версию в заголовке
+                    if (VERSIONS.main) document.getElementById('mainVersion').textContent = VERSIONS.main;
                     // Обновляем текст версий в кнопках
                     document.querySelectorAll('.v-span').forEach(span => {
                         const vKey = span.getAttribute('data-v');
