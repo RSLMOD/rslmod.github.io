@@ -3,28 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <script>
-        // === НАСТРОЙКА ПРЯМЫХ ССЫЛОК (МЕНЯТЬ ТУТ) ===
-        const LINKS = {
-            mod: "https://github.com/RSLMOD/rslmod.github.io/releases/download/rsl/RSL.Speed_v11.40.0.122893.apk",
-            clone: "https://github.com/RSLMOD/rslmod.github.io/releases/download/rsl/RSL.Speed.Clone_v11.40.0.122893.apk",
-            original: "https://github.com/Trykath158/rslmod-site/releases/download/rsl/Raid_v11.40.0.142984.apk",
-            mod_9mod: "https://github.com/RSLMOD/rslmod.github.io/releases/download/rsl_paid_9mod/RSL.Speed.Paid_v11.40.0.122893.apk",
-            clone_9mod: "https://github.com/RSLMOD/rslmod.github.io/releases/download/rsl_paid_9mod/RSL.Speed.Paid.Clone_v11.40.0.122893.apk",
-            mod_getmods: "https://github.com/RSLMOD/rslmod.github.io/releases/download/rsl_paid_getmod/RSL.Speed.Paid_v11.40.0.122893.apk",
-            clone_getmods: "https://github.com/RSLMOD/rslmod.github.io/releases/download/rsl_paid_getmod/RSL.Speed.Paid.Clone_v11.40.0.122893.apk",
-            speed_x100: "https://github.com/RSLMOD/rslmod.github.io/releases/download/rslx100/RSL.Speed.Paid_v11.40.0.122893.apk",
-            speed_x100_clone: "https://github.com/RSLMOD/rslmod.github.io/releases/download/rslx100/RSL.Speed.Paid.Clone_v11.40.0.122893.apk",
-            faq: "https://telegra.ph/FAQ-po-RSL-Speed-Mod-06-12",
-            vpn: "https://sourceforge.net/projects/cyberportal/files/"
-        };
-
-        // === НАСТРОЙКА ОТОБРАЖЕНИЯ ВЕРСИЙ В КНОПКАХ ===
-        const VERSIONS = {
-            v9mod: "v11.40.0",
-            vGetmods: "v11.40.0",
-            vSpeedX100: "v11.40.0"
-        };
-        // =============================================
+        // Глобальные объекты для хранения данных из БД
+        let LINKS = {};
+        let VERSIONS = {};
     </script>
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
@@ -626,12 +607,12 @@
                 
                 <div id="premiumDownloads">
                     <div class="premium-grid">
-                        <a href="#" class="download-btn premium-outline dl-trigger" data-type="mod_9mod"><i class="fas fa-crown"></i> Mod Paid "9mod" <span style="opacity:0.6; font-size:0.7rem; margin-left:5px;">v11.40.0</span></a>
-                        <a href="#" class="download-btn premium-outline dl-trigger" data-type="clone_9mod"><i class="fas fa-crown"></i> Mod Paid Clone "9mod" <span style="opacity:0.6; font-size:0.7rem; margin-left:5px;">v11.40.0</span></a>
-                        <a href="#" class="download-btn premium-outline dl-trigger" data-type="mod_getmods"><i class="fas fa-crown"></i> Mod Paid "Getmods" <span style="opacity:0.6; font-size:0.7rem; margin-left:5px;">v11.40.0</span></a>
-                        <a href="#" class="download-btn premium-outline dl-trigger" data-type="clone_getmods"><i class="fas fa-crown"></i> Mod Paid Clone "Getmods" <span style="opacity:0.6; font-size:0.7rem; margin-left:5px;">v11.40.0</span></a>
-                        <a href="#" class="download-btn premium-outline dl-trigger" data-type="speed_x100"><i class="fas fa-tachometer-alt"></i> RSL Speed x100 <span style="opacity:0.6; font-size:0.7rem; margin-left:5px;">v11.40.0</span></a>
-                        <a href="#" class="download-btn premium-outline dl-trigger" data-type="speed_x100_clone"><i class="fas fa-tachometer-alt"></i> RSL Speed x100 Clone <span style="opacity:0.6; font-size:0.7rem; margin-left:5px;">v11.40.0</span></a>
+                        <a href="#" class="download-btn premium-outline dl-trigger" data-type="mod_9mod"><i class="fas fa-crown"></i> Mod Paid "9mod" <span class="v-span" data-v="v9mod"></span></a>
+                        <a href="#" class="download-btn premium-outline dl-trigger" data-type="clone_9mod"><i class="fas fa-crown"></i> Mod Paid Clone "9mod" <span class="v-span" data-v="v9mod"></span></a>
+                        <a href="#" class="download-btn premium-outline dl-trigger" data-type="mod_getmods"><i class="fas fa-crown"></i> Mod Paid "Getmods" <span class="v-span" data-v="vGetmods"></span></a>
+                        <a href="#" class="download-btn premium-outline dl-trigger" data-type="clone_getmods"><i class="fas fa-crown"></i> Mod Paid Clone "Getmods" <span class="v-span" data-v="vGetmods"></span></a>
+                        <a href="#" class="download-btn premium-outline dl-trigger" data-type="speed_x100"><i class="fas fa-tachometer-alt"></i> RSL Speed x100 <span class="v-span" data-v="vSpeedX100"></span></a>
+                        <a href="#" class="download-btn premium-outline dl-trigger" data-type="speed_x100_clone"><i class="fas fa-tachometer-alt"></i> RSL Speed x100 Clone <span class="v-span" data-v="vSpeedX100"></span></a>
                         <div class="download-btn premium-outline" onclick="openFaq()"><i class="fas fa-question-circle"></i> ЧаВо (FAQ)</div>
                         <a href="#" class="download-btn premium-outline dl-trigger" data-type="vpn"><i class="fas fa-shield-alt"></i> Рабочий VPN</a>
                     </div>
@@ -691,6 +672,27 @@
         const app = initializeApp(firebaseConfig);
         const db = getDatabase(app);
         const todayDate = new Date().toISOString().split('T')[0];
+
+        // --- Загрузка конфигурации из БД ---
+        onValue(ref(db, 'config'), (snapshot) => {
+            const data = snapshot.val();
+            if (data) {
+                if (data.links) LINKS = data.links;
+                if (data.versions) {
+                    VERSIONS = data.versions;
+                    // Обновляем текст версий в кнопках
+                    document.querySelectorAll('.v-span').forEach(span => {
+                        const vKey = span.getAttribute('data-v');
+                        if (VERSIONS[vKey]) {
+                            span.style.opacity = "0.6";
+                            span.style.fontSize = "0.7rem";
+                            span.style.marginLeft = "5px";
+                            span.textContent = VERSIONS[vKey];
+                        }
+                    });
+                }
+            }
+        });
 
         window.openPage = (page) => {
             document.getElementById('homePage').style.display = page === 'home' ? 'block' : 'none';
@@ -900,6 +902,7 @@
                 e.preventDefault();
                 runTransaction(ref(db, 'stats/dl'), (v) => (v || 0) + 1);
                 if (LINKS[type]) setTimeout(() => { window.location.href = LINKS[type]; }, 150);
+                else alert("Ссылка загружается из базы, подождите или обновите страницу.");
             };
         });
     </script>
