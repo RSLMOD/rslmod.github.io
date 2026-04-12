@@ -784,7 +784,7 @@
             checkPremium(pInput.value);
         }
 
-        // Функция загрузки отзывов
+        // Функция загрузки отзывов (БЕЗОПАСНАЯ ВЕРСИЯ)
         async function loadReviews() {
             const reviewsList = document.getElementById('reviewsList');
             const reviewsRef = ref(db, 'reviews');
@@ -797,15 +797,26 @@
                     Object.keys(data).reverse().forEach(key => {
                         const r = data[key];
                         const date = r.timestamp ? new Date(r.timestamp).toLocaleDateString() : '';
-                        reviewsList.innerHTML += `
-                            <div class="review-item" data-aos="fade-up">
-                                <div class="review-header">
-                                    <span class="review-id"><i class="fas fa-user-shield"></i> ID: ${r.userId.substring(0, 4)}***${r.userId.slice(-3)}</span>
-                                    <span class="review-date">${date}</span>
-                                </div>
-                                <div class="review-text">${r.text.replace(/</g, "&lt;")}</div>
-                            </div>
+                        
+                        // Создаем элементы программно для защиты от XSS
+                        const reviewItem = document.createElement('div');
+                        reviewItem.className = 'review-item';
+                        reviewItem.setAttribute('data-aos', 'fade-up');
+
+                        const header = document.createElement('div');
+                        header.className = 'review-header';
+                        header.innerHTML = `
+                            <span class="review-id"><i class="fas fa-user-shield"></i> Пользователь Premium</span>
+                            <span class="review-date">${date}</span>
                         `;
+
+                        const textContent = document.createElement('div');
+                        textContent.className = 'review-text';
+                        textContent.textContent = r.text; // Безопасная вставка текста
+
+                        reviewItem.appendChild(header);
+                        reviewItem.appendChild(textContent);
+                        reviewsList.appendChild(reviewItem);
                     });
                 } else {
                     reviewsList.innerHTML = '<p style="opacity: 0.5; text-align: center;">Отзывов пока нет. Будьте первыми!</p>';
