@@ -337,6 +337,42 @@
                 font-size: 0.8rem;
             }
         }
+
+        /* СПИННЕР ДЛЯ КНОПОК СКАЧИВАНИЯ */
+        .download-btn.loading {
+            pointer-events: none;
+            opacity: 0.7;
+            position: relative;
+            color: transparent !important;
+        }
+
+        .download-btn.loading i {
+            opacity: 0;
+        }
+
+        .download-btn.loading::after {
+            content: "";
+            position: absolute;
+            width: 18px;
+            height: 18px;
+            top: 50%;
+            left: 50%;
+            margin-left: -9px;
+            margin-top: -9px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: #fff;
+            animation: spin 0.6s linear infinite;
+        }
+
+        body.light .download-btn.loading::after {
+            border: 2px solid rgba(0, 0, 0, 0.2);
+            border-top-color: #000;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
     </style>
 </head>
 <body class="dark">
@@ -716,6 +752,29 @@
         const db = getDatabase(app);
         const todayDate = new Date().toISOString().split('T')[0];
 
+        // --- Флаги и промис для отслеживания загрузки ссылок ---
+        let linksLoaded = false;
+        let linksLoadingPromise = null;
+
+        function waitForLinks() {
+            if (linksLoaded) return Promise.resolve();
+            if (!linksLoadingPromise) {
+                linksLoadingPromise = new Promise((resolve) => {
+                    const checkInterval = setInterval(() => {
+                        if (linksLoaded) {
+                            clearInterval(checkInterval);
+                            resolve();
+                        }
+                    }, 100);
+                    setTimeout(() => {
+                        clearInterval(checkInterval);
+                        resolve();
+                    }, 10000);
+                });
+            }
+            return linksLoadingPromise;
+        }
+
         // --- Управление интервалом часов (предотвращение утечки памяти) ---
         let clockInterval = null;
         
@@ -739,7 +798,10 @@
         onValue(ref(db, 'config'), (snapshot) => {
             const data = snapshot.val();
             if (data) {
-                if (data.links) LINKS = data.links;
+                if (data.links) {
+                    LINKS = data.links;
+                    linksLoaded = true;
+                }
                 if (data.versions) {
                     VERSIONS = data.versions;
                     if (VERSIONS.main) document.getElementById('mainVersion').textContent = VERSIONS.main;
@@ -1064,15 +1126,21 @@
         UI.btnLike.onclick = () => window.handleVote('like');
         UI.btnDislike.onclick = () => window.handleVote('dislike');
 
-        // --- Скачивание (с валидацией URL) ---
+        // --- Скачивание (с валидацией URL и спиннером) ---
         document.querySelectorAll('.dl-trigger').forEach(btn => {
-            btn.onclick = (e) => {
+            btn.onclick = async (e) => {
                 const type = btn.getAttribute('data-type');
                 e.preventDefault();
                 
-                runTransaction(ref(db, 'stats/dl'), (v) => (v || 0) + 1);
+                if (!LINKS[type]) {
+                    btn.classList.add('loading');
+                    await waitForLinks();
+                    btn.classList.remove('loading');
+                }
                 
                 if (LINKS[type]) {
+                    runTransaction(ref(db, 'stats/dl'), (v) => (v || 0) + 1);
+                    
                     try {
                         const url = new URL(LINKS[type]);
                         if (url.protocol !== 'https:') {
@@ -1084,7 +1152,7 @@
                         alert('Некорректная ссылка. Сообщите администратору.');
                     }
                 } else {
-                    alert("Ссылка загружается из базы, подождите или обновите страницу.");
+                    alert("Не удалось загрузить ссылку. Проверьте соединение и обновите страницу.");
                 }
             };
         });
