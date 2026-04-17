@@ -975,6 +975,9 @@
             });
 
             const currentId = localStorage.getItem('rsl_id');
+            const lockMsg = document.getElementById('reviewLockMsg');
+            const formEl = document.getElementById('reviewActualForm');
+
             if (currentId) {
                 try {
                     const [snap1, snap2] = await Promise.all([
@@ -989,17 +992,25 @@
                         const userReviewsSnap = await get(userReviewsQuery);
                         
                         if (userReviewsSnap.exists()) {
-                            document.getElementById('reviewLockMsg').style.display = 'block';
-                            document.getElementById('reviewLockMsg').innerHTML = 'Вы уже оставили отзыв. Один пользователь — один отзыв.';
-                            document.getElementById('reviewActualForm').style.display = 'none';
+                            lockMsg.style.display = 'block';
+                            lockMsg.innerHTML = 'Вы уже оставили отзыв. Один пользователь — один отзыв.';
+                            formEl.style.display = 'none';
                         } else {
-                            document.getElementById('reviewLockMsg').style.display = 'none';
-                            document.getElementById('reviewActualForm').style.display = 'block';
+                            lockMsg.style.display = 'none';
+                            formEl.style.display = 'block';
                         }
+                    } else {
+                        lockMsg.style.display = 'block';
+                        lockMsg.innerHTML = 'Писать отзывы могут только владельцы платной версии мода (ID должен быть в базе).';
+                        formEl.style.display = 'none';
                     }
                 } catch(e) {
                     console.warn("Офлайн-режим: проверка прав на отзыв недоступна");
                 }
+            } else {
+                lockMsg.style.display = 'block';
+                lockMsg.innerHTML = 'Писать отзывы могут только владельцы платной версии мода (ID должен быть в базе).';
+                formEl.style.display = 'none';
             }
         }
 
@@ -1012,6 +1023,8 @@
             const userId = localStorage.getItem('rsl_id');
             const btn = document.getElementById('sendReviewBtn');
             const originalText = btn.textContent;
+            const lockMsg = document.getElementById('reviewLockMsg');
+            const formEl = document.getElementById('reviewActualForm');
             
             if (!text) {
                 alert('Введите текст отзыва');
@@ -1033,9 +1046,9 @@
                 const existing = await get(userReviewsQuery);
                 if (existing.exists()) {
                     alert('Вы уже оставляли отзыв. Можно написать только один.');
-                    document.getElementById('reviewLockMsg').style.display = 'block';
-                    document.getElementById('reviewLockMsg').innerHTML = 'Вы уже оставили отзыв. Один пользователь — один отзыв.';
-                    document.getElementById('reviewActualForm').style.display = 'none';
+                    lockMsg.style.display = 'block';
+                    lockMsg.innerHTML = 'Вы уже оставили отзыв. Один пользователь — один отзыв.';
+                    formEl.style.display = 'none';
                     return;
                 }
 
@@ -1052,9 +1065,9 @@
                 
                 document.getElementById('reviewText').value = '';
                 alert('Отзыв успешно опубликован!');
-                document.getElementById('reviewLockMsg').style.display = 'block';
-                document.getElementById('reviewLockMsg').innerHTML = 'Вы уже оставили отзыв. Один пользователь — один отзыв.';
-                document.getElementById('reviewActualForm').style.display = 'none';
+                lockMsg.style.display = 'block';
+                lockMsg.innerHTML = 'Вы уже оставили отзыв. Один пользователь — один отзыв.';
+                formEl.style.display = 'none';
             } catch (e) {
                 alert('Ошибка при отправке. Проверьте соединение.');
             } finally {
