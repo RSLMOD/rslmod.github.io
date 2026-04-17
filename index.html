@@ -917,6 +917,9 @@
             const reviewsList = document.getElementById('reviewsList');
             const reviewsRef = ref(db, 'reviews');
             const latestReviews = query(reviewsRef, limitToLast(50));
+            const lockMsg = document.getElementById('reviewLockMsg');
+            const formEl = document.getElementById('reviewActualForm');
+            const currentId = localStorage.getItem('rsl_id');
 
             onValue(latestReviews, (snapshot) => {
                 reviewsList.innerHTML = '';
@@ -948,6 +951,15 @@
                         reviewItem.appendChild(textContent);
                         reviewsList.appendChild(reviewItem);
                     });
+
+                    if (currentId) {
+                        const userHasReview = Object.values(data).some(r => r.userId === currentId);
+                        if (userHasReview) {
+                            lockMsg.style.display = 'block';
+                            lockMsg.innerHTML = 'Вы уже оставили отзыв. Один пользователь — один отзыв.';
+                            formEl.style.display = 'none';
+                        }
+                    }
                 } else {
                     reviewsList.innerHTML = '<p style="opacity: 0.5; text-align: center;">Отзывов пока нет. Будьте первыми!</p>';
                 }
@@ -971,12 +983,17 @@
                         `;
                         reviewsList.appendChild(reviewItem);
                     });
+
+                    if (currentId && data) {
+                        const userHasReview = Object.values(data).some(r => r.userId === currentId);
+                        if (userHasReview) {
+                            lockMsg.style.display = 'block';
+                            lockMsg.innerHTML = 'Вы уже оставили отзыв. Один пользователь — один отзыв.';
+                            formEl.style.display = 'none';
+                        }
+                    }
                 }
             });
-
-            const currentId = localStorage.getItem('rsl_id');
-            const lockMsg = document.getElementById('reviewLockMsg');
-            const formEl = document.getElementById('reviewActualForm');
 
             if (currentId) {
                 try {
@@ -991,13 +1008,18 @@
                         const userReviewsQuery = query(ref(db, 'reviews'), orderByChild('userId'), equalTo(currentId));
                         const userReviewsSnap = await get(userReviewsQuery);
                         
-                        if (userReviewsSnap.exists()) {
-                            lockMsg.style.display = 'block';
-                            lockMsg.innerHTML = 'Вы уже оставили отзыв. Один пользователь — один отзыв.';
-                            formEl.style.display = 'none';
-                        } else {
-                            lockMsg.style.display = 'none';
-                            formEl.style.display = 'block';
+                        if (!userReviewsSnap.exists()) {
+                            const cached = localStorage.getItem('reviews_cache');
+                            let cachedHasReview = false;
+                            if (cached) {
+                                const data = JSON.parse(cached);
+                                cachedHasReview = Object.values(data).some(r => r.userId === currentId);
+                            }
+                            
+                            if (!cachedHasReview) {
+                                lockMsg.style.display = 'none';
+                                formEl.style.display = 'block';
+                            }
                         }
                     } else {
                         lockMsg.style.display = 'block';
@@ -1050,6 +1072,19 @@
                     lockMsg.innerHTML = 'Вы уже оставили отзыв. Один пользователь — один отзыв.';
                     formEl.style.display = 'none';
                     return;
+                }
+
+                const cached = localStorage.getItem('reviews_cache');
+                if (cached) {
+                    const data = JSON.parse(cached);
+                    const cachedHasReview = Object.values(data).some(r => r.userId === userId);
+                    if (cachedHasReview) {
+                        alert('Вы уже оставляли отзыв. Можно написать только один.');
+                        lockMsg.style.display = 'block';
+                        lockMsg.innerHTML = 'Вы уже оставили отзыв. Один пользователь — один отзыв.';
+                        formEl.style.display = 'none';
+                        return;
+                    }
                 }
 
                 isSubmitting = true;
