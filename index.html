@@ -86,11 +86,41 @@
         .container { max-width: 1280px; margin: 0 auto; padding: 0 1.5rem; }
 
         .live-ticker-container {
-            width: 100%; overflow: hidden; position: absolute; top: 0; left: 0;
-            height: 28px; background: rgba(0,0,0,0.15); display: flex; align-items: center; z-index: 5;
+            width: 100%; 
+            overflow: hidden; 
+            position: absolute; 
+            top: 0; 
+            left: 0;
+            height: 28px; 
+            background: rgba(0,0,0,0.2); 
+            display: flex; 
+            align-items: center; 
+            z-index: 5;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            pointer-events: none;
         }
-        .live-ticker { display: flex; white-space: nowrap; animation: tickerFlow 35s linear infinite; }
-        .live-ticker span { font-weight: 900; font-size: 0.6rem; color: var(--live-text-color); margin: 0 2rem; text-transform: uppercase; letter-spacing: 2px; }
+        .live-ticker { 
+            display: flex; 
+            white-space: nowrap; 
+            animation: tickerFlow 35s linear infinite; 
+        }
+        .live-ticker span { 
+            font-weight: 900; 
+            font-size: 0.65rem;
+            color: rgba(255, 255, 255, 0.35); 
+            margin: 0 2.5rem; 
+            text-transform: uppercase; 
+            letter-spacing: 3px;
+            text-shadow: 0 0 5px rgba(0,0,0,0.5);
+        }
+        body.light .live-ticker-container {
+            background: rgba(255,255,255,0.5);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+        }
+        body.light .live-ticker span {
+            color: rgba(0, 0, 0, 0.35); 
+            text-shadow: 0 0 5px rgba(255,255,255,0.5);
+        }
         @keyframes tickerFlow { 0% { transform: translate3d(0, 0, 0); } 100% { transform: translate3d(-50%, 0, 0); } }
 
         .navbar { display: flex; justify-content: space-between; align-items: center; padding: 3.5rem 0 0.5rem; position: relative; z-index: 10; }
@@ -283,11 +313,10 @@
             margin-bottom: 4px; 
         }
         body.light .prem-info-title { 
-            color: #b45309; /* Более тёмный золотой для светлой темы */
+            color: #b45309;
         }
         .prem-info-body { opacity: 0.85; font-size: 0.9rem; line-height: 1.4; display: block; }
 
-        /* Стили для спойлера */
         .spoiler-header {
             display: flex;
             align-items: center;
@@ -480,7 +509,6 @@
         <div class="close-faq" onclick="closePremiumInfo()"><i class="fas fa-times"></i></div>
         <h2 class="faq-title" style="color:var(--premium-gold)"><i class="fas fa-crown"></i> ПРЕМИУМ ВОЗМОЖНОСТИ</h2>
         <div class="faq-content">
-            <!-- Спойлер со списком изменений -->
             <div class="spoiler-header" id="spoilerToggle">
                 <span><i class="fas fa-list-ul" style="margin-right: 10px;"></i>📋 Список изменений в Премиум версии</span>
                 <i class="fas fa-chevron-down"></i>
@@ -628,8 +656,14 @@
 
     <div class="live-ticker-container">
         <div class="live-ticker">
-            <span>FPS UNLOCKED</span> <span>LOW LATENCY</span> <span>BOOSTING ON</span> <span>STABLE FRAME</span>
-            <span>FPS UNLOCKED</span> <span>LOW LATENCY</span> <span>BOOSTING ON</span> <span>STABLE FRAME</span>
+            <span>🚀 FPS РАЗБЛОКИРОВАН</span> 
+            <span>⚡ НИЗКАЯ ЗАДЕРЖКА</span> 
+            <span>🔥 УСКОРЕНИЕ АКТИВНО</span> 
+            <span>🛡️ СТАБИЛЬНЫЙ ФРЕЙМРЕЙТ</span>
+            <span>🚀 FPS РАЗБЛОКИРОВАН</span> 
+            <span>⚡ НИЗКАЯ ЗАДЕРЖКА</span> 
+            <span>🔥 УСКОРЕНИЕ АКТИВНО</span> 
+            <span>🛡️ СТАБИЛЬНЫЙ ФРЕЙМРЕЙТ</span>
         </div>
     </div>
 
@@ -1306,7 +1340,6 @@
             setTimeout(() => icon.classList.remove('icon-jump'), 400);
         }
 
-        // Логика спойлера
         document.addEventListener('DOMContentLoaded', function() {
             const spoilerToggle = document.getElementById('spoilerToggle');
             const spoilerContent = document.getElementById('spoilerContent');
