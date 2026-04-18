@@ -276,7 +276,15 @@
         .close-faq { position: absolute; top: 1rem; right: 1.5rem; cursor: pointer; font-size: 1.5rem; opacity: 0.5; }
 
         .prem-info-point { margin-bottom: 1.2rem; }
-        .prem-info-title { color: var(--premium-gold); font-weight: 800; display: block; margin-bottom: 4px; }
+        .prem-info-title { 
+            color: var(--premium-gold); 
+            font-weight: 800; 
+            display: block; 
+            margin-bottom: 4px; 
+        }
+        body.light .prem-info-title { 
+            color: #b45309; /* Более тёмный золотой для светлой темы */
+        }
         .prem-info-body { opacity: 0.85; font-size: 0.9rem; line-height: 1.4; display: block; }
 
         /* Стили для спойлера */
