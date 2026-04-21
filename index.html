@@ -438,6 +438,14 @@
         @keyframes spin {
             to { transform: rotate(360deg); }
         }
+
+        .referral-modal .faq-content p {
+            margin-bottom: 1rem;
+        }
+        .referral-modal .highlight {
+            color: var(--premium-gold);
+            font-weight: 800;
+        }
     </style>
 </head>
 <body class="dark">
@@ -639,6 +647,28 @@
         </div>
     </div>
 
+    <div class="faq-modal referral-modal" id="referralModal">
+        <div class="close-faq" onclick="closeReferralModal()"><i class="fas fa-times"></i></div>
+        <h2 class="faq-title" style="color:var(--premium-gold)"><i class="fas fa-users"></i> РЕФЕРАЛЬНАЯ ПРОГРАММА</h2>
+        <div class="faq-content">
+            <p style="font-size: 1.1rem; font-weight: 800;">🚀 Официально объявляю о запуске реферальной программы на подписку мода х100! 🎉🔥</p>
+            <p>Хотите пользоваться модом Х100 дольше и бесплатно? 😏👇 Приглашайте друзей и получайте бонусы!</p>
+            
+            <div class="faq-block">
+                <span class="faq-q">🎯 Условия максимально просты:</span>
+                <span class="faq-a">✅ Вы ищете желающих приобрести подписку на мод х100 (сроком от 1 месяца).</span>
+                <span class="faq-a">✅ Ваш друг при покупке пишет мне в Личные Сообщения и указывает, что пришёл по вашей рекомендации. 📩🤝</span>
+                <span class="faq-a">✅ Ваш личный срок подписки увеличивается на +7 дней! ⏳✨</span>
+            </div>
+
+            <p><span class="highlight">💰 Вознаграждение суммируется за каждого нового друга.</span><br>Привел пятерых — получил +35 дней к подписке! 😎📈</p>
+
+            <p><span class="highlight">🚫 Никаких ограничений.</span><br>✅ Приглашать можно сколько угодно.<br>♾️ Программа бессрочная.</p>
+
+            <p style="margin-top: 1.5rem; font-weight: 800;">👉 Пользуйтесь моментом и прокачивайте свою подписку уже сегодня! 💬🔥</p>
+        </div>
+    </div>
+
     <div class="sidebar" id="sidebar">
         <div class="sidebar-header">
             <h2>RSL Навигация</h2>
@@ -650,7 +680,7 @@
             <div onclick="openPage('reviews')" class="sidebar-link"><i class="fas fa-star"></i> Отзывы</div>
             <a href="https://t.me/rsl_chats" target="_blank" class="sidebar-link"><i class="fas fa-comments"></i> Наш чат</a>
             <a href="https://telegra.ph/FAQ-po-RSL-Speed-Mod-06-12" target="_blank" class="sidebar-link"><i class="fas fa-question-circle"></i> FAQ</a>
-            <a href="https://telegra.ph/Referalnaya-programma-03-16" target="_blank" class="sidebar-link"><i class="fas fa-users"></i> Реферальная программа</a>
+            <div onclick="openReferralModal()" class="sidebar-link"><i class="fas fa-users"></i> Реферальная программа</div>
         </nav>
     </div>
 
@@ -935,6 +965,17 @@
         
         window.closeSpeedX100 = () => {
             document.getElementById('speedX100Modal').classList.remove('active');
+            document.getElementById('overlay').classList.remove('active');
+        }
+
+        window.openReferralModal = () => {
+            document.getElementById('referralModal').classList.add('active');
+            document.getElementById('overlay').classList.add('active');
+            if (document.getElementById('sidebar').classList.contains('active')) toggleMenu();
+        }
+
+        window.closeReferralModal = () => {
+            document.getElementById('referralModal').classList.remove('active');
             document.getElementById('overlay').classList.remove('active');
         }
 
@@ -1327,6 +1368,7 @@
             document.getElementById('faqModalWindow').classList.remove('active');
             document.getElementById('premiumInfoModal').classList.remove('active');
             document.getElementById('speedX100Modal').classList.remove('active');
+            document.getElementById('referralModal').classList.remove('active');
             overlay.classList.remove('active');
         };
 
