@@ -669,6 +669,54 @@
         </div>
     </div>
 
+    <div class="faq-modal" id="mainFaqModal">
+        <div class="close-faq" onclick="closeMainFaqModal()"><i class="fas fa-times"></i></div>
+        <h2 class="faq-title"><i class="fas fa-question-circle"></i> FAQ по RSL Speed Mod</h2>
+        <div class="faq-content">
+            <p style="opacity:0.6; margin-bottom:1.5rem; font-size:0.85rem;">12 июня 2023 от RSLMOD</p>
+            
+            <div class="faq-block">
+                <span class="faq-q">1. Когда будет обновление?</span>
+                <span class="faq-a">Как только команда сайта Getmodsapk обновит мод я по возможности и времени выложу его модификацию.</span>
+            </div>
+
+            <div class="faq-block">
+                <span class="faq-q">2. Почему не отображается меню с модом?</span>
+                <span class="faq-a">На некоторых устройствах при первом запуске бывает не запрашивает разрешение "Поверх других приложений". Именно поэтому вам нужно выдать это разрешение вручную, после чего перезапустить игру.</span>
+            </div>
+
+            <div class="faq-block">
+                <span class="faq-q">3. Почему зависает бой или выдает ошибку?</span>
+                <span class="faq-a">Убавьте скорость в меню мода.</span>
+            </div>
+
+            <div class="faq-block">
+                <span class="faq-q">4. Почему мод периодически зависает или вылетает?</span>
+                <span class="faq-a">Это баг модификации первоисточника. Т.е модификаторов команды Liteapks. Причина всему этому на данный момент не найдена.</span>
+            </div>
+
+            <div class="faq-block">
+                <span class="faq-q">5. Могу ли я получить бан за использование этого мода?</span>
+                <span class="faq-a">100% гарантию того что вы не получите бан вам не даст никто. Но то чтобы кто-то получал  бан именно за использование этого мода, такого замечено не было.</span>
+            </div>
+
+            <div class="faq-block">
+                <span class="faq-q">6. Почему не устанавливается мод и что делать?</span>
+                <span class="faq-a">На данный момент наблюдаются такие проблемы с установкой из-за включенной "Play Защиты". Отключите её, перезагрузите своё устройство и пробуйте снова установить мод.</span>
+            </div>
+
+            <div class="faq-block">
+                <span class="faq-q">7. Почему игра застревает на начальной загрузке и как это исправить?</span>
+                <span class="faq-a">Причина этому опять же Play Защита которая на некоторых устройствах даже при её отключении продолжает работать. Откройте игру, сверните её(не закрывайте), зайдите в меню "О приложении" приложения "Google Play" и остановите его принудительно. Вернитесь в игру, загрузка должна пойти дальше.</span>
+            </div>
+
+            <div class="faq-block">
+                <span class="faq-q">8. Появляется ошибка в Логове Дракона, как исправить?</span>
+                <span class="faq-a">В самой игре (не в меню мода) переключите скорость с X2 на X1. При этом в меню мода можно оставить скорость X15.</span>
+            </div>
+        </div>
+    </div>
+
     <div class="sidebar" id="sidebar">
         <div class="sidebar-header">
             <h2>RSL Навигация</h2>
@@ -679,7 +727,7 @@
             <div onclick="openPage('premium')" class="sidebar-link" style="color:#f59e0b;"><i class="fas fa-crown"></i> Премиум версия</div>
             <div onclick="openPage('reviews')" class="sidebar-link"><i class="fas fa-star"></i> Отзывы</div>
             <a href="https://t.me/rsl_chats" target="_blank" class="sidebar-link"><i class="fas fa-comments"></i> Наш чат</a>
-            <a href="https://telegra.ph/FAQ-po-RSL-Speed-Mod-06-12" target="_blank" class="sidebar-link"><i class="fas fa-question-circle"></i> FAQ</a>
+            <div onclick="openMainFaqModal()" class="sidebar-link"><i class="fas fa-question-circle"></i> FAQ</div>
             <div onclick="openReferralModal()" class="sidebar-link"><i class="fas fa-users"></i> Реферальная программа</div>
         </nav>
     </div>
@@ -946,6 +994,17 @@
             if (!document.getElementById('sidebar').classList.contains('active')) {
                 document.getElementById('overlay').classList.remove('active');
             }
+        }
+
+        window.openMainFaqModal = () => {
+            document.getElementById('mainFaqModal').classList.add('active');
+            document.getElementById('overlay').classList.add('active');
+            if (document.getElementById('sidebar').classList.contains('active')) toggleMenu();
+        }
+
+        window.closeMainFaqModal = () => {
+            document.getElementById('mainFaqModal').classList.remove('active');
+            document.getElementById('overlay').classList.remove('active');
         }
 
         window.openPremiumInfo = () => {
@@ -1369,6 +1428,7 @@
             document.getElementById('premiumInfoModal').classList.remove('active');
             document.getElementById('speedX100Modal').classList.remove('active');
             document.getElementById('referralModal').classList.remove('active');
+            document.getElementById('mainFaqModal').classList.remove('active');
             overlay.classList.remove('active');
         };
 
