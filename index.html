@@ -1140,6 +1140,15 @@
                         reviewItem.appendChild(textContent);
                         reviewsList.appendChild(reviewItem);
                     });
+
+                    if (currentId) {
+                        const userHasReview = Object.values(data).some(r => r.userId === currentId);
+                        if (userHasReview) {
+                            lockMsg.style.display = 'block';
+                            lockMsg.innerHTML = 'Вы уже оставили отзыв. Один пользователь — один отзыв.';
+                            formEl.style.display = 'none';
+                        }
+                    }
                 } else {
                     reviewsList.innerHTML = '<p style="opacity: 0.5; text-align: center;">Отзывов пока нет. Будьте первыми!</p>';
                 }
@@ -1163,32 +1172,55 @@
                         `;
                         reviewsList.appendChild(reviewItem);
                     });
+
+                    if (currentId && data) {
+                        const userHasReview = Object.values(data).some(r => r.userId === currentId);
+                        if (userHasReview) {
+                            lockMsg.style.display = 'block';
+                            lockMsg.innerHTML = 'Вы уже оставили отзыв. Один пользователь — один отзыв.';
+                            formEl.style.display = 'none';
+                        }
+                    }
                 }
             });
 
-            // УПРОЩЁННАЯ ПРОВЕРКА: если есть ID в localStorage — показываем форму
             if (currentId) {
-                // Проверяем кэш на наличие отзыва от этого пользователя
-                const cached = localStorage.getItem('reviews_cache');
-                let hasReview = false;
-                if (cached) {
-                    try {
-                        const data = JSON.parse(cached);
-                        hasReview = Object.values(data).some(r => r.userId === currentId);
-                    } catch(e) {}
-                }
-                
-                if (hasReview) {
-                    lockMsg.style.display = 'block';
-                    lockMsg.innerHTML = 'Вы уже оставили отзыв. Один пользователь — один отзыв.';
-                    formEl.style.display = 'none';
-                } else {
-                    lockMsg.style.display = 'none';
-                    formEl.style.display = 'block';
+                try {
+                    const [snap1, snap2] = await Promise.all([
+                        get(child(ref(db), `premium_ids/${currentId}`)),
+                        get(child(ref(db), `premium_ids_v2/${currentId}`))
+                    ]);
+                    
+                    const hasPremium = (snap1.exists() && snap1.val() === true) || (snap2.exists() && snap2.val() === true);
+                    
+                    if (hasPremium) {
+                        const userReviewsQuery = query(ref(db, 'reviews'), orderByChild('userId'), equalTo(currentId));
+                        const userReviewsSnap = await get(userReviewsQuery);
+                        
+                        if (!userReviewsSnap.exists()) {
+                            const cached = localStorage.getItem('reviews_cache');
+                            let cachedHasReview = false;
+                            if (cached) {
+                                const data = JSON.parse(cached);
+                                cachedHasReview = Object.values(data).some(r => r.userId === currentId);
+                            }
+                            
+                            if (!cachedHasReview) {
+                                lockMsg.style.display = 'none';
+                                formEl.style.display = 'block';
+                            }
+                        }
+                    } else {
+                        lockMsg.style.display = 'block';
+                        lockMsg.innerHTML = 'Писать отзывы могут только владельцы платной версии мода (ID должен быть в базе).';
+                        formEl.style.display = 'none';
+                    }
+                } catch(e) {
+                    console.warn("Офлайн-режим: проверка прав на отзыв недоступна");
                 }
             } else {
                 lockMsg.style.display = 'block';
-                lockMsg.innerHTML = '⚠️ Для отправки отзыва необходимо сначала авторизоваться (проверить ID на странице Premium).';
+                lockMsg.innerHTML = 'Писать отзывы могут только владельцы платной версии мода (ID должен быть в базе).';
                 formEl.style.display = 'none';
             }
         }
