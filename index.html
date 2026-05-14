@@ -92,6 +92,14 @@
 
         * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
         body { font-family: 'Inter', sans-serif; transition: 0.3s; min-height: 100vh; background: var(--bg) !important; color: var(--text-main); overflow-x: hidden; }
+        
+        body.no-scroll {
+            overflow: hidden;
+            position: fixed;
+            width: 100%;
+            height: 100%;
+        }
+        
         .container { max-width: 1280px; margin: 0 auto; padding: 0 1.5rem; }
 
         .live-ticker-container {
@@ -664,10 +672,10 @@
             <p>Хотите пользоваться модом Х100 дольше и бесплатно? 😏👇 Приглашайте друзей и получайте бонусы!</p>
             
             <div class="faq-block">
-    <span class="faq-q">🎯 Условия максимально просты:</span>
-    <span class="faq-a">✅ Вы ищете желающих приобрести подписку на мод х100 (сроком от 1 месяца).</span>
-    <span class="faq-a">✅ Ваш друг при покупке пишет мне в <a href="https://t.me/Trykath" target="_blank" style="color: var(--accent); font-weight: 800; text-decoration: underline;">Личные Сообщения</a> и указывает, что пришёл по вашей рекомендации. 📩🤝</span>
-    <span class="faq-a">✅ Ваш личный срок подписки увеличивается на +7 дней! ⏳✨</span>
+                <span class="faq-q">🎯 Условия максимально просты:</span>
+                <span class="faq-a">✅ Вы ищете желающих приобрести подписку на мод х100 (сроком от 1 месяца).</span>
+                <span class="faq-a">✅ Ваш друг при покупке пишет мне в <a href="https://t.me/Trykath" target="_blank" style="color: var(--accent); font-weight: 800; text-decoration: underline;">Личные Сообщения</a> и указывает, что пришёл по вашей рекомендации. 📩🤝</span>
+                <span class="faq-a">✅ Ваш личный срок подписки увеличивается на +7 дней! ⏳✨</span>
             </div>
 
             <p><span class="highlight">💰 Вознаграждение суммируется за каждого нового друга.</span><br>Привел пятерых — получил +35 дней к подписке! 😎📈</p>
@@ -991,59 +999,68 @@
             if (document.getElementById('sidebar').classList.contains('active')) toggleMenu();
         };
 
-        window.openFaq = () => {
-            document.getElementById('faqModalWindow').classList.add('active');
-            document.getElementById('overlay').classList.add('active');
+        // Блокировка/разблокировка прокрутки
+        function lockScroll() {
+            document.body.classList.add('no-scroll');
+            document.body.style.top = `-${window.scrollY}px`;
         }
-        
-        window.closeFaq = () => {
-            document.getElementById('faqModalWindow').classList.remove('active');
-            if (!document.getElementById('sidebar').classList.contains('active')) {
-                document.getElementById('overlay').classList.remove('active');
+
+        function unlockScroll() {
+            const scrollY = document.body.style.top;
+            document.body.classList.remove('no-scroll');
+            document.body.style.top = '';
+            if (scrollY) {
+                window.scrollTo(0, parseInt(scrollY || '0') * -1);
             }
         }
 
-        window.openMainFaqModal = () => {
-            document.getElementById('mainFaqModal').classList.add('active');
-            document.getElementById('overlay').classList.add('active');
-            if (document.getElementById('sidebar').classList.contains('active')) toggleMenu();
+        // Проверка, открыто ли что-то (меню или модалка)
+        function isAnyModalOpen() {
+            return sidebar.classList.contains('active') ||
+                   document.getElementById('faqModalWindow').classList.contains('active') ||
+                   document.getElementById('premiumInfoModal').classList.contains('active') ||
+                   document.getElementById('speedX100Modal').classList.contains('active') ||
+                   document.getElementById('referralModal').classList.contains('active') ||
+                   document.getElementById('mainFaqModal').classList.contains('active');
         }
 
-        window.closeMainFaqModal = () => {
-            document.getElementById('mainFaqModal').classList.remove('active');
-            document.getElementById('overlay').classList.remove('active');
+        // Вспомогательная функция для открытия модалок
+        function openModal(modalId) {
+            document.getElementById(modalId).classList.add('active');
+            document.getElementById('overlay').classList.add('active');
+            lockScroll();
+            if (sidebar.classList.contains('active')) {
+                sidebar.classList.remove('active');
+            }
         }
 
-        window.openPremiumInfo = () => {
-            document.getElementById('premiumInfoModal').classList.add('active');
-            document.getElementById('overlay').classList.add('active');
+        // Вспомогательная функция для закрытия модалок
+        function closeModal(modalId) {
+            document.getElementById(modalId).classList.remove('active');
+            if (!isAnyModalOpen()) {
+                document.getElementById('overlay').classList.remove('active');
+                unlockScroll();
+            }
         }
-        
-        window.closePremiumInfo = () => {
-            document.getElementById('premiumInfoModal').classList.remove('active');
-            document.getElementById('overlay').classList.remove('active');
-        }
+
+        // Обновлённые функции открытия/закрытия модалок
+        window.openFaq = () => openModal('faqModalWindow');
+        window.closeFaq = () => closeModal('faqModalWindow');
+
+        window.openMainFaqModal = () => openModal('mainFaqModal');
+        window.closeMainFaqModal = () => closeModal('mainFaqModal');
+
+        window.openPremiumInfo = () => openModal('premiumInfoModal');
+        window.closePremiumInfo = () => closeModal('premiumInfoModal');
 
         window.openSpeedX100 = () => {
             document.getElementById('premiumInfoModal').classList.remove('active');
-            document.getElementById('speedX100Modal').classList.add('active');
-        }
-        
-        window.closeSpeedX100 = () => {
-            document.getElementById('speedX100Modal').classList.remove('active');
-            document.getElementById('overlay').classList.remove('active');
-        }
+            openModal('speedX100Modal');
+        };
+        window.closeSpeedX100 = () => closeModal('speedX100Modal');
 
-        window.openReferralModal = () => {
-            document.getElementById('referralModal').classList.add('active');
-            document.getElementById('overlay').classList.add('active');
-            if (document.getElementById('sidebar').classList.contains('active')) toggleMenu();
-        }
-
-        window.closeReferralModal = () => {
-            document.getElementById('referralModal').classList.remove('active');
-            document.getElementById('overlay').classList.remove('active');
-        }
+        window.openReferralModal = () => openModal('referralModal');
+        window.closeReferralModal = () => closeModal('referralModal');
 
         const pBtn = document.getElementById('premBtn');
         const pInput = document.getElementById('premInput');
@@ -1422,8 +1439,15 @@
         const overlay = document.getElementById('overlay');
         
         function toggleMenu() { 
+            const isOpening = !sidebar.classList.contains('active');
             sidebar.classList.toggle('active'); 
-            overlay.classList.toggle('active'); 
+            overlay.classList.toggle('active');
+            
+            if (isOpening) {
+                lockScroll();
+            } else if (!isAnyModalOpen()) {
+                unlockScroll();
+            }
         }
         
         document.getElementById('openSidebar').onclick = toggleMenu;
@@ -1437,6 +1461,10 @@
             document.getElementById('referralModal').classList.remove('active');
             document.getElementById('mainFaqModal').classList.remove('active');
             overlay.classList.remove('active');
+            
+            if (!isAnyModalOpen()) {
+                unlockScroll();
+            }
         };
 
         document.getElementById('themeToggle').onclick = () => {
