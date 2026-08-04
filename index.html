@@ -1458,14 +1458,10 @@
 
                 <div id="premiumDownloads">
                     <div class="premium-grid">
-                        <a href="#" class="download-btn premium-outline dl-trigger" data-type="mod_9mod"><i class="fas fa-crown"></i> Mod Paid "9mod" <span class="v-span" data-v="v9mod"></span></a>
-                        <a href="#" class="download-btn premium-outline dl-trigger" data-type="clone_9mod"><i class="fas fa-crown"></i> Mod Paid Clone "9mod" <span class="v-span" data-v="v9mod"></span></a>
-                        <a href="#" class="download-btn premium-outline dl-trigger" data-type="mod_getmods"><i class="fas fa-crown"></i> Mod Paid "Getmods" <span class="v-span" data-v="vGetmods"></span></a>
-                        <a href="#" class="download-btn premium-outline dl-trigger" data-type="clone_getmods"><i class="fas fa-crown"></i> Mod Paid Clone "Getmods" <span class="v-span" data-v="vGetmods"></span></a>
-                        <a href="#" class="download-btn premium-outline dl-trigger" data-type="speed_x100_getmods"><i class="fas fa-tachometer-alt"></i> Getmods x100 <span class="v-span" data-v="vSpeedX100"></span></a>
-                        <a href="#" class="download-btn premium-outline dl-trigger" data-type="speed_x100_getmods_clone"><i class="fas fa-tachometer-alt"></i> Getmods x100 Clone <span class="v-span" data-v="vSpeedX100"></span></a>
-                        <a href="#" class="download-btn premium-outline dl-trigger" data-type="speed_x100_9mod"><i class="fas fa-tachometer-alt"></i> 9mod x100 <span class="v-span" data-v="vSpeedX100"></span></a>
-                        <a href="#" class="download-btn premium-outline dl-trigger" data-type="speed_x100_9mod_clone"><i class="fas fa-tachometer-alt"></i> 9mod x100 Clone <span class="v-span" data-v="vSpeedX100"></span></a>
+                        <a href="#" class="download-btn premium-outline dl-trigger" data-type="rslmod_x32"><i class="fas fa-crown"></i> RSLMOD x32 <span class="v-span" data-v="vRSL32"></span></a>
+                        <a href="#" class="download-btn premium-outline dl-trigger" data-type="rslmod_x32_clone"><i class="fas fa-crown"></i> RSLMOD x32 Clone <span class="v-span" data-v="vRSL32"></span></a>
+                        <a href="#" class="download-btn premium-outline dl-trigger" data-type="rslmod_x100"><i class="fas fa-tachometer-alt"></i> RSLMOD x100 <span class="v-span" data-v="vRSL100"></span></a>
+                        <a href="#" class="download-btn premium-outline dl-trigger" data-type="rslmod_x100_clone"><i class="fas fa-tachometer-alt"></i> RSLMOD x100 Clone <span class="v-span" data-v="vRSL100"></span></a>
                         <div class="download-btn premium-outline" onclick="openFaq()"><i class="fas fa-question-circle"></i> ЧаВо (FAQ)</div>
                         <a href="#" class="download-btn premium-outline dl-trigger" data-type="vpn"><i class="fas fa-shield-alt"></i> Рабочий VPN</a>
                     </div>
@@ -1697,18 +1693,15 @@
                         const type = btn.getAttribute('data-type');
                         if (!type) return;
 
+                        // Оригинальная логика с новыми типами кнопок
                         if (inBase1 && inBase2) {
                             btn.style.display = 'inline-flex';
                         } else if (inBase1 && !inBase2) {
                             const isX100 = type.includes('x100');
                             btn.style.display = isX100 ? 'none' : 'inline-flex';
                         } else if (inBase2 && !inBase1) {
-                            const allowed = ['speed_x100_getmods', 'speed_x100_getmods_clone', 'speed_x100_9mod', 'speed_x100_9mod_clone', 'vpn'];
-                            if (allowed.includes(type)) {
-                                btn.style.display = 'inline-flex';
-                            } else {
-                                btn.style.display = 'none';
-                            }
+                            const allowed = ['rslmod_x100', 'rslmod_x100_clone', 'vpn'];
+                            btn.style.display = allowed.includes(type) ? 'inline-flex' : 'none';
                         }
                     });
                 } else {
